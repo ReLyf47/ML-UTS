@@ -1,0 +1,239 @@
+{
+  "Baseline_Global_Median": {
+    "pinball_loss_p50": 17.153131585108873,
+    "pinball_loss_p90": 15.962696675251696,
+    "coverage_p90": 0.8991746663544837,
+    "mae_p50": 34.30626317021775,
+    "crossing_violations": 0,
+    "crossing_rate": 0.0
+  },
+  "Baseline_Service_Median": {
+    "pinball_loss_p50": 15.865278915944742,
+    "pinball_loss_p90": 15.099235542027627,
+    "coverage_p90": 0.8979747131819246,
+    "mae_p50": 31.730557831889485,
+    "crossing_violations": 0,
+    "crossing_rate": 0.0
+  },
+  "Log_Ridge_Quantile": {
+    "pinball_loss_p50": 13.882549633702334,
+    "pinball_loss_p90": 12.847551687788183,
+    "coverage_p90": 0.9025989229688598,
+    "mae_p50": 27.76509926740467,
+    "crossing_violations": 0,
+    "crossing_rate": 0.0
+  },
+  "HistGBM_Quantile_Clean": {
+    "pinball_loss_p50": 10.523846232827749,
+    "pinball_loss_p90": 11.151411065791368,
+    "coverage_p90": 0.89999414656989,
+    "mae_p50": 21.047692465655498,
+    "crossing_violations": 0,
+    "crossing_rate": 0.0
+  },
+  "HistGBM_With_JumlahScan_Leakage": {
+    "pinball_loss_p50": 9.181733617060665,
+    "pinball_loss_p90": 9.800445791876335,
+    "coverage_p90": 0.894608990868649,
+    "mae_p50": 18.36346723412133,
+    "crossing_violations": 0,
+    "crossing_rate": 0.0
+  },
+  "Random_5Fold_CV": {
+    "pinball_loss_p50_mean": 9.354160118009407,
+    "pinball_loss_p50_std": 0.8614491359149793,
+    "pinball_loss_p90_mean": 8.914284003773638,
+    "pinball_loss_p90_std": 1.4852215336472676,
+    "coverage_p90_mean": 0.88338
+  },
+  "breakdown_layanan": [
+    {
+      "layanan": "ekspres",
+      "n_samples": 5070,
+      "actual_median": 39.2,
+      "pred_median": 38.79128615940169,
+      "mae_p50": 10.806342935852468,
+      "coverage_p90": 0.906508875739645
+    },
+    {
+      "layanan": "hemat",
+      "n_samples": 11349,
+      "actual_median": 73.6,
+      "pred_median": 72.76275513239953,
+      "mae_p50": 27.97643927999125,
+      "coverage_p90": 0.8981408053573002
+    },
+    {
+      "layanan": "kargo",
+      "n_samples": 3414,
+      "actual_median": 79.2,
+      "pred_median": 78.80277204398385,
+      "mae_p50": 22.265444935784057,
+      "coverage_p90": 0.8945518453427065
+    },
+    {
+      "layanan": "reguler",
+      "n_samples": 14335,
+      "actual_median": 58.3,
+      "pred_median": 57.45336123177167,
+      "mae_p50": 18.894353615790557,
+      "coverage_p90": 0.9004534356470177
+    }
+  ],
+  "breakdown_pulau": [
+    {
+      "pulau_tujuan": "Bali-Nusa Tenggara",
+      "n_samples": 1257,
+      "actual_median": 66.4,
+      "pred_median": 66.87015432458853,
+      "mae_p50": 23.949652373983827,
+      "coverage_p90": 0.9077167859984089
+    },
+    {
+      "pulau_tujuan": "Jawa",
+      "n_samples": 22917,
+      "actual_median": 56.4,
+      "pred_median": 55.98157490571761,
+      "mae_p50": 14.183164697950312,
+      "coverage_p90": 0.9001614521970589
+    },
+    {
+      "pulau_tujuan": "Kalimantan",
+      "n_samples": 1981,
+      "actual_median": 92.2,
+      "pred_median": 92.77225120701996,
+      "mae_p50": 47.53252221197768,
+      "coverage_p90": 0.889449772841999
+    },
+    {
+      "pulau_tujuan": "Maluku",
+      "n_samples": 679,
+      "actual_median": 114.3,
+      "pred_median": 122.05239212778194,
+      "mae_p50": 46.531573718956075,
+      "coverage_p90": 0.9234167893961709
+    },
+    {
+      "pulau_tujuan": "Papua",
+      "n_samples": 603,
+      "actual_median": 163.4,
+      "pred_median": 165.61238264420845,
+      "mae_p50": 44.05428902715413,
+      "coverage_p90": 0.8805970149253731
+    },
+    {
+      "pulau_tujuan": "Sulawesi",
+      "n_samples": 2181,
+      "actual_median": 88.7,
+      "pred_median": 90.81243252558957,
+      "mae_p50": 52.8602117936303,
+      "coverage_p90": 0.8922512608895002
+    },
+    {
+      "pulau_tujuan": "Sumatera",
+      "n_samples": 4550,
+      "actual_median": 64.2,
+      "pred_median": 64.47931601900312,
+      "mae_p50": 21.18846911804648,
+      "coverage_p90": 0.9043956043956044
+    }
+  ],
+  "breakdown_kurir": [
+    {
+      "mitra_kurir": "K01",
+      "n_samples": 4904,
+      "actual_median": 57.1,
+      "pred_median": 56.361208952043896,
+      "mae_p50": 19.42544321653098,
+      "coverage_p90": 0.9043637846655791
+    },
+    {
+      "mitra_kurir": "K02",
+      "n_samples": 4139,
+      "actual_median": 66.3,
+      "pred_median": 65.20413853862358,
+      "mae_p50": 26.3127995288765,
+      "coverage_p90": 0.8864460014496255
+    },
+    {
+      "mitra_kurir": "K03",
+      "n_samples": 3806,
+      "actual_median": 64.1,
+      "pred_median": 64.3313215545395,
+      "mae_p50": 19.389689350451775,
+      "coverage_p90": 0.905412506568576
+    },
+    {
+      "mitra_kurir": "K04",
+      "n_samples": 3392,
+      "actual_median": 59.75,
+      "pred_median": 59.08603337928072,
+      "mae_p50": 16.654859728510154,
+      "coverage_p90": 0.9080188679245284
+    },
+    {
+      "mitra_kurir": "K05",
+      "n_samples": 3040,
+      "actual_median": 62.8,
+      "pred_median": 61.83995030964788,
+      "mae_p50": 17.692386723406067,
+      "coverage_p90": 0.9075657894736842
+    },
+    {
+      "mitra_kurir": "K06",
+      "n_samples": 2719,
+      "actual_median": 63.0,
+      "pred_median": 63.015229636362854,
+      "mae_p50": 32.85985408777827,
+      "coverage_p90": 0.903641044501655
+    },
+    {
+      "mitra_kurir": "K07",
+      "n_samples": 2677,
+      "actual_median": 77.7,
+      "pred_median": 75.33291832988255,
+      "mae_p50": 29.93825556533631,
+      "coverage_p90": 0.866268210683601
+    },
+    {
+      "mitra_kurir": "K08",
+      "n_samples": 2339,
+      "actual_median": 51.5,
+      "pred_median": 50.99414955432779,
+      "mae_p50": 14.867178689024312,
+      "coverage_p90": 0.9179136383069688
+    },
+    {
+      "mitra_kurir": "K09",
+      "n_samples": 2064,
+      "actual_median": 58.8,
+      "pred_median": 57.237188803682656,
+      "mae_p50": 20.177356051239023,
+      "coverage_p90": 0.8934108527131783
+    },
+    {
+      "mitra_kurir": "K10",
+      "n_samples": 1982,
+      "actual_median": 62.45,
+      "pred_median": 63.619178095633345,
+      "mae_p50": 19.24440824569506,
+      "coverage_p90": 0.9056508577194753
+    },
+    {
+      "mitra_kurir": "K11",
+      "n_samples": 1692,
+      "actual_median": 59.7,
+      "pred_median": 60.55795468339754,
+      "mae_p50": 14.238680958271663,
+      "coverage_p90": 0.9083924349881797
+    },
+    {
+      "mitra_kurir": "K12",
+      "n_samples": 1414,
+      "actual_median": 62.9,
+      "pred_median": 62.237666982067196,
+      "mae_p50": 16.100350279862877,
+      "coverage_p90": 0.8932107496463932
+    }
+  ]
+}
