@@ -1,0 +1,25 @@
+# Virtual Environment
+.venv/
+env/
+venv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Large Raw Datasets (as per working rules: never commit unnecessarily large datasets to GitHub)
+data/raw/*.csv.gz
+data/processed/*
+
+# LaTeX build temp artifacts
+laporan/*.aux
+laporan/*.log
+laporan/*.out
+laporan/*.toc
+laporan/*.synctex.gz
+
+# System files
+.DS_Store
+Thumbs.db
+.ipynb_checkpoints/
