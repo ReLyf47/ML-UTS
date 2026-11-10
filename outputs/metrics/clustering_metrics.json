@@ -1,0 +1,205 @@
+{
+  "kmeans_sweep": [
+    {
+      "k": 3,
+      "inertia": 6203559.035012529,
+      "silhouette": 0.06631009067016332,
+      "davies_bouldin": 3.282080101782722,
+      "calinski_harabasz": 7316.02130649699
+    },
+    {
+      "k": 4,
+      "inertia": 6019357.794661899,
+      "silhouette": 0.05915164050027281,
+      "davies_bouldin": 3.444881124925136,
+      "calinski_harabasz": 6250.58959353907
+    },
+    {
+      "k": 5,
+      "inertia": 5717107.032105002,
+      "silhouette": 0.06474353120036813,
+      "davies_bouldin": 2.9176607381843267,
+      "calinski_harabasz": 6521.7117273621425
+    },
+    {
+      "k": 6,
+      "inertia": 5591302.777974184,
+      "silhouette": 0.06270093791141641,
+      "davies_bouldin": 3.038817851286751,
+      "calinski_harabasz": 5874.676473295419
+    },
+    {
+      "k": 7,
+      "inertia": 5495940.529242068,
+      "silhouette": 0.06424749432660372,
+      "davies_bouldin": 2.987127576625066,
+      "calinski_harabasz": 5327.475222939454
+    },
+    {
+      "k": 8,
+      "inertia": 5422565.117832643,
+      "silhouette": 0.06008699986720786,
+      "davies_bouldin": 3.0586703527439134,
+      "calinski_harabasz": 4860.113785224847
+    }
+  ],
+  "gmm_sweep": [
+    {
+      "k": 3,
+      "bic": 3441590.3459697934,
+      "aic": 3438746.025083446
+    },
+    {
+      "k": 4,
+      "bic": 3080618.3351717754,
+      "aic": 3076823.1984462775
+    },
+    {
+      "k": 5,
+      "bic": 2984072.883081241,
+      "aic": 2979326.930516592
+    },
+    {
+      "k": 6,
+      "bic": 2448536.2034625947,
+      "aic": 2442839.4350587954
+    },
+    {
+      "k": 7,
+      "bic": 2435726.166851049,
+      "aic": 2429078.582608099
+    },
+    {
+      "k": 8,
+      "bic": 2907328.7175690513,
+      "aic": 2899730.317486951
+    }
+  ],
+  "stability": {
+    "optimal_k": 5,
+    "mean_ari": 0.8711062138148445,
+    "std_ari": 0.14139454567889995,
+    "pairwise_aris": [
+      0.9937831585801673,
+      0.9893104301172203,
+      0.984665054896547,
+      0.6990218544099143,
+      0.990026646088373,
+      0.984351362901489,
+      0.697975114947289,
+      0.9768737820635558,
+      0.6993641909455183,
+      0.6956905431983705
+    ]
+  },
+  "anomaly_detection": {
+    "n_anomalies": 1800,
+    "anomaly_rate": 0.015,
+    "threshold_distance": 10.662722379639419
+  },
+  "persona_profiles": {
+    "0": {
+      "name": "VIP High-Spenders (Champions)",
+      "description": "High frequency, high basket size, frequent app visits, low discount dependency.",
+      "top_category": "makanan_minuman",
+      "strategy": "Exclusive loyalty privileges, concierge support, early access to premium product drops."
+    },
+    "1": {
+      "name": "Digital Discount Hunters (Bargain Seekers)",
+      "description": "High voucher and flash sale usage, price-sensitive, active during promo windows.",
+      "top_category": "makanan_minuman",
+      "strategy": "Targeted flash sale alerts, tiered threshold coupons, bundle savings."
+    },
+    "2": {
+      "name": "Impulse Daily Shoppers (Active Browsers)",
+      "description": "Frequent low-basket purchases, high mobile engagement, daily app sessions.",
+      "top_category": "makanan_minuman",
+      "strategy": "Gamified checkout bonuses, free-shipping subscriptions, impulse cross-sells."
+    },
+    "3": {
+      "name": "Lapsed / At-Risk Dormant Customers",
+      "description": "High recency (long inactivity), declining 30d spend, low app visits.",
+      "top_category": "fashion",
+      "strategy": "Win-back push notifications, 'We Miss You' heavy discounts, personalized catalog re-engagement."
+    },
+    "4": {
+      "name": "Selective Niche Buyers (Pragmatists)",
+      "description": "Moderate frequency, steady basket size, low returns, highly targeted purchases.",
+      "top_category": "makanan_minuman",
+      "strategy": "Personalized category recommendations, replenishment reminders, post-purchase warranty upsells."
+    },
+    "-1": {
+      "name": "Anomalous Outliers / Extreme Accounts",
+      "description": "Extreme spending velocity or abnormal behavioral patterns situated at multivariate extremes.",
+      "top_category": "multivariate_extreme",
+      "strategy": "Automated security & reseller audit; compliance check for merchant abuse."
+    }
+  },
+  "cluster_numeric_means": {
+    "0": {
+      "recency_hari": 8.73,
+      "frekuensi_90h": 19.97,
+      "belanja_90h": 7126001.21,
+      "rata2_keranjang_clean": 352074.94,
+      "persen_voucher": 0.37,
+      "persen_flash_sale": 0.26,
+      "persen_paylater": 0.17,
+      "sesi_per_minggu": 6.98,
+      "durasi_sesi_menit": 9.06,
+      "rasio_konversi": 0.28,
+      "retur_90h": 0.66
+    },
+    "1": {
+      "recency_hari": 22.88,
+      "frekuensi_90h": 9.65,
+      "belanja_90h": 2934054.73,
+      "rata2_keranjang_clean": 270330.14,
+      "persen_voucher": 0.53,
+      "persen_flash_sale": 0.42,
+      "persen_paylater": 0.26,
+      "sesi_per_minggu": 241.51,
+      "durasi_sesi_menit": 0.6,
+      "rasio_konversi": 0.01,
+      "retur_90h": 0.88
+    },
+    "2": {
+      "recency_hari": 42.15,
+      "frekuensi_90h": 4.27,
+      "belanja_90h": 1833840.76,
+      "rata2_keranjang_clean": 360290.65,
+      "persen_voucher": 0.38,
+      "persen_flash_sale": 0.3,
+      "persen_paylater": 0.2,
+      "sesi_per_minggu": 5.56,
+      "durasi_sesi_menit": 9.07,
+      "rasio_konversi": 0.1,
+      "retur_90h": 0.62
+    },
+    "3": {
+      "recency_hari": 13.05,
+      "frekuensi_90h": 8.68,
+      "belanja_90h": 1310594.67,
+      "rata2_keranjang_clean": 153185.34,
+      "persen_voucher": 0.74,
+      "persen_flash_sale": 0.63,
+      "persen_paylater": 0.37,
+      "sesi_per_minggu": 7.53,
+      "durasi_sesi_menit": 9.07,
+      "rasio_konversi": 0.12,
+      "retur_90h": 1.3
+    },
+    "4": {
+      "recency_hari": 62.41,
+      "frekuensi_90h": 0.0,
+      "belanja_90h": 0.0,
+      "rata2_keranjang_clean": 0.0,
+      "persen_voucher": 0.46,
+      "persen_flash_sale": 0.37,
+      "persen_paylater": 0.24,
+      "sesi_per_minggu": 4.32,
+      "durasi_sesi_menit": 9.03,
+      "rasio_konversi": 0.0,
+      "retur_90h": 0.66
+    }
+  }
+}
