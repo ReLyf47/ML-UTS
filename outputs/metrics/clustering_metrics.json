@@ -16,21 +16,21 @@
     },
     {
       "k": 5,
-      "inertia": 5717107.032105002,
+      "inertia": 5717107.032105001,
       "silhouette": 0.06474353120036813,
       "davies_bouldin": 2.9176607381843267,
       "calinski_harabasz": 6521.7117273621425
     },
     {
       "k": 6,
-      "inertia": 5591302.777974184,
+      "inertia": 5591302.777974185,
       "silhouette": 0.06270093791141641,
       "davies_bouldin": 3.038817851286751,
       "calinski_harabasz": 5874.676473295419
     },
     {
       "k": 7,
-      "inertia": 5495940.529242068,
+      "inertia": 5495940.5292420685,
       "silhouette": 0.06424749432660372,
       "davies_bouldin": 2.987127576625066,
       "calinski_harabasz": 5327.475222939454

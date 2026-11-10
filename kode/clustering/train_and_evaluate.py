@@ -240,8 +240,11 @@ def run_clustering_pipeline():
     assert df_cluster_sub['cluster'].isnull().sum() == 0, "Missing values in cluster!"
     
     cluster_csv_path = "/home/relyf/ML/ML-UTS/cluster.csv"
+    cluster_csv_out = "/home/relyf/ML/ML-UTS/outputs/predictions/cluster.csv"
+    os.makedirs(os.path.dirname(cluster_csv_out), exist_ok=True)
     df_cluster_sub.to_csv(cluster_csv_path, index=False)
-    logger.info(f"Successfully generated and validated {cluster_csv_path} ({len(df_cluster_sub):,} rows)")
+    df_cluster_sub.to_csv(cluster_csv_out, index=False)
+    logger.info(f"Successfully generated and validated {cluster_csv_path} and {cluster_csv_out} ({len(df_cluster_sub):,} rows)")
     logger.info("Cluster distribution:\n" + str(df_cluster_sub['cluster'].value_counts()))
     
     return results

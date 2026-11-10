@@ -1,19 +1,26 @@
 import os
 import sys
+from pathlib import Path
 import pandas as pd
 import numpy as np
 
-ROOT_DIR = "/home/relyf/ML/ML-UTS"
-RAW_DIR = os.path.join(ROOT_DIR, "data/raw")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
+sys.path.insert(0, str(PROJECT_ROOT))
 
-def validate_regression():
+from kode.common.config import DATA_RAW_DIR, PREDICTIONS_DIR, BASE_DIR
+from kode.common.io import find_raw_file
+
+def validate_regression() -> bool:
     print("=== VALIDATING PREDIKSI_REGRESI.CSV ===")
-    pred_path = os.path.join(ROOT_DIR, "prediksi_regresi.csv")
-    test_path = os.path.join(RAW_DIR, "regresi_test.csv.gz")
+    pred_path_root = BASE_DIR / "prediksi_regresi.csv"
+    pred_path_out = PREDICTIONS_DIR / "prediksi_regresi.csv"
     
-    assert os.path.exists(pred_path), "File prediksi_regresi.csv does not exist!"
-    df_pred = pd.read_csv(pred_path)
-    df_test = pd.read_csv(test_path, usecols=['id_paket'])
+    target_path = pred_path_out if pred_path_out.exists() else pred_path_root
+    assert target_path.exists(), f"File prediksi_regresi.csv does not exist at {target_path}!"
+    
+    df_pred = pd.read_csv(target_path)
+    test_raw_path = find_raw_file("regresi_test")
+    df_test = pd.read_csv(test_raw_path, usecols=['id_paket'])
     
     # Check shape
     assert len(df_pred) == 60000, f"Expected 60,000 rows, got {len(df_pred)}"
@@ -29,22 +36,31 @@ def validate_regression():
     assert (df_pred['p90'] > 0).all(), "Non-positive delivery duration in p90!"
     
     # Non-crossing
-    violations = (df_pred['p90'] < df_pred['p50']).sum()
+    violations = int((df_pred['p90'] < df_pred['p50']).sum())
     assert violations == 0, f"P90 non-crossing condition violated in {violations} rows!"
     
+    # Ensure both root and outputs/predictions are synced
+    if pred_path_out.exists() and not pred_path_root.exists():
+        df_pred.to_csv(pred_path_root, index=False)
+    elif pred_path_root.exists() and not pred_path_out.exists():
+        df_pred.to_csv(pred_path_out, index=False)
+        
     print(f"PASSED! Rows: {len(df_pred):,}")
     print(f"P50 stats: min={df_pred['p50'].min():.2f}, median={df_pred['p50'].median():.2f}, max={df_pred['p50'].max():.2f}")
     print(f"P90 stats: min={df_pred['p90'].min():.2f}, median={df_pred['p90'].median():.2f}, max={df_pred['p90'].max():.2f}")
     return True
 
-def validate_classification():
+def validate_classification() -> bool:
     print("\n=== VALIDATING PREDIKSI_KLASIFIKASI.CSV ===")
-    pred_path = os.path.join(ROOT_DIR, "prediksi_klasifikasi.csv")
-    test_path = os.path.join(RAW_DIR, "klasifikasi_test.csv.gz")
+    pred_path_root = BASE_DIR / "prediksi_klasifikasi.csv"
+    pred_path_out = PREDICTIONS_DIR / "prediksi_klasifikasi.csv"
     
-    assert os.path.exists(pred_path), "File prediksi_klasifikasi.csv does not exist!"
-    df_pred = pd.read_csv(pred_path)
-    df_test = pd.read_csv(test_path, usecols=['id_transaksi'])
+    target_path = pred_path_out if pred_path_out.exists() else pred_path_root
+    assert target_path.exists(), f"File prediksi_klasifikasi.csv does not exist at {target_path}!"
+    
+    df_pred = pd.read_csv(target_path)
+    test_raw_path = find_raw_file("klasifikasi_test")
+    df_test = pd.read_csv(test_raw_path, usecols=['id_transaksi'])
     
     # Check shape
     assert len(df_pred) == 106674, f"Expected 106,674 rows, got {len(df_pred)}"
@@ -59,19 +75,28 @@ def validate_classification():
     assert ((df_pred['prob'] >= 0.0) & (df_pred['prob'] <= 1.0)).all(), "Probabilities outside [0, 1]!"
     assert set(df_pred['tandai'].unique()).issubset({0, 1}), "Tandai contains values other than 0 and 1!"
     
+    # Sync both locations
+    if pred_path_out.exists() and not pred_path_root.exists():
+        df_pred.to_csv(pred_path_root, index=False)
+    elif pred_path_root.exists() and not pred_path_out.exists():
+        df_pred.to_csv(pred_path_out, index=False)
+        
     print(f"PASSED! Rows: {len(df_pred):,}")
     print(f"Prob stats: min={df_pred['prob'].min():.6f}, mean={df_pred['prob'].mean():.6f}, max={df_pred['prob'].max():.6f}")
     print(f"Flagged (tandai=1): {df_pred['tandai'].sum():,} ({df_pred['tandai'].mean()*100:.2f}%)")
     return True
 
-def validate_clustering():
+def validate_clustering() -> bool:
     print("\n=== VALIDATING CLUSTER.CSV ===")
-    pred_path = os.path.join(ROOT_DIR, "cluster.csv")
-    test_path = os.path.join(RAW_DIR, "clustering.csv.gz")
+    pred_path_root = BASE_DIR / "cluster.csv"
+    pred_path_out = PREDICTIONS_DIR / "cluster.csv"
     
-    assert os.path.exists(pred_path), "File cluster.csv does not exist!"
-    df_pred = pd.read_csv(pred_path)
-    df_test = pd.read_csv(test_path, usecols=['id_pelanggan'])
+    target_path = pred_path_out if pred_path_out.exists() else pred_path_root
+    assert target_path.exists(), f"File cluster.csv does not exist at {target_path}!"
+    
+    df_pred = pd.read_csv(target_path)
+    test_raw_path = find_raw_file("clustering")
+    df_test = pd.read_csv(test_raw_path, usecols=['id_pelanggan'])
     
     # Check shape
     assert len(df_pred) == 120000, f"Expected 120,000 rows, got {len(df_pred)}"
@@ -85,6 +110,12 @@ def validate_clustering():
     assert pd.api.types.is_integer_dtype(df_pred['cluster']), "Cluster column is not integer!"
     assert -1 in df_pred['cluster'].values, "Anomalies (-1) missing from predictions!"
     
+    # Sync both locations
+    if pred_path_out.exists() and not pred_path_root.exists():
+        df_pred.to_csv(pred_path_root, index=False)
+    elif pred_path_root.exists() and not pred_path_out.exists():
+        df_pred.to_csv(pred_path_out, index=False)
+        
     print(f"PASSED! Rows: {len(df_pred):,}")
     print("Cluster value counts:\n" + str(df_pred['cluster'].value_counts()))
     return True

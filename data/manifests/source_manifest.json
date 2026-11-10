@@ -1,0 +1,143 @@
+{
+  "created_at": "2026-11-10T13:56:13.060358",
+  "files": {
+    "regresi_train": {
+      "original_filename": "regresi_train.csv",
+      "original_path": "/home/relyf/ML/ML-UTS/data/raw/regresi_train.csv",
+      "format": "csv",
+      "file_size_bytes": 104187636,
+      "file_size_mb": 99.36,
+      "row_count": 250000,
+      "column_count": 77,
+      "task": "regression",
+      "role": "train",
+      "id_column": "id_paket",
+      "unique_ids": 250000,
+      "is_id_unique": true,
+      "duplicate_rows": 0,
+      "missing_column_count": 1,
+      "time_range": {
+        "min": "2025-01-01 00:00:00",
+        "max": "2025-08-31 00:00:00"
+      },
+      "target_summary": {
+        "mean": 77.83819480000001,
+        "std": 207.65626980513449,
+        "min": 11.6,
+        "p25": 45.6,
+        "p50": 61.7,
+        "p75": 85.3,
+        "p90": 117.8,
+        "p99": 224.70100000000093,
+        "max": 25452.0
+      },
+      "extraction_destination": "data/interim/extracted/",
+      "processing_status": "extracted_and_normalized",
+      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/regresi_train.csv",
+      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/regresi_train.parquet"
+    },
+    "regresi_test": {
+      "original_filename": "regresi_test.csv",
+      "original_path": "/home/relyf/ML/ML-UTS/data/raw/regresi_test.csv",
+      "format": "csv",
+      "file_size_bytes": 24686690,
+      "file_size_mb": 23.54,
+      "row_count": 60000,
+      "column_count": 76,
+      "task": "regression",
+      "role": "test",
+      "id_column": "id_paket",
+      "unique_ids": 60000,
+      "is_id_unique": true,
+      "duplicate_rows": 0,
+      "missing_column_count": 1,
+      "time_range": {
+        "min": "2025-09-01 00:00:00",
+        "max": "2025-10-31 00:00:00"
+      },
+      "target_summary": null,
+      "extraction_destination": "data/interim/extracted/",
+      "processing_status": "extracted_and_normalized",
+      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/regresi_test.csv",
+      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/regresi_test.parquet"
+    },
+    "klasifikasi_train": {
+      "original_filename": "klasifikasi_train.csv",
+      "original_path": "/home/relyf/ML/ML-UTS/data/raw/klasifikasi_train.csv",
+      "format": "csv",
+      "file_size_bytes": 194420663,
+      "file_size_mb": 185.41,
+      "row_count": 403077,
+      "column_count": 85,
+      "task": "classification",
+      "role": "train",
+      "id_column": "id_transaksi",
+      "unique_ids": 403077,
+      "is_id_unique": true,
+      "duplicate_rows": 0,
+      "missing_column_count": 2,
+      "time_range": {
+        "min": "2025-01-01 00:02:53",
+        "max": "2025-08-31 23:58:04"
+      },
+      "target_summary": {
+        "counts": {
+          "0": 400455,
+          "1": 2622
+        },
+        "fraud_rate": 0.006504960590656376
+      },
+      "extraction_destination": "data/interim/extracted/",
+      "processing_status": "extracted_and_normalized",
+      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/klasifikasi_train.csv",
+      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/klasifikasi_train.parquet"
+    },
+    "klasifikasi_test": {
+      "original_filename": "klasifikasi_test.csv",
+      "original_path": "/home/relyf/ML/ML-UTS/data/raw/klasifikasi_test.csv",
+      "format": "csv",
+      "file_size_bytes": 51429501,
+      "file_size_mb": 49.05,
+      "row_count": 106674,
+      "column_count": 84,
+      "task": "classification",
+      "role": "test",
+      "id_column": "id_transaksi",
+      "unique_ids": 106674,
+      "is_id_unique": true,
+      "duplicate_rows": 0,
+      "missing_column_count": 2,
+      "time_range": {
+        "min": "2025-09-01 00:01:51",
+        "max": "2025-10-31 23:57:22"
+      },
+      "target_summary": null,
+      "extraction_destination": "data/interim/extracted/",
+      "processing_status": "extracted_and_normalized",
+      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/klasifikasi_test.csv",
+      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/klasifikasi_test.parquet"
+    },
+    "clustering": {
+      "original_filename": "clustering.csv",
+      "original_path": "/home/relyf/ML/ML-UTS/data/raw/clustering.csv",
+      "format": "csv",
+      "file_size_bytes": 41182387,
+      "file_size_mb": 39.27,
+      "row_count": 120000,
+      "column_count": 60,
+      "task": "clustering",
+      "role": "unsupervised",
+      "id_column": "id_pelanggan",
+      "unique_ids": 120000,
+      "is_id_unique": true,
+      "duplicate_rows": 0,
+      "missing_column_count": 1,
+      "time_range": null,
+      "target_summary": null,
+      "extraction_destination": "data/interim/extracted/",
+      "processing_status": "extracted_and_normalized",
+      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/clustering.csv",
+      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/clustering.parquet"
+    }
+  }
+}

@@ -324,8 +324,11 @@ def run_classification_pipeline():
     assert df_sub['tandai'].isnull().sum() == 0, "Missing values in tandai!"
     
     sub_path = "/home/relyf/ML/ML-UTS/prediksi_klasifikasi.csv"
+    sub_path_out = "/home/relyf/ML/ML-UTS/outputs/predictions/prediksi_klasifikasi.csv"
+    os.makedirs(os.path.dirname(sub_path_out), exist_ok=True)
     df_sub.to_csv(sub_path, index=False)
-    logger.info(f"Successfully generated and validated {sub_path} ({len(df_sub):,} rows)")
+    df_sub.to_csv(sub_path_out, index=False)
+    logger.info(f"Successfully generated and validated {sub_path} and {sub_path_out} ({len(df_sub):,} rows)")
     logger.info(f"Test Fraud Predictions: Flagged={df_sub['tandai'].sum():,} ({df_sub['tandai'].mean()*100:.2f}%), "
                 f"Mean Prob={df_sub['prob'].mean():.4f}, Max Prob={df_sub['prob'].max():.4f}")
     

@@ -1,0 +1,3601 @@
+{
+  "created_at": "2026-11-10T13:56:13.060592",
+  "schemas": {
+    "regresi_train": {
+      "row_count": 250000,
+      "column_count": 77,
+      "columns": {
+        "id_paket": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 250000,
+          "top_values": {
+            "P24198861": 1,
+            "P44313480": 1,
+            "P18332724": 1,
+            "P85422083": 1,
+            "P60211760": 1
+          }
+        },
+        "tgl_pickup": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 243,
+          "top_values": {
+            "2025-07-07": 2802,
+            "2025-05-05": 2702,
+            "2025-03-03": 2540,
+            "2025-08-08": 2528,
+            "2025-06-06": 2477
+          }
+        },
+        "jam_pickup": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "min": 0.0,
+          "mean": 12.269924,
+          "max": 23.0
+        },
+        "layanan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4,
+          "top_values": {
+            "reguler": 104995,
+            "hemat": 82742,
+            "ekspres": 37304,
+            "kargo": 24959
+          }
+        },
+        "mitra_kurir": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 12,
+          "top_values": {
+            "K01": 35112,
+            "K02": 29993,
+            "K03": 27408,
+            "K04": 24923,
+            "K05": 22599
+          }
+        },
+        "hub_asal": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "top_values": {
+            "JKT": 95193,
+            "SBY": 45188,
+            "BDG": 32579,
+            "MDN": 27230,
+            "MKS": 24927
+          }
+        },
+        "kota_asal": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 30,
+          "top_values": {
+            "KA01": 47664,
+            "KA09": 22687,
+            "KA15": 16106,
+            "KA24": 13628,
+            "KA20": 12434
+          }
+        },
+        "pulau_tujuan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "top_values": {
+            "Jawa": 166942,
+            "Sumatera": 33648,
+            "Sulawesi": 16505,
+            "Kalimantan": 13985,
+            "Bali-Nusa Tenggara": 9502
+          }
+        },
+        "kota_tujuan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 405,
+          "top_values": {
+            "KT066": 38188,
+            "KT007": 17519,
+            "KT025": 11473,
+            "KT063": 8334,
+            "KT185": 7989
+          }
+        },
+        "jarak_km": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 9288,
+          "min": 0.0,
+          "mean": 984.8420044,
+          "max": 9999.0
+        },
+        "berat_kg": {
+          "dtype": "float64",
+          "null_count": 13897,
+          "null_pct": 5.559,
+          "nunique": 8189,
+          "min": 0.02,
+          "mean": 4.714998962317293,
+          "max": 683.34
+        },
+        "volume_liter": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5610,
+          "min": 0.1,
+          "mean": 26.266910799999998,
+          "max": 4596.8
+        },
+        "jumlah_item": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 13,
+          "min": 1.0,
+          "mean": 2.02586,
+          "max": 14.0
+        },
+        "nilai_barang": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6046,
+          "min": 2000.0,
+          "mean": 548121.868,
+          "max": 48400000.0
+        },
+        "asuransi": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.106852,
+          "max": 1.0
+        },
+        "cod": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.203312,
+          "max": 1.0
+        },
+        "alamat_skor": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 885,
+          "min": 0.041,
+          "mean": 0.7880010959999999,
+          "max": 1.0
+        },
+        "pengalaman_kurir_bulan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 874,
+          "min": 0.0,
+          "mean": 16.040135199999998,
+          "max": 111.7
+        },
+        "rating_penjual": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 106,
+          "min": 3.94,
+          "mean": 4.696073559999999,
+          "max": 5.0
+        },
+        "umur_akun_penjual_hari": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5726,
+          "min": 6.0,
+          "mean": 749.244496,
+          "max": 52783.0
+        },
+        "volume_penjual_30h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6809,
+          "min": 1.0,
+          "mean": 626.63906,
+          "max": 78484.0
+        },
+        "antrean_hub_asal": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24437,
+          "min": 0.0,
+          "mean": 3328.676856,
+          "max": 61805.0
+        },
+        "indeks_kemacetan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1000,
+          "min": 0.0,
+          "mean": 0.517002852,
+          "max": 1.0
+        },
+        "hujan_asal_mm": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1617,
+          "min": 0.0,
+          "mean": 7.9251148,
+          "max": 623.7
+        },
+        "hujan_tujuan_mm": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1601,
+          "min": 0.0,
+          "mean": 7.9983868,
+          "max": 539.9
+        },
+        "jumlah_scan": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 76,
+          "min": 1.0,
+          "mean": 9.651072,
+          "max": 97.0
+        },
+        "f01": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49934393999999993,
+          "max": 1.0
+        },
+        "f02": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8104,
+          "min": 0.015,
+          "mean": 1.375596564,
+          "max": 30.256
+        },
+        "f03": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.301168,
+          "max": 1.0
+        },
+        "f04": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3785,
+          "min": -1.113,
+          "mean": 0.47939472400000005,
+          "max": 3.564
+        },
+        "f05": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5085,
+          "min": -2.472,
+          "mean": 0.478479352,
+          "max": 4.214
+        },
+        "f06": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6381,
+          "min": -5.057,
+          "mean": 0.0032575119999999997,
+          "max": 5.297
+        },
+        "f07": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49881797199999994,
+          "max": 1.0
+        },
+        "f08": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8122,
+          "min": 0.027,
+          "mean": 1.379722176,
+          "max": 36.051
+        },
+        "f09": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2363,
+          "min": -0.216,
+          "mean": 1.024892172,
+          "max": 2.845
+        },
+        "f10": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 3.00238,
+          "max": 13.0
+        },
+        "f11": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10795,
+          "min": -57.885,
+          "mean": 0.0031776279999999996,
+          "max": 41.563
+        },
+        "f12": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6384,
+          "min": -5.016,
+          "mean": -0.00022851999999999953,
+          "max": 4.826
+        },
+        "f13": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7077,
+          "min": -5.317,
+          "mean": 0.0010061760000000006,
+          "max": 5.153
+        },
+        "f14": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8091,
+          "min": 0.027,
+          "mean": 1.3740051599999998,
+          "max": 56.64
+        },
+        "f15": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.298984,
+          "max": 1.0
+        },
+        "f16": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 15,
+          "min": 0.0,
+          "mean": 2.995144,
+          "max": 14.0
+        },
+        "f17": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2110,
+          "min": 0.0,
+          "mean": 0.26386652,
+          "max": 2.314
+        },
+        "f18": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6402,
+          "min": -4.424,
+          "mean": -0.0025624079999999995,
+          "max": 4.623
+        },
+        "f19": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.50039126,
+          "max": 1.0
+        },
+        "f20": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8110,
+          "min": 0.031,
+          "mean": 1.37685702,
+          "max": 33.5
+        },
+        "f21": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.300604,
+          "max": 1.0
+        },
+        "f22": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2785,
+          "min": -1.754,
+          "mean": -0.511960252,
+          "max": 1.473
+        },
+        "f23": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4103,
+          "min": -2.691,
+          "mean": -0.510094636,
+          "max": 2.401
+        },
+        "f24": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6425,
+          "min": -4.762,
+          "mean": 0.004394343999999999,
+          "max": 5.566
+        },
+        "f25": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.500525364,
+          "max": 1.0
+        },
+        "f26": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8098,
+          "min": 0.029,
+          "mean": 1.374917664,
+          "max": 44.342
+        },
+        "f27": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.29896,
+          "max": 1.0
+        },
+        "f28": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1773,
+          "min": -0.447,
+          "mean": 0.13287562,
+          "max": 2.014
+        },
+        "f29": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10722,
+          "min": -28.062,
+          "mean": -0.0029370079999999996,
+          "max": 24.038
+        },
+        "f30": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6591,
+          "min": -4.053,
+          "mean": 0.496592288,
+          "max": 5.436
+        },
+        "f31": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.50043064,
+          "max": 1.0
+        },
+        "f32": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8126,
+          "min": 0.019,
+          "mean": 1.378152912,
+          "max": 42.988
+        },
+        "f33": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.29886,
+          "max": 1.0
+        },
+        "f34": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 2.995076,
+          "max": 13.0
+        },
+        "f35": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 730,
+          "min": 0.643,
+          "mean": 1.0055899719999999,
+          "max": 1.449
+        },
+        "f36": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6412,
+          "min": -4.886,
+          "mean": 0.001463688,
+          "max": 4.578
+        },
+        "f37": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.5008735559999999,
+          "max": 1.0
+        },
+        "f38": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8187,
+          "min": 0.023,
+          "mean": 1.3822090440000003,
+          "max": 35.14
+        },
+        "f39": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.299364,
+          "max": 1.0
+        },
+        "f40": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 16,
+          "min": 0.0,
+          "mean": 2.999372,
+          "max": 15.0
+        },
+        "f41": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1719,
+          "min": -0.451,
+          "mean": 0.044844748,
+          "max": 4.908
+        },
+        "f42": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6332,
+          "min": -4.362,
+          "mean": 0.0013148440000000003,
+          "max": 4.416
+        },
+        "f43": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.500940152,
+          "max": 1.0
+        },
+        "f44": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8146,
+          "min": 0.028,
+          "mean": 1.377629184,
+          "max": 46.89
+        },
+        "f45": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.301464,
+          "max": 1.0
+        },
+        "f46": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 15,
+          "min": 0.0,
+          "mean": 3.003232,
+          "max": 14.0
+        },
+        "f47": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10860,
+          "min": -42.436,
+          "mean": -0.0018683280000000005,
+          "max": 24.459
+        },
+        "f48": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6401,
+          "min": -4.344,
+          "mean": 0.0009339080000000001,
+          "max": 4.693
+        },
+        "f49": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.500096044,
+          "max": 1.0
+        },
+        "f50": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8095,
+          "min": 0.024,
+          "mean": 1.375726236,
+          "max": 37.196
+        },
+        "durasi_jam": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3540,
+          "min": 11.6,
+          "mean": 77.83819480000001,
+          "max": 25452.0
+        }
+      }
+    },
+    "regresi_test": {
+      "row_count": 60000,
+      "column_count": 76,
+      "columns": {
+        "id_paket": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 60000,
+          "top_values": {
+            "P83639399": 1,
+            "P26553951": 1,
+            "P32537117": 1,
+            "P28750760": 1,
+            "P96580009": 1
+          }
+        },
+        "tgl_pickup": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 61,
+          "top_values": {
+            "2025-09-09": 2401,
+            "2025-10-10": 2225,
+            "2025-09-10": 1630,
+            "2025-10-11": 1384,
+            "2025-10-27": 1228
+          }
+        },
+        "jam_pickup": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "min": 0.0,
+          "mean": 12.255316666666667,
+          "max": 23.0
+        },
+        "layanan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4,
+          "top_values": {
+            "reguler": 25359,
+            "hemat": 19696,
+            "ekspres": 9036,
+            "kargo": 5909
+          }
+        },
+        "mitra_kurir": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 13,
+          "top_values": {
+            "K01": 7943,
+            "K02": 6944,
+            "K03": 6341,
+            "K04": 5728,
+            "K05": 5302
+          }
+        },
+        "hub_asal": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "top_values": {
+            "JKT": 22815,
+            "SBY": 10752,
+            "BDG": 7853,
+            "MDN": 6512,
+            "MKS": 6056
+          }
+        },
+        "kota_asal": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 30,
+          "top_values": {
+            "KA01": 11367,
+            "KA09": 5386,
+            "KA15": 3891,
+            "KA24": 3228,
+            "KA28": 3064
+          }
+        },
+        "pulau_tujuan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "top_values": {
+            "Jawa": 40055,
+            "Sumatera": 8137,
+            "Sulawesi": 4099,
+            "Kalimantan": 3295,
+            "Bali-Nusa Tenggara": 2182
+          }
+        },
+        "kota_tujuan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 405,
+          "top_values": {
+            "KT066": 9133,
+            "KT007": 4349,
+            "KT025": 2685,
+            "KT063": 1967,
+            "KT185": 1883
+          }
+        },
+        "jarak_km": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6824,
+          "min": 0.0,
+          "mean": 987.6817533333334,
+          "max": 9999.0
+        },
+        "berat_kg": {
+          "dtype": "float64",
+          "null_count": 3265,
+          "null_pct": 5.442,
+          "nunique": 4166,
+          "min": 0.03,
+          "mean": 4.711781087512117,
+          "max": 385.08
+        },
+        "volume_liter": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3300,
+          "min": 0.1,
+          "mean": 25.859521666666662,
+          "max": 2507.7
+        },
+        "jumlah_item": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 11,
+          "min": 1.0,
+          "mean": 2.0202833333333334,
+          "max": 11.0
+        },
+        "nilai_barang": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3803,
+          "min": 4000.0,
+          "mean": 549226.85,
+          "max": 48994000.0
+        },
+        "asuransi": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.1082,
+          "max": 1.0
+        },
+        "cod": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.2038,
+          "max": 1.0
+        },
+        "alamat_skor": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 822,
+          "min": 0.093,
+          "mean": 0.7878538166666667,
+          "max": 1.0
+        },
+        "pengalaman_kurir_bulan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 761,
+          "min": 0.1,
+          "mean": 16.049731666666666,
+          "max": 130.2
+        },
+        "rating_penjual": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 98,
+          "min": 3.98,
+          "mean": 4.6980025,
+          "max": 5.0
+        },
+        "umur_akun_penjual_hari": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3928,
+          "min": 14.0,
+          "mean": 747.0058,
+          "max": 23178.0
+        },
+        "volume_penjual_30h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4257,
+          "min": 3.0,
+          "mean": 628.17865,
+          "max": 40387.0
+        },
+        "antrean_hub_asal": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 13198,
+          "min": 0.0,
+          "mean": 4618.8759,
+          "max": 61938.0
+        },
+        "indeks_kemacetan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 998,
+          "min": 0.0,
+          "mean": 0.5158819333333333,
+          "max": 1.0
+        },
+        "hujan_asal_mm": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1077,
+          "min": 0.0,
+          "mean": 7.288796666666666,
+          "max": 441.1
+        },
+        "hujan_tujuan_mm": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1121,
+          "min": 0.0,
+          "mean": 7.306801666666666,
+          "max": 379.7
+        },
+        "jumlah_scan": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "min": 1.0,
+          "mean": 1.502,
+          "max": 7.0
+        },
+        "f01": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49813761666666667,
+          "max": 1.0
+        },
+        "f02": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5637,
+          "min": 0.033,
+          "mean": 1.3787706333333336,
+          "max": 24.383
+        },
+        "f03": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.29915,
+          "max": 1.0
+        },
+        "f04": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3282,
+          "min": -1.159,
+          "mean": 0.4765406,
+          "max": 3.432
+        },
+        "f05": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4329,
+          "min": -2.266,
+          "mean": 0.47616881666666666,
+          "max": 3.974
+        },
+        "f06": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5379,
+          "min": -4.211,
+          "mean": 0.0025612833333333346,
+          "max": 4.288
+        },
+        "f07": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.4985842833333333,
+          "max": 1.0
+        },
+        "f08": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5678,
+          "min": 0.031,
+          "mean": 1.3760318500000002,
+          "max": 29.803
+        },
+        "f09": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1946,
+          "min": -0.127,
+          "mean": 1.0267728,
+          "max": 2.818
+        },
+        "f10": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 2.9992666666666667,
+          "max": 13.0
+        },
+        "f11": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7604,
+          "min": -17.655,
+          "mean": 0.0012881666666666666,
+          "max": 15.014
+        },
+        "f12": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5463,
+          "min": -3.883,
+          "mean": -0.0024645833333333316,
+          "max": 4.491
+        },
+        "f13": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5901,
+          "min": -4.685,
+          "mean": -0.006170000000000001,
+          "max": 4.603
+        },
+        "f14": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5689,
+          "min": 0.032,
+          "mean": 1.38413125,
+          "max": 57.365
+        },
+        "f15": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.3034833333333333,
+          "max": 1.0
+        },
+        "f16": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 2.9985333333333335,
+          "max": 13.0
+        },
+        "f17": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2165,
+          "min": 0.0,
+          "mean": 0.34592016666666664,
+          "max": 2.401
+        },
+        "f18": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5411,
+          "min": -4.254,
+          "mean": -0.0012996833333333352,
+          "max": 4.618
+        },
+        "f19": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49968711666666665,
+          "max": 1.0
+        },
+        "f20": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5630,
+          "min": 0.035,
+          "mean": 1.37984835,
+          "max": 25.464
+        },
+        "f21": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.29985,
+          "max": 1.0
+        },
+        "f22": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2569,
+          "min": -1.528,
+          "mean": -0.5117485166666667,
+          "max": 1.436
+        },
+        "f23": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3573,
+          "min": -2.772,
+          "mean": -0.50981055,
+          "max": 2.684
+        },
+        "f24": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5398,
+          "min": -3.934,
+          "mean": -0.0079223,
+          "max": 3.882
+        },
+        "f25": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49720785,
+          "max": 1.0
+        },
+        "f26": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5687,
+          "min": 0.044,
+          "mean": 1.3824285333333333,
+          "max": 27.741
+        },
+        "f27": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.30088333333333334,
+          "max": 1.0
+        },
+        "f28": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1470,
+          "min": -0.346,
+          "mean": 0.13283430000000002,
+          "max": 1.701
+        },
+        "f29": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7619,
+          "min": -44.481,
+          "mean": 0.009191366666666666,
+          "max": 20.652
+        },
+        "f30": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5419,
+          "min": -3.221,
+          "mean": 1.0916383333333335,
+          "max": 5.261
+        },
+        "f31": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.50113715,
+          "max": 1.0
+        },
+        "f32": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5652,
+          "min": 0.034,
+          "mean": 1.3743745166666668,
+          "max": 32.41
+        },
+        "f33": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.30233333333333334,
+          "max": 1.0
+        },
+        "f34": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 3.00735,
+          "max": 13.0
+        },
+        "f35": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 704,
+          "min": 0.679,
+          "mean": 1.0285477333333333,
+          "max": 1.481
+        },
+        "f36": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5394,
+          "min": -4.399,
+          "mean": -0.0003528000000000001,
+          "max": 4.175
+        },
+        "f37": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.5015142333333333,
+          "max": 1.0
+        },
+        "f38": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5645,
+          "min": 0.036,
+          "mean": 1.3789109000000002,
+          "max": 36.918
+        },
+        "f39": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.30383333333333334,
+          "max": 1.0
+        },
+        "f40": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 13,
+          "min": 0.0,
+          "mean": 3.0010666666666665,
+          "max": 12.0
+        },
+        "f41": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1224,
+          "min": -0.423,
+          "mean": 0.041868666666666665,
+          "max": 6.159
+        },
+        "f42": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5434,
+          "min": -5.068,
+          "mean": 0.000543866666666666,
+          "max": 4.239
+        },
+        "f43": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.5003871833333333,
+          "max": 1.0
+        },
+        "f44": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5652,
+          "min": 0.032,
+          "mean": 1.3757195833333333,
+          "max": 29.164
+        },
+        "f45": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.29951666666666665,
+          "max": 1.0
+        },
+        "f46": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 3.0069,
+          "max": 13.0
+        },
+        "f47": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7674,
+          "min": -18.66,
+          "mean": 0.006634633333333334,
+          "max": 12.747
+        },
+        "f48": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5425,
+          "min": -4.335,
+          "mean": -0.0016218500000000002,
+          "max": 4.596
+        },
+        "f49": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49957866666666667,
+          "max": 1.0
+        },
+        "f50": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5599,
+          "min": 0.031,
+          "mean": 1.3695943333333334,
+          "max": 30.484
+        }
+      }
+    },
+    "klasifikasi_train": {
+      "row_count": 403077,
+      "column_count": 85,
+      "columns": {
+        "id_transaksi": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 403077,
+          "top_values": {
+            "T464739637": 1,
+            "T555813708": 1,
+            "T998564616": 1,
+            "T221231710": 1,
+            "T253111101": 1
+          }
+        },
+        "waktu": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 398219,
+          "top_values": {
+            "2025-07-03 12:37:34": 4,
+            "2025-02-02 11:34:37": 3,
+            "2025-04-11 18:07:21": 3,
+            "2025-05-08 13:07:41": 3,
+            "2025-01-28 19:59:49": 3
+          }
+        },
+        "id_pengguna": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 102621,
+          "top_values": {
+            "U022774": 187,
+            "U126833": 116,
+            "U061273": 113,
+            "U125565": 104,
+            "U012626": 97
+          }
+        },
+        "id_merchant": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7914,
+          "top_values": {
+            "M06903": 28085,
+            "M02239": 14876,
+            "M02596": 10519,
+            "M07947": 8046,
+            "M07145": 6511
+          }
+        },
+        "kategori_merchant": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "top_values": {
+            "makanan_minuman": 60343,
+            "elektronik": 44032,
+            "pulsa_data": 38660,
+            "toko_online": 32649,
+            "fashion": 27573
+          }
+        },
+        "kanal": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "top_values": {
+            "aplikasi": 179979,
+            "qris": 88818,
+            "va": 59921,
+            "kartu": 49517,
+            "web": 24842
+          }
+        },
+        "tipe_perangkat": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "top_values": {
+            "android": 290544,
+            "ios": 80421,
+            "web": 32112
+          }
+        },
+        "nominal": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 23829,
+          "min": 1000.0,
+          "mean": 303216.3951304589,
+          "max": 25460700.0
+        },
+        "jam": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "min": 0.0,
+          "mean": 13.975567943593903,
+          "max": 23.0
+        },
+        "hari_libur": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.05728682112846925,
+          "max": 1.0
+        },
+        "umur_akun_hari": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2040,
+          "min": 0.0,
+          "mean": 881.6346405277403,
+          "max": 2039.0
+        },
+        "level_kyc": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "min": 0.0,
+          "mean": 1.0448326250319417,
+          "max": 2.0
+        },
+        "umur_pengguna_tahun": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 54,
+          "min": 17.0,
+          "mean": 32.74091798837443,
+          "max": 70.0
+        },
+        "email_domain": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "top_values": {
+            "gmail": 282609,
+            "korporat": 47925,
+            "yahoo": 32719,
+            "lainnya": 31372,
+            "sekali_pakai": 8452
+          }
+        },
+        "umur_perangkat_hari": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 19810,
+          "min": 0.0,
+          "mean": 743.2688568189204,
+          "max": 2026.3
+        },
+        "perangkat_baru": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.04127747303865018,
+          "max": 1.0
+        },
+        "jumlah_akun_per_perangkat": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10,
+          "min": 1.0,
+          "mean": 1.4242092701890705,
+          "max": 10.0
+        },
+        "ganti_password_7h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.015691790898513188,
+          "max": 1.0
+        },
+        "gagal_login_24j": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "min": 0.0,
+          "mean": 0.07755838214534692,
+          "max": 6.0
+        },
+        "jarak_lokasi_km": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 9209,
+          "min": 0.0,
+          "mean": 31.959154454359837,
+          "max": 1997.0
+        },
+        "negara_ip_beda": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.008365647258464264,
+          "max": 1.0
+        },
+        "kartu_tidak_hadir": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.12894062424797248,
+          "max": 1.0
+        },
+        "menit_sejak_trx_terakhir": {
+          "dtype": "float64",
+          "null_count": 102621,
+          "null_pct": 25.459,
+          "nunique": 245886,
+          "min": 0.0,
+          "mean": 44446.57324966051,
+          "max": 347252.1
+        },
+        "trx_1j": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 11,
+          "min": 0.0,
+          "mean": 0.037414687516281006,
+          "max": 10.0
+        },
+        "trx_24j": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 11,
+          "min": 0.0,
+          "mean": 0.07125189479925671,
+          "max": 10.0
+        },
+        "trx_7h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14,
+          "min": 0.0,
+          "mean": 0.2854640676595291,
+          "max": 13.0
+        },
+        "nominal_24j": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6132,
+          "min": 0.0,
+          "mean": 12794.317462916515,
+          "max": 10096200.0
+        },
+        "rasio_nominal_rata2": {
+          "dtype": "float64",
+          "null_count": 102621,
+          "null_pct": 25.459,
+          "nunique": 15492,
+          "min": 0.001,
+          "mean": 1.7748006530074287,
+          "max": 517.764
+        },
+        "saldo_sebelum": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 9684,
+          "min": 1000.0,
+          "mean": 760801.5692535398,
+          "max": 88691000.0
+        },
+        "persen_saldo": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 13218,
+          "min": 0.0,
+          "mean": 1.082536279668649,
+          "max": 50.0
+        },
+        "umur_merchant_hari": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2467,
+          "min": -274.0,
+          "mean": 1019.8944246384685,
+          "max": 2239.0
+        },
+        "refund_merchant_30h": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1068,
+          "min": 0.03,
+          "mean": 1.357675828687819,
+          "max": 13.46
+        },
+        "volume_merchant_30h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2359,
+          "min": 3.0,
+          "mean": 968.321410053166,
+          "max": 41034.0
+        },
+        "flag_review_manual": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.017113355512718413,
+          "max": 1.0
+        },
+        "v01": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": -0.00012481734259211027,
+          "max": 1.7
+        },
+        "v02": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4586,
+          "min": -1.036,
+          "mean": 0.002561371648593196,
+          "max": 8.695
+        },
+        "v03": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10761,
+          "min": -6.978,
+          "mean": 0.7412231757207679,
+          "max": 9.544
+        },
+        "v04": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.00034112588909811274,
+          "max": 1.5
+        },
+        "v05": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6694,
+          "min": -4.404,
+          "mean": 0.0005465779491263458,
+          "max": 4.354
+        },
+        "v06": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.00018322801846793504,
+          "max": 1.7
+        },
+        "v07": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4606,
+          "min": -1.027,
+          "mean": 0.0025879199259694796,
+          "max": 9.725
+        },
+        "v08": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10702,
+          "min": -22.552,
+          "mean": -0.002943499629103125,
+          "max": 28.589
+        },
+        "v09": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.0015145989475956207,
+          "max": 1.5
+        },
+        "v10": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6667,
+          "min": -5.069,
+          "mean": 0.001966207449197052,
+          "max": 4.982
+        },
+        "v11": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 9114,
+          "min": -6.308,
+          "mean": 0.021209225532590546,
+          "max": 7.266
+        },
+        "v12": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4620,
+          "min": -1.027,
+          "mean": 0.0036486428151445,
+          "max": 9.625
+        },
+        "v13": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10713,
+          "min": -19.214,
+          "mean": 0.0008105175934126728,
+          "max": 18.547
+        },
+        "v14": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.001981011072326131,
+          "max": 1.5
+        },
+        "v15": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7781,
+          "min": -3.832,
+          "mean": 1.2175180350156423,
+          "max": 6.991
+        },
+        "v16": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.0006034951138368112,
+          "max": 1.7
+        },
+        "v17": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4570,
+          "min": -1.043,
+          "mean": 0.0022700699866278645,
+          "max": 8.151
+        },
+        "v18": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10696,
+          "min": -22.427,
+          "mean": -0.001174862371209472,
+          "max": 17.383
+        },
+        "v19": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6862,
+          "min": -4.685,
+          "mean": 0.27180018458011745,
+          "max": 5.47
+        },
+        "v20": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6686,
+          "min": -4.971,
+          "mean": -0.0031838308809483055,
+          "max": 4.899
+        },
+        "v21": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": -0.0002557253328768454,
+          "max": 1.7
+        },
+        "v22": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4611,
+          "min": -1.04,
+          "mean": 0.0036310655284226083,
+          "max": 11.112
+        },
+        "v23": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10761,
+          "min": -20.84,
+          "mean": -0.0014473090749410162,
+          "max": 19.476
+        },
+        "v24": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.002122423259079531,
+          "max": 1.5
+        },
+        "v25": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6681,
+          "min": -4.287,
+          "mean": -0.001990379009469655,
+          "max": 4.839
+        },
+        "v26": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8692,
+          "min": -6.059,
+          "mean": -0.12608029235108925,
+          "max": 6.369
+        },
+        "v27": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4656,
+          "min": -1.038,
+          "mean": 0.003456610027364498,
+          "max": 8.025
+        },
+        "v28": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10735,
+          "min": -17.941,
+          "mean": -0.0001962354587336903,
+          "max": 24.811
+        },
+        "v29": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6717,
+          "min": -4.643,
+          "mean": -0.00019596007710685458,
+          "max": 4.795
+        },
+        "v30": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6700,
+          "min": -4.778,
+          "mean": -0.0016548351803749657,
+          "max": 4.651
+        },
+        "v31": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 5.7775561493213695e-05,
+          "max": 1.7
+        },
+        "v32": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4617,
+          "min": -1.031,
+          "mean": 0.003681316473031207,
+          "max": 9.075
+        },
+        "v33": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10769,
+          "min": -26.582,
+          "mean": 0.002946625582705042,
+          "max": 19.832
+        },
+        "v34": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.00046517166695197196,
+          "max": 1.5
+        },
+        "v35": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6654,
+          "min": -4.791,
+          "mean": 0.0013640421060988352,
+          "max": 4.55
+        },
+        "v36": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.00038575259813881707,
+          "max": 1.7
+        },
+        "v37": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4554,
+          "min": -1.039,
+          "mean": 0.0013322491732348902,
+          "max": 8.734
+        },
+        "v38": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5934,
+          "min": -2.216,
+          "mean": 1.9521236463504492,
+          "max": 5.53
+        },
+        "v39": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.002737690317234672,
+          "max": 1.5
+        },
+        "v40": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6686,
+          "min": -4.595,
+          "mean": 0.0019181173820386678,
+          "max": 4.396
+        },
+        "v41": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.00049408425685415,
+          "max": 1.7
+        },
+        "v42": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6426,
+          "min": -4.342,
+          "mean": -0.30051834264917127,
+          "max": 4.324
+        },
+        "v43": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10720,
+          "min": -22.017,
+          "mean": -0.003324392113665628,
+          "max": 15.569
+        },
+        "v44": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.0007033395604313816,
+          "max": 1.5
+        },
+        "v45": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6677,
+          "min": -4.376,
+          "mean": -0.0013664088995402862,
+          "max": 4.258
+        },
+        "v46": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.0002918226542323174,
+          "max": 1.7
+        },
+        "v47": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8582,
+          "min": -5.769,
+          "mean": 0.18265336895928075,
+          "max": 6.389
+        },
+        "v48": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10717,
+          "min": -23.713,
+          "mean": 0.0019135400928358603,
+          "max": 24.88
+        },
+        "v49": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.00017986637788809583,
+          "max": 1.5
+        },
+        "v50": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6686,
+          "min": -4.964,
+          "mean": 0.0028196820954805154,
+          "max": 4.87
+        },
+        "is_fraud": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.006504960590656376,
+          "max": 1.0
+        }
+      }
+    },
+    "klasifikasi_test": {
+      "row_count": 106674,
+      "column_count": 84,
+      "columns": {
+        "id_transaksi": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 106674,
+          "top_values": {
+            "T502861791": 1,
+            "T980390558": 1,
+            "T657838379": 1,
+            "T985886276": 1,
+            "T852019235": 1
+          }
+        },
+        "waktu": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 105347,
+          "top_values": {
+            "2025-10-21 13:32:07": 3,
+            "2025-10-24 12:29:52": 3,
+            "2025-10-29 11:25:47": 3,
+            "2025-09-26 19:18:41": 3,
+            "2025-10-12 12:31:43": 3
+          }
+        },
+        "id_pengguna": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 59778,
+          "top_values": {
+            "U022774": 46,
+            "U050994": 30,
+            "U051566": 27,
+            "U140080": 24,
+            "U142514": 23
+          }
+        },
+        "id_merchant": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7850,
+          "top_values": {
+            "M06903": 6744,
+            "M02239": 3654,
+            "M02596": 2533,
+            "M07947": 1981,
+            "M07145": 1646
+          }
+        },
+        "kategori_merchant": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "top_values": {
+            "makanan_minuman": 16241,
+            "elektronik": 10942,
+            "pulsa_data": 10166,
+            "toko_online": 8490,
+            "fashion": 7076
+          }
+        },
+        "kanal": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "top_values": {
+            "aplikasi": 47197,
+            "qris": 23530,
+            "va": 15905,
+            "kartu": 13412,
+            "web": 6630
+          }
+        },
+        "tipe_perangkat": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "top_values": {
+            "android": 76723,
+            "ios": 21440,
+            "web": 8511
+          }
+        },
+        "nominal": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 14380,
+          "min": 1000.0,
+          "mean": 300348.3341770253,
+          "max": 32059100.0
+        },
+        "jam": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 24,
+          "min": 0.0,
+          "mean": 13.939910381161296,
+          "max": 23.0
+        },
+        "hari_libur": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.015795789039503533,
+          "max": 1.0
+        },
+        "umur_akun_hari": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2101,
+          "min": 0.0,
+          "mean": 884.3586815906407,
+          "max": 2102.0
+        },
+        "level_kyc": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "min": 0.0,
+          "mean": 1.0488310178675215,
+          "max": 2.0
+        },
+        "umur_pengguna_tahun": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 54,
+          "min": 17.0,
+          "mean": 32.78215872658755,
+          "max": 70.0
+        },
+        "email_domain": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5,
+          "top_values": {
+            "gmail": 74651,
+            "korporat": 12928,
+            "yahoo": 8568,
+            "lainnya": 8423,
+            "sekali_pakai": 2104
+          }
+        },
+        "umur_perangkat_hari": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 20004,
+          "min": 0.0,
+          "mean": 746.7447166132329,
+          "max": 2088.3
+        },
+        "perangkat_baru": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.04064720550462156,
+          "max": 1.0
+        },
+        "jumlah_akun_per_perangkat": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10,
+          "min": 1.0,
+          "mean": 1.4209460599583779,
+          "max": 10.0
+        },
+        "ganti_password_7h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.015477060952059547,
+          "max": 1.0
+        },
+        "gagal_login_24j": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7,
+          "min": 0.0,
+          "mean": 0.07698220747323621,
+          "max": 6.0
+        },
+        "jarak_lokasi_km": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3801,
+          "min": 0.1,
+          "mean": 32.62664285580367,
+          "max": 1976.0
+        },
+        "negara_ip_beda": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.008586909649961566,
+          "max": 1.0
+        },
+        "kartu_tidak_hadir": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.13243152033297712,
+          "max": 1.0
+        },
+        "menit_sejak_trx_terakhir": {
+          "dtype": "float64",
+          "null_count": 11458,
+          "null_pct": 10.741,
+          "nunique": 89556,
+          "min": 0.0,
+          "mean": 68772.09681356074,
+          "max": 434606.9
+        },
+        "trx_1j": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8,
+          "min": 0.0,
+          "mean": 0.03987850835255076,
+          "max": 7.0
+        },
+        "trx_24j": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8,
+          "min": 0.0,
+          "mean": 0.07059827136884339,
+          "max": 7.0
+        },
+        "trx_7h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 10,
+          "min": 0.0,
+          "mean": 0.2651630200423721,
+          "max": 9.0
+        },
+        "nominal_24j": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2561,
+          "min": 0.0,
+          "mean": 13571.325721356658,
+          "max": 6265600.0
+        },
+        "rasio_nominal_rata2": {
+          "dtype": "float64",
+          "null_count": 11458,
+          "null_pct": 10.741,
+          "nunique": 8941,
+          "min": 0.001,
+          "mean": 1.5230781696353553,
+          "max": 167.047
+        },
+        "saldo_sebelum": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6094,
+          "min": 1000.0,
+          "mean": 763786.3624979749,
+          "max": 78893000.0
+        },
+        "persen_saldo": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7924,
+          "min": 0.0,
+          "mean": 1.0811185668485292,
+          "max": 50.0
+        },
+        "umur_merchant_hari": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2313,
+          "min": -34.0,
+          "mean": 1094.4096780846317,
+          "max": 2300.0
+        },
+        "refund_merchant_30h": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 824,
+          "min": 0.0,
+          "mean": 1.352997731405966,
+          "max": 13.46
+        },
+        "volume_merchant_30h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2347,
+          "min": 3.0,
+          "mean": 964.9609839323547,
+          "max": 41034.0
+        },
+        "flag_review_manual": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": 0.0,
+          "mean": 0.012299154433132722,
+          "max": 1.0
+        },
+        "v01": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.002640109117498174,
+          "max": 1.7
+        },
+        "v02": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3750,
+          "min": -1.016,
+          "mean": 0.003497140821568517,
+          "max": 6.582
+        },
+        "v03": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 9181,
+          "min": -6.407,
+          "mean": 0.7396243133284588,
+          "max": 10.074
+        },
+        "v04": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 4.6871777565292385e-05,
+          "max": 1.5
+        },
+        "v05": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5820,
+          "min": -4.398,
+          "mean": -0.00043214841479648344,
+          "max": 4.202
+        },
+        "v06": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.0009704239083563014,
+          "max": 1.7
+        },
+        "v07": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3754,
+          "min": -1.022,
+          "mean": 0.0012457768528413666,
+          "max": 9.036
+        },
+        "v08": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8161,
+          "min": -15.869,
+          "mean": 0.004946744286330316,
+          "max": 30.312
+        },
+        "v09": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.0011342970170800757,
+          "max": 1.5
+        },
+        "v10": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5859,
+          "min": -4.417,
+          "mean": -0.005379539531657199,
+          "max": 4.079
+        },
+        "v11": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7894,
+          "min": -6.012,
+          "mean": 0.02495777790276918,
+          "max": 6.971
+        },
+        "v12": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3721,
+          "min": -1.029,
+          "mean": 0.001877139696645855,
+          "max": 9.0
+        },
+        "v13": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8110,
+          "min": -13.307,
+          "mean": 0.0017372930611020494,
+          "max": 14.556
+        },
+        "v14": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.010639893507321372,
+          "max": 1.5
+        },
+        "v15": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5909,
+          "min": -1.587,
+          "mean": 2.7317354838104877,
+          "max": 7.205
+        },
+        "v16": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": -0.000500234358887825,
+          "max": 1.7
+        },
+        "v17": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3758,
+          "min": -0.996,
+          "mean": 0.0034515720794195404,
+          "max": 9.703
+        },
+        "v18": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8157,
+          "min": -16.026,
+          "mean": 0.00070808256932336,
+          "max": 46.316
+        },
+        "v19": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5923,
+          "min": -4.201,
+          "mean": 0.27167135384442326,
+          "max": 4.789
+        },
+        "v20": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5839,
+          "min": -4.401,
+          "mean": 1.9864259332171577e-05,
+          "max": 4.529
+        },
+        "v21": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": -0.003051624575810414,
+          "max": 1.7
+        },
+        "v22": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3762,
+          "min": -1.035,
+          "mean": 0.003212750998368861,
+          "max": 7.974
+        },
+        "v23": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8197,
+          "min": -16.079,
+          "mean": 0.0038182499953128214,
+          "max": 16.768
+        },
+        "v24": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.0020904812794120403,
+          "max": 1.5
+        },
+        "v25": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5786,
+          "min": -4.508,
+          "mean": -0.0016007274499878139,
+          "max": 4.94
+        },
+        "v26": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7573,
+          "min": -5.924,
+          "mean": -0.18594718488103945,
+          "max": 5.641
+        },
+        "v27": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3755,
+          "min": -1.021,
+          "mean": 0.004478851453962538,
+          "max": 6.579
+        },
+        "v28": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8160,
+          "min": -20.984,
+          "mean": -0.0004613589065751738,
+          "max": 17.854
+        },
+        "v29": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5872,
+          "min": -4.455,
+          "mean": -0.00033087725218891156,
+          "max": 4.153
+        },
+        "v30": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5805,
+          "min": -4.106,
+          "mean": 0.008550068432795245,
+          "max": 4.574
+        },
+        "v31": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.0004536156889213865,
+          "max": 1.7
+        },
+        "v32": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3739,
+          "min": -1.041,
+          "mean": 0.004664229334233271,
+          "max": 9.9
+        },
+        "v33": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8150,
+          "min": -25.004,
+          "mean": -0.0035473779927629977,
+          "max": 15.359
+        },
+        "v34": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.0037028704276580986,
+          "max": 1.5
+        },
+        "v35": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5837,
+          "min": -4.08,
+          "mean": -0.0004811669197742654,
+          "max": 3.958
+        },
+        "v36": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.001878517726906275,
+          "max": 1.7
+        },
+        "v37": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3746,
+          "min": -1.036,
+          "mean": 0.007197714532125915,
+          "max": 7.94
+        },
+        "v38": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5317,
+          "min": -1.911,
+          "mean": 1.9400169675834786,
+          "max": 5.511
+        },
+        "v39": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.00034685115398316364,
+          "max": 1.5
+        },
+        "v40": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5786,
+          "min": -4.286,
+          "mean": -0.006382361212666628,
+          "max": 4.312
+        },
+        "v41": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": -0.005294270393910419,
+          "max": 1.7
+        },
+        "v42": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5676,
+          "min": -4.458,
+          "mean": -0.3010653673809926,
+          "max": 4.388
+        },
+        "v43": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8158,
+          "min": -20.241,
+          "mean": -0.005645686859028443,
+          "max": 16.147
+        },
+        "v44": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": 0.0012842867052890114,
+          "max": 1.5
+        },
+        "v45": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5820,
+          "min": -4.109,
+          "mean": 0.003828271181356281,
+          "max": 4.18
+        },
+        "v46": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3401,
+          "min": -1.7,
+          "mean": 0.005325243264525564,
+          "max": 1.7
+        },
+        "v47": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7354,
+          "min": -5.064,
+          "mean": 0.17541619326171326,
+          "max": 6.754
+        },
+        "v48": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8185,
+          "min": -20.085,
+          "mean": -0.000609604964658679,
+          "max": 14.999
+        },
+        "v49": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2,
+          "min": -0.5,
+          "mean": -0.0012655379942628944,
+          "max": 1.5
+        },
+        "v50": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5799,
+          "min": -4.318,
+          "mean": -0.00376488178937698,
+          "max": 4.484
+        }
+      }
+    },
+    "clustering": {
+      "row_count": 120000,
+      "column_count": 60,
+      "columns": {
+        "id_pelanggan": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 120000,
+          "top_values": {
+            "C864291": 1,
+            "C115620": 1,
+            "C903774": 1,
+            "C716498": 1,
+            "C936513": 1
+          }
+        },
+        "recency_hari": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3114,
+          "min": 0.2,
+          "mean": 24.54335,
+          "max": 2039.8
+        },
+        "frekuensi_90h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 153,
+          "min": 0.0,
+          "mean": 9.705408333333333,
+          "max": 204.0
+        },
+        "belanja_90h": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 50843,
+          "min": 0.0,
+          "mean": 2936216.4266666668,
+          "max": 261836800.0
+        },
+        "rata2_keranjang": {
+          "dtype": "float64",
+          "null_count": 6736,
+          "null_pct": 5.613,
+          "nunique": 12193,
+          "min": 9800.0,
+          "mean": 280384.33041390026,
+          "max": 6457500.0
+        },
+        "item_per_pesanan": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 45,
+          "min": 1.0,
+          "mean": 3.0419916666666666,
+          "max": 51.0
+        },
+        "porsi_fashion": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6770,
+          "min": 0.0,
+          "mean": 0.14108445583333334,
+          "max": 0.9695
+        },
+        "porsi_elektronik": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4597,
+          "min": 0.0,
+          "mean": 0.06395456833333332,
+          "max": 0.9134
+        },
+        "porsi_kecantikan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5322,
+          "min": 0.0,
+          "mean": 0.09071378166666667,
+          "max": 0.9366
+        },
+        "porsi_rumah_tangga": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5258,
+          "min": 0.0,
+          "mean": 0.09122382583333334,
+          "max": 0.9044
+        },
+        "porsi_makanan_minuman": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6917,
+          "min": 0.0,
+          "mean": 0.14845044333333332,
+          "max": 0.9866
+        },
+        "porsi_ibu_bayi": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4364,
+          "min": 0.0,
+          "mean": 0.05902196833333333,
+          "max": 0.8589
+        },
+        "porsi_olahraga": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3113,
+          "min": 0.0,
+          "mean": 0.03565385583333333,
+          "max": 0.716
+        },
+        "porsi_hobi": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3104,
+          "min": 0.0,
+          "mean": 0.035859997500000004,
+          "max": 0.8006
+        },
+        "porsi_otomotif": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2643,
+          "min": 0.0,
+          "mean": 0.02712634833333333,
+          "max": 0.6358
+        },
+        "porsi_kesehatan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3097,
+          "min": 0.0,
+          "mean": 0.03577989416666667,
+          "max": 0.6436
+        },
+        "porsi_buku_alat_tulis": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2610,
+          "min": 0.0,
+          "mean": 0.026981044166666666,
+          "max": 0.7156
+        },
+        "porsi_voucher_digital": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4622,
+          "min": 0.0,
+          "mean": 0.06807384833333334,
+          "max": 0.8259
+        },
+        "porsi_gadget_aksesoris": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4392,
+          "min": 0.0,
+          "mean": 0.06409985916666666,
+          "max": 0.8109
+        },
+        "porsi_perabot": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3317,
+          "min": 0.0,
+          "mean": 0.03961975166666666,
+          "max": 0.7916
+        },
+        "porsi_pertanian": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 2285,
+          "min": 0.0,
+          "mean": 0.01946828333333333,
+          "max": 0.6008
+        },
+        "porsi_lainnya": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3774,
+          "min": 0.0,
+          "mean": 0.05288297166666666,
+          "max": 0.7521
+        },
+        "porsi_jam_pagi": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8452,
+          "min": 0.0,
+          "mean": 0.25853012166666667,
+          "max": 0.9902
+        },
+        "porsi_jam_siang": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7804,
+          "min": 0.0,
+          "mean": 0.23518246583333333,
+          "max": 0.9695
+        },
+        "porsi_jam_sore": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 7566,
+          "min": 0.0,
+          "mean": 0.22372165833333335,
+          "max": 0.9534
+        },
+        "porsi_jam_malam": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 8729,
+          "min": 0.0,
+          "mean": 0.2825656883333333,
+          "max": 0.9983
+        },
+        "persen_voucher": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 996,
+          "min": 0.003,
+          "mean": 0.5093941666666666,
+          "max": 0.998
+        },
+        "persen_flash_sale": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 993,
+          "min": 0.002,
+          "mean": 0.41006639999999994,
+          "max": 0.994
+        },
+        "persen_paylater": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 997,
+          "min": 0.001,
+          "mean": 0.25513440833333334,
+          "max": 0.997
+        },
+        "persen_cod": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 989,
+          "min": 0.001,
+          "mean": 0.3089114166666667,
+          "max": 0.992
+        },
+        "retur_90h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 20,
+          "min": 0.0,
+          "mean": 0.8783083333333334,
+          "max": 25.0
+        },
+        "rating_beri_rata2": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 239,
+          "min": 2.44,
+          "mean": 4.380276416666666,
+          "max": 5.0
+        },
+        "ulasan_90h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 34,
+          "min": 0.0,
+          "mean": 1.4586416666666666,
+          "max": 35.0
+        },
+        "sesi_per_minggu": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 4944,
+          "min": 0.19,
+          "mean": 10.072474666666666,
+          "max": 399.9
+        },
+        "durasi_sesi_menit": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3215,
+          "min": 0.2,
+          "mean": 8.944748333333331,
+          "max": 67.28
+        },
+        "rasio_konversi": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1428,
+          "min": 0.0,
+          "mean": 0.14531404166666664,
+          "max": 4.277
+        },
+        "lama_member_bulan": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1468,
+          "min": 0.3,
+          "mean": 20.613774999999997,
+          "max": 376.6
+        },
+        "umur": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 49,
+          "min": 17.0,
+          "mean": 32.85215,
+          "max": 66.0
+        },
+        "kota_tier": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "min": 1.0,
+          "mean": 1.8528083333333334,
+          "max": 3.0
+        },
+        "perangkat": {
+          "dtype": "str",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 3,
+          "top_values": {
+            "android": 77760,
+            "ios": 31710,
+            "web": 10530
+          }
+        },
+        "jumlah_alamat": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 6,
+          "min": 1.0,
+          "mean": 1.5011916666666667,
+          "max": 6.0
+        },
+        "wishlist": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 152,
+          "min": 0.0,
+          "mean": 13.434758333333333,
+          "max": 185.0
+        },
+        "klik_iklan_30h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 135,
+          "min": 0.0,
+          "mean": 8.942366666666667,
+          "max": 244.0
+        },
+        "belanja_30h": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 30683,
+          "min": 0.0,
+          "mean": 1041766.5641666667,
+          "max": 101158500.0
+        },
+        "frekuensi_30h": {
+          "dtype": "int64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 61,
+          "min": 0.0,
+          "mean": 3.207533333333333,
+          "max": 80.0
+        },
+        "n01": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 69277,
+          "min": 0.001,
+          "mean": 50.03238578333333,
+          "max": 99.999
+        },
+        "n02": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 40814,
+          "min": 0.017,
+          "mean": 19.586750516666665,
+          "max": 2533.811
+        },
+        "n03": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 16,
+          "min": 0.0,
+          "mean": 4.012933333333334,
+          "max": 15.0
+        },
+        "n04": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 21490,
+          "min": -500.0,
+          "mean": -0.06566749166666667,
+          "max": 500.0
+        },
+        "n05": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 37086,
+          "min": 0.0,
+          "mean": 19.380616191666668,
+          "max": 25629.432
+        },
+        "n06": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.5001628416666667,
+          "max": 1.0
+        },
+        "n07": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5887,
+          "min": -4.509,
+          "mean": 0.0034210833333333337,
+          "max": 4.024
+        },
+        "n08": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 69219,
+          "min": 0.002,
+          "mean": 49.92426649166667,
+          "max": 99.999
+        },
+        "n09": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 41214,
+          "min": 0.015,
+          "mean": 19.537655033333337,
+          "max": 2843.352
+        },
+        "n10": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 16,
+          "min": 0.0,
+          "mean": 4.007908333333333,
+          "max": 16.0
+        },
+        "n11": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 21332,
+          "min": -500.0,
+          "mean": -0.06878926666666667,
+          "max": 500.0
+        },
+        "n12": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 37128,
+          "min": 0.0,
+          "mean": 19.791031358333335,
+          "max": 39328.844
+        },
+        "n13": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 1001,
+          "min": 0.0,
+          "mean": 0.49989124999999995,
+          "max": 1.0
+        },
+        "n14": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 5899,
+          "min": -4.069,
+          "mean": 0.005257233333333335,
+          "max": 4.518
+        },
+        "n15": {
+          "dtype": "float64",
+          "null_count": 0,
+          "null_pct": 0.0,
+          "nunique": 69565,
+          "min": 0.0,
+          "mean": 49.90235058333334,
+          "max": 99.999
+        }
+      }
+    }
+  }
+}

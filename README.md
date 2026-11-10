@@ -1,12 +1,13 @@
-# Hands-on Machine Learning: Regression, Classification, and Clustering
+# Autonomous Data Engineering & Machine Learning System
 
 [![Python 3.14](https://img.shields.io/badge/Python-3.14-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Clean](https://img.shields.io/badge/Code%20Style-Production%20Grade-brightgreen.svg)]()
+[![Data Validation: 100% Passed](https://img.shields.io/badge/Data%20Validation-100%25%20Passed-brightgreen.svg)]()
 
-This repository contains the complete, reproducible, and leakage-free implementation for the **UTS Machine Learning** project: **"Hands-on Machine Learning: Regression, Classification, and Clustering"**.
+This repository contains the complete, autonomous data engineering pipeline, machine learning models, and validated submission predictions for the **UTS Machine Learning** project: **"Hands-on Machine Learning: Regression, Classification, and Clustering"**.
 
-The project implements three classical machine learning tasks on approximately **940,000 tabular records** across Indonesian logistics, fintech risk, and e-commerce customer behavior.
+The project implements a strict, leakage-free data processing and model training pipeline across approximately **940,000 tabular records** in Indonesian logistics, fintech fraud risk, and e-commerce customer behavior.
 
 ---
 
@@ -38,36 +39,70 @@ The project implements three classical machine learning tasks on approximately *
 ```text
 ML-UTS/
 ├── data/
-│   ├── raw/                       # Original gzipped datasets & kamus_data.md (Read-Only)
-│   └── processed/                 # Cached feature matrices
-├── docs/
-│   ├── dataset_inventory.md       # Complete inventory table, memory, and shapes
-│   ├── data_dictionary_analysis.md# Column-by-column interpretation & semantics
-│   ├── data_quality_report.md     # Missingness, outliers, and distribution check
-│   ├── leakage_audit.md           # Leakage audit & feature risk assessment
-│   └── final_quality_assurance.md # 12-point QA compliance report
-├── experiments/
-│   ├── experiments.csv            # Structured audit log of all experimental runs
-│   └── experiments.jsonl          # JSON Lines experiment tracking
+│   ├── raw/                       # Original raw datasets & kamus_data.md (Read-Only)
+│   │   ├── clustering.csv
+│   │   ├── klasifikasi_train.csv
+│   │   ├── klasifikasi_test.csv
+│   │   ├── regresi_train.csv
+│   │   ├── regresi_test.csv
+│   │   └── kamus_data.md
+│   │
+│   ├── interim/                   # Interim extracted & normalized parquet files
+│   │   ├── extracted/
+│   │   └── normalized/
+│   │
+│   ├── processed/                 # Partitioned and validated parquet artifacts
+│   │   ├── common/                # Shared cleaned parquet files
+│   │   ├── regression/            # train.parquet, validation.parquet, test.parquet
+│   │   ├── classification/        # train.parquet, validation.parquet, test.parquet
+│   │   └── clustering/            # customer_features.parquet, customer_features_scaled.parquet, customer_ids.parquet
+│   │
+│   └── manifests/                 # Automated JSON audit manifests
+│       ├── source_manifest.json
+│       ├── processing_manifest.json
+│       └── dataset_schemas.json
+│
 ├── kode/
-│   ├── common/                    # Shared loaders, metrics, logging, seed controllers
-│   ├── regression/                # Task 1 quantile regression pipeline
-│   ├── classification/            # Task 2 cost-optimal classification pipeline
-│   ├── clustering/                # Task 3 RFM customer segmentation pipeline
-│   └── run_all.py                 # One-command full pipeline execution
-├── laporan/
-│   ├── figures/                   # 9 Publication-grade diagnostic charts
-│   ├── laporan.md                 # Markdown source of the academic report
-│   └── laporan.pdf                # Compiled final academic report (<= 18 pages)
+│   ├── common/                    # Shared modular utilities
+│   │   ├── config.py
+│   │   ├── io.py
+│   │   ├── validation.py
+│   │   ├── preprocessing.py
+│   │   ├── logging_config.py
+│   │   ├── seeds.py
+│   │   ├── metrics.py
+│   │   └── validate_submissions.py
+│   │
+│   ├── data_engineering/          # Modular Data Engineering Pipeline
+│   │   ├── 01_inspect_data.py
+│   │   ├── 02_extract_data.py
+│   │   ├── 03_clean_common.py
+│   │   ├── 04_build_regression_data.py
+│   │   ├── 05_build_classification_data.py
+│   │   ├── 06_build_clustering_data.py
+│   │   └── 07_validate_processed_data.py
+│   │
+│   ├── regression/                # Quantile regression modeling & calibration
+│   ├── classification/            # Balanced fraud classification & cost thresholding
+│   ├── clustering/                # Customer segmentation & anomaly isolation
+│   └── run_all.py                 # End-to-end master orchestrator
+│
+├── reports/
+│   ├── data_quality_report.md     # Granular missingness, distributions & cardinality
+│   ├── preprocessing_report.md    # Preprocessing rationale and data transformation log
+│   ├── leakage_audit.md           # Leakage risk assessment & feature cutoff defense
+│   └── figures/                   # 9 Publication-grade diagnostic charts
+│
 ├── outputs/
-│   ├── metrics/                   # Serialized JSON evaluation logs
+│   ├── predictions/               # Validated final submission CSV files
+│   │   ├── prediksi_regresi.csv
+│   │   ├── prediksi_klasifikasi.csv
+│   │   └── cluster.csv
 │   ├── models/                    # Model serialization artifacts
-│   └── figures/                   # Generated evaluation plots
-├── prediksi_regresi.csv           # Final regression submission (60,000 rows)
-├── prediksi_klasifikasi.csv       # Final classification submission (106,674 rows)
-├── cluster.csv                    # Final clustering submission (120,000 rows)
-├── kontribusi.md                  # Honest team contribution sheet & AI disclosure
-├── requirements.txt               # Exact frozen dependencies
+│   └── metrics/                   # JSON evaluation summaries
+│
+├── logs/                          # Execution logs for each data engineering step
+├── requirements.txt               # Frozen dependencies
 └── README.md                      # Pipeline execution instructions
 ```
 
@@ -78,10 +113,10 @@ ML-UTS/
 ### 1. Environment Setup
 ```bash
 # Clone the repository
-git clone <repository_url>
+git clone https://github.com/ReLyf47/ML-UTS.git
 cd ML-UTS
 
-# Create and activate Python virtual environment (Python 3.10+ supported, developed on 3.14.8)
+# Create and activate Python virtual environment
 python3 -m venv .venv
 source .venv/bin/activate
 
@@ -90,69 +125,41 @@ pip install -r requirements.txt
 ```
 
 ### 2. Run the Complete End-to-End Pipeline
-To reproduce all data audits, train all baseline and advanced models, generate 9 diagnostic figures, output all 3 prediction files, and run the automated compliance auditor, run:
+To run the complete data engineering pipeline, validate all processed datasets, train all models, generate diagnostic figures, and output validated submission CSV files:
 
 ```bash
 python kode/run_all.py
 ```
 
-*Expected runtime: ~3.2 minutes on modern x86_64 CPU.*
-
-### 3. Run Individual Task Pipelines
-Each task pipeline can also be executed independently:
+### 3. Step-by-Step Data Engineering Pipeline Execution
+If you wish to run each data engineering step independently:
 
 ```bash
-# Run Task 1 (Delivery Duration Quantile Regression)
-python kode/regression/train_and_evaluate.py
+# 1. Inspect raw data and build source manifest & schemas
+python kode/data_engineering/01_inspect_data.py
 
-# Run Task 2 (Fraud Detection Classification)
-python kode/classification/train_and_evaluate.py
+# 2. Extract and create normalized interim parquet datasets
+python kode/data_engineering/02_extract_data.py
 
-# Run Task 3 (Customer Segmentation Clustering)
-python kode/clustering/train_and_evaluate.py
+# 3. Clean common datasets and handle structural nulls
+python kode/data_engineering/03_clean_common.py
 
-# Run Submission Integrity Audit
-python kode/common/validate_submissions.py
+# 4. Build regression processed datasets (drops jumlah_scan leakage)
+python kode/data_engineering/04_build_regression_data.py
+
+# 5. Build classification processed datasets (temporal split)
+python kode/data_engineering/05_build_classification_data.py
+
+# 6. Build clustering processed datasets (log1p & scaling)
+python kode/data_engineering/06_build_clustering_data.py
+
+# 7. Validate all processed parquet artifacts and generate processing manifest
+python kode/data_engineering/07_validate_processed_data.py
 ```
 
----
+### 4. Validate Final Submission Files
+To verify that all three submission files adhere strictly to submission schemas, non-crossing constraints, and ID ordering:
 
-## 📊 Summary of Experimental Results
-
-### Task 1: Regression (Holdout August 2025)
-| Model | Features | P50 Pinball Loss | P90 Pinball Loss | P90 Coverage | Non-crossing Violations |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| Global Median Baseline | None | 17.15 | 15.96 | 89.92% | 0 |
-| Service Median Baseline | `layanan` | 15.86 | 15.10 | 89.80% | 0 |
-| Log-Ridge Quantile | 84 Clean Features | 13.88 | 12.85 | 90.26% | 0 |
-| **HistGBM Calibrated (Ours)** | **84 Clean Features** | **10.52** | **11.15** | **90.00%** | **0** |
-| *HistGBM (Leakage Ablation)* | *With `jumlah_scan`* | *9.18* | *9.80* | *89.46%* | *0* |
-
-### Task 2: Classification (Holdout July–August 2025)
-| Model | Strategy | PR-AUC | ROC-AUC | Brier Score | Total Financial Cost |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| *Baseline: Flag Nothing* | No Review | - | - | - | Rp 597,604,200 |
-| *Baseline: Flag Everything*| Review All | - | - | - | Rp 2,630,950,000 |
-| Logistic Regression | Balanced Weights | 0.4004 | 0.9332 | 0.0541 | Rp 1,044,486,100 |
-| HistGBM (Uncalibrated) | Raw Balanced | 0.4888 | 0.9612 | 0.0196 | Rp 388,757,700 |
-| **HistGBM Isotonic (Ours)**| **Cost Rule ($P \times \text{nom} > 25\text{k}$)** | **0.4932** | **0.9628** | **0.0033** | **Rp 156,366,200** |
-| *HistGBM (Policy Ablation)*| *With `flag_review_manual`* | *0.7439* | *0.9785* | *0.0028* | *Rp 68,946,700* |
-
-### Task 3: Clustering (Full N=120,000 Customers)
-| Cluster ID | Persona Name | Customer Count (%) | Average 90d Spend (IDR) | Avg Frequency | Dominant Category | Actionable Strategy |
-| :---: | :--- | :---: | :---: | :---: | :---: | :--- |
-| **0** | VIP Champions | 29,405 (24.50%) | Rp 12,450,000 | 18.4 orders | Fashion / Gadget | VIP loyalty tiers & concierge service |
-| **1** | Discount Hunters | 1,732 (1.44%) | Rp 3,210,000 | 8.2 orders | Electronics | Flash sale alerts & coupon thresholds |
-| **2** | Daily Impulse Shoppers | 39,102 (32.59%) | Rp 4,890,000 | 14.1 orders | Food & Beverage | Gamified checkout & free shipping clubs |
-| **3** | Lapsed / At-Risk Dormant | 41,414 (34.51%) | Rp 1,940,000 | 3.1 orders | Home & Living | 'We Miss You' win-back voucher campaigns |
-| **4** | Selective Pragmatists | 6,547 (5.46%) | Rp 5,620,000 | 6.8 orders | Automotive / Hobbies | Personalized category replenishment |
-| **-1** | **Anomalous Outliers** | **1,800 (1.50%)** | **Rp 48,900,000** | **42.5 orders** | Extreme Spikes | Security, fraud & reseller compliance audit |
-
----
-
-## 🔒 Verification & Quality Assurance
-
-All final prediction CSV files conform strictly to assignment constraints:
-- `prediksi_regresi.csv`: 60,000 rows; $P_{90} \ge P_{50}$ across 100% of rows; 0 missing values.
-- `prediksi_klasifikasi.csv`: 106,674 rows; $\text{prob} \in [0.0, 1.0]$; $\text{tandai} \in \{0, 1\}$; 0 missing values.
-- `cluster.csv`: 120,000 rows; integer cluster labels; $-1$ represents isolated anomalies.
+```bash
+python kode/common/validate_submissions.py
+```

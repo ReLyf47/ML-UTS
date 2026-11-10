@@ -1,0 +1,20 @@
+[2026-11-10 13:48:53] [INFO] [05_build_classification_data]: Starting Phase 5: Classification Feature Engineering & Splitting...
+[2026-11-10 13:48:56] [INFO] [05_build_classification_data]: Loaded cleaned_klasifikasi_train: 403,077 rows
+[2026-11-10 13:48:56] [INFO] [05_build_classification_data]: Loaded cleaned_klasifikasi_test: 106,674 rows
+[2026-11-10 13:48:59] [INFO] [05_build_classification_data]: Chronological split sizes: Train=350,173 (Jan-Jul 2025), Val=52,904 (Aug 2025), Test=106,674 (Sep-Oct 2025)
+[2026-11-10 13:48:59] [INFO] [05_build_classification_data]: Fitting categorical encoders strictly on Train split...
+[2026-11-10 13:48:59] [INFO] [05_build_classification_data]: Transforming train, validation, and test partitions...
+[2026-11-10 13:49:05] [INFO] [05_build_classification_data]: ✓ Saved classification train: train.parquet (350,173 rows, 90 cols)
+[2026-11-10 13:49:05] [INFO] [05_build_classification_data]: ✓ Saved classification val: validation.parquet (52,904 rows, 90 cols)
+[2026-11-10 13:49:05] [INFO] [05_build_classification_data]: ✓ Saved classification test: test.parquet (106,674 rows, 89 cols)
+[2026-11-10 13:49:05] [INFO] [05_build_classification_data]: Phase 5: Classification Feature Engineering completed.
+[2026-11-10 13:57:41] [INFO] [05_build_classification_data]: Starting Phase 5: Classification Feature Engineering & Splitting...
+[2026-11-10 13:57:43] [INFO] [05_build_classification_data]: Loaded cleaned_klasifikasi_train: 403,077 rows
+[2026-11-10 13:57:43] [INFO] [05_build_classification_data]: Loaded cleaned_klasifikasi_test: 106,674 rows
+[2026-11-10 13:57:48] [INFO] [05_build_classification_data]: Chronological split sizes: Train=350,173 (Jan-Jul 2025), Val=52,904 (Aug 2025), Test=106,674 (Sep-Oct 2025)
+[2026-11-10 13:57:48] [INFO] [05_build_classification_data]: Fitting categorical encoders strictly on Train split...
+[2026-11-10 13:57:48] [INFO] [05_build_classification_data]: Transforming train, validation, and test partitions...
+[2026-11-10 13:57:56] [INFO] [05_build_classification_data]: ✓ Saved classification train: train.parquet (350,173 rows, 90 cols)
+[2026-11-10 13:57:56] [INFO] [05_build_classification_data]: ✓ Saved classification val: validation.parquet (52,904 rows, 90 cols)
+[2026-11-10 13:57:56] [INFO] [05_build_classification_data]: ✓ Saved classification test: test.parquet (106,674 rows, 89 cols)
+[2026-11-10 13:57:56] [INFO] [05_build_classification_data]: Phase 5: Classification Feature Engineering completed.

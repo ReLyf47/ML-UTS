@@ -366,8 +366,11 @@ def run_regression_pipeline():
     assert df_sub['p90'].isnull().sum() == 0, "Missing values in P90!"
     
     sub_path = "/home/relyf/ML/ML-UTS/prediksi_regresi.csv"
+    sub_path_out = "/home/relyf/ML/ML-UTS/outputs/predictions/prediksi_regresi.csv"
+    os.makedirs(os.path.dirname(sub_path_out), exist_ok=True)
     df_sub.to_csv(sub_path, index=False)
-    logger.info(f"Successfully generated and validated {sub_path} ({len(df_sub):,} rows)")
+    df_sub.to_csv(sub_path_out, index=False)
+    logger.info(f"Successfully generated and validated {sub_path} and {sub_path_out} ({len(df_sub):,} rows)")
     logger.info(f"Test P50 summary: min={df_sub['p50'].min():.2f}, median={df_sub['p50'].median():.2f}, mean={df_sub['p50'].mean():.2f}, max={df_sub['p50'].max():.2f}")
     logger.info(f"Test P90 summary: min={df_sub['p90'].min():.2f}, median={df_sub['p90'].median():.2f}, mean={df_sub['p90'].mean():.2f}, max={df_sub['p90'].max():.2f}")
     
