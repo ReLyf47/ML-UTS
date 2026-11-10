@@ -1,0 +1,296 @@
+{
+  "Baseline_Logistic_Regression": {
+    "pr_auc": 0.4003877834095099,
+    "roc_auc": 0.933200841560503,
+    "brier_score": 0.08366382858217582,
+    "flagged_count": 41622,
+    "flagged_rate": 0.3955035253425569,
+    "caught_fraud_count": 505,
+    "missed_fraud_count": 81,
+    "fraud_recall": 0.8617747440273038,
+    "review_cost": 1040550000.0,
+    "missed_fraud_cost": 3936100.0,
+    "total_cost": 1044486100.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": -446881900.0
+  },
+  "HistGBM_Unweighted": {
+    "pr_auc": 0.48465022705768795,
+    "roc_auc": 0.9299055954537574,
+    "brier_score": 0.003958991763792842,
+    "flagged_count": 987,
+    "flagged_rate": 0.009378741519223095,
+    "caught_fraud_count": 338,
+    "missed_fraud_count": 248,
+    "fraud_recall": 0.5767918088737202,
+    "review_cost": 24675000.0,
+    "missed_fraud_cost": 158033400.0,
+    "total_cost": 182708400.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": 414895800.0
+  },
+  "HistGBM_Balanced_Raw": {
+    "pr_auc": 0.48878936705957365,
+    "roc_auc": 0.9563798248810065,
+    "brier_score": 0.01958927414502311,
+    "flagged_count": 14425,
+    "flagged_rate": 0.1370702597920903,
+    "caught_fraud_count": 480,
+    "missed_fraud_count": 106,
+    "fraud_recall": 0.8191126279863481,
+    "review_cost": 360625000.0,
+    "missed_fraud_cost": 28132700.0,
+    "total_cost": 388757700.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": 208846500.0
+  },
+  "HistGBM_Balanced_Sigmoid": {
+    "pr_auc": 0.48878936705957365,
+    "roc_auc": 0.9563798248810065,
+    "brier_score": 0.003565337938222261,
+    "flagged_count": 1738,
+    "flagged_rate": 0.01651494707235029,
+    "caught_fraud_count": 345,
+    "missed_fraud_count": 241,
+    "fraud_recall": 0.5887372013651877,
+    "review_cost": 43450000.0,
+    "missed_fraud_cost": 114434800.0,
+    "total_cost": 157884800.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": 439719400.0
+  },
+  "HistGBM_Balanced_Isotonic": {
+    "pr_auc": 0.49324418617213905,
+    "roc_auc": 0.9586042213823835,
+    "brier_score": 0.003256885804380538,
+    "flagged_count": 1300,
+    "flagged_rate": 0.01235295235561299,
+    "caught_fraud_count": 346,
+    "missed_fraud_count": 240,
+    "fraud_recall": 0.590443686006826,
+    "review_cost": 32500000.0,
+    "missed_fraud_cost": 123866200.0,
+    "total_cost": 156366200.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": 441238000.0
+  },
+  "HistGBM_With_PolicyFlag": {
+    "pr_auc": 0.7439006434732487,
+    "roc_auc": 0.9894590509563371,
+    "brier_score": 0.0024174566774200273,
+    "flagged_count": 1093,
+    "flagged_rate": 0.010385982249757692,
+    "caught_fraud_count": 457,
+    "missed_fraud_count": 129,
+    "fraud_recall": 0.7798634812286689,
+    "review_cost": 27325000.0,
+    "missed_fraud_cost": 41621700.0,
+    "total_cost": 68946700.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": 528657500.0
+  },
+  "cost_sweep": [
+    {
+      "multiplier": 0.1,
+      "threshold_desc": "0.1x (Rp 2,500)",
+      "flagged_count": 7025,
+      "flagged_rate": 0.06675345407552405,
+      "fraud_recall": 0.8532423208191127,
+      "review_cost": 175625000.0,
+      "missed_fraud_cost": 46480900.0,
+      "total_cost": 222105900.0
+    },
+    {
+      "multiplier": 0.2,
+      "threshold_desc": "0.2x (Rp 5,000)",
+      "flagged_count": 4224,
+      "flagged_rate": 0.040137592884699445,
+      "fraud_recall": 0.7815699658703071,
+      "review_cost": 105600000.0,
+      "missed_fraud_cost": 77654800.0,
+      "total_cost": 183254800.0
+    },
+    {
+      "multiplier": 0.3,
+      "threshold_desc": "0.3x (Rp 7,500)",
+      "flagged_count": 3137,
+      "flagged_rate": 0.029808624261198426,
+      "fraud_recall": 0.7559726962457338,
+      "review_cost": 78425000.0,
+      "missed_fraud_cost": 86707100.0,
+      "total_cost": 165132100.0
+    },
+    {
+      "multiplier": 0.5,
+      "threshold_desc": "0.5x (Rp 12,500)",
+      "flagged_count": 2203,
+      "flagged_rate": 0.02093350310724263,
+      "fraud_recall": 0.6962457337883959,
+      "review_cost": 55075000.0,
+      "missed_fraud_cost": 103819300.0,
+      "total_cost": 158894300.0
+    },
+    {
+      "multiplier": 0.7,
+      "threshold_desc": "0.7x (Rp 17,500)",
+      "flagged_count": 1739,
+      "flagged_rate": 0.01652444934339307,
+      "fraud_recall": 0.6535836177474402,
+      "review_cost": 43475000.0,
+      "missed_fraud_cost": 114453300.0,
+      "total_cost": 157928300.0
+    },
+    {
+      "multiplier": 0.8,
+      "threshold_desc": "0.8x (Rp 20,000)",
+      "flagged_count": 1571,
+      "flagged_rate": 0.014928067808206161,
+      "fraud_recall": 0.6228668941979523,
+      "review_cost": 39275000.0,
+      "missed_fraud_cost": 119098100.0,
+      "total_cost": 158373100.0
+    },
+    {
+      "multiplier": 1.0,
+      "threshold_desc": "1.0x (Rp 25,000)",
+      "flagged_count": 1300,
+      "flagged_rate": 0.01235295235561299,
+      "fraud_recall": 0.590443686006826,
+      "review_cost": 32500000.0,
+      "missed_fraud_cost": 123866200.0,
+      "total_cost": 156366200.0
+    },
+    {
+      "multiplier": 1.2,
+      "threshold_desc": "1.2x (Rp 30,000)",
+      "flagged_count": 1116,
+      "flagged_rate": 0.010604534483741615,
+      "fraud_recall": 0.568259385665529,
+      "review_cost": 27900000.0,
+      "missed_fraud_cost": 129388200.0,
+      "total_cost": 157288200.0
+    },
+    {
+      "multiplier": 1.5,
+      "threshold_desc": "1.5x (Rp 37,500)",
+      "flagged_count": 966,
+      "flagged_rate": 0.00917919382732473,
+      "fraud_recall": 0.5341296928327645,
+      "review_cost": 24150000.0,
+      "missed_fraud_cost": 138596600.0,
+      "total_cost": 162746600.0
+    },
+    {
+      "multiplier": 2.0,
+      "threshold_desc": "2.0x (Rp 50,000)",
+      "flagged_count": 793,
+      "flagged_rate": 0.007535300936923925,
+      "fraud_recall": 0.5085324232081911,
+      "review_cost": 19825000.0,
+      "missed_fraud_cost": 149990900.0,
+      "total_cost": 169815900.0
+    },
+    {
+      "multiplier": 3.0,
+      "threshold_desc": "3.0x (Rp 75,000)",
+      "flagged_count": 605,
+      "flagged_rate": 0.005748873980881431,
+      "fraud_recall": 0.4761092150170648,
+      "review_cost": 15125000.0,
+      "missed_fraud_cost": 164022600.0,
+      "total_cost": 179147600.0
+    },
+    {
+      "multiplier": 5.0,
+      "threshold_desc": "5.0x (Rp 125,000)",
+      "flagged_count": 462,
+      "flagged_rate": 0.004390049221764001,
+      "fraud_recall": 0.4300341296928328,
+      "review_cost": 11550000.0,
+      "missed_fraud_cost": 182218900.0,
+      "total_cost": 193768900.0
+    }
+  ],
+  "best_multiplier": 1.0,
+  "breakdown_kanal": [
+    {
+      "kanal": "aplikasi",
+      "n_trx": 46996,
+      "n_fraud": 111,
+      "fraud_rate": 0.002361903140692825,
+      "flagged_count": 449,
+      "avg_nominal": 292552.4853178994,
+      "fraud_caught": 60,
+      "recall": 0.5405405405405406
+    },
+    {
+      "kanal": "kartu",
+      "n_trx": 13008,
+      "n_fraud": 174,
+      "fraud_rate": 0.013376383763837638,
+      "flagged_count": 271,
+      "avg_nominal": 310295.7795202952,
+      "fraud_caught": 107,
+      "recall": 0.6149425287356322
+    },
+    {
+      "kanal": "qris",
+      "n_trx": 23172,
+      "n_fraud": 102,
+      "fraud_rate": 0.004401864319005696,
+      "flagged_count": 165,
+      "avg_nominal": 305683.22544450196,
+      "fraud_caught": 24,
+      "recall": 0.23529411764705882
+    },
+    {
+      "kanal": "va",
+      "n_trx": 15649,
+      "n_fraud": 112,
+      "fraud_rate": 0.007157006837497604,
+      "flagged_count": 289,
+      "avg_nominal": 312845.30001917057,
+      "fraud_caught": 96,
+      "recall": 0.8571428571428571
+    },
+    {
+      "kanal": "web",
+      "n_trx": 6413,
+      "n_fraud": 87,
+      "fraud_rate": 0.01356619366910962,
+      "flagged_count": 126,
+      "avg_nominal": 296091.2989240605,
+      "fraud_caught": 59,
+      "recall": 0.6781609195402298
+    }
+  ],
+  "breakdown_device": [
+    {
+      "tipe_perangkat": "android",
+      "n_trx": 75876,
+      "n_fraud": 409,
+      "fraud_rate": 0.00539037376772629,
+      "flagged_count": 922
+    },
+    {
+      "tipe_perangkat": "ios",
+      "n_trx": 20944,
+      "n_fraud": 130,
+      "fraud_rate": 0.006207028265851795,
+      "flagged_count": 271
+    },
+    {
+      "tipe_perangkat": "web",
+      "n_trx": 8418,
+      "n_fraud": 47,
+      "fraud_rate": 0.0055832739368020905,
+      "flagged_count": 107
+    }
+  ]
+}
