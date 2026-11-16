@@ -17,6 +17,7 @@ from kode.common.logger import get_logger
 from kode.common.metrics import evaluate_regression_predictions, calculate_pinball_loss, calculate_coverage
 from kode.common.figure_saver import save_figure
 from kode.common.experiment_tracker import log_experiment
+from kode.common.config import METRICS_DIR, PREDICTIONS_DIR, BASE_DIR
 from kode.common.data_loader import get_regression_data
 from kode.regression.features import RegressionFeaturePipeline
 from kode.regression.baselines import GlobalMedianBaseline, ServiceMedianBaseline
@@ -321,9 +322,49 @@ def run_regression_pipeline():
         ax3.text(x[i] + width/2, p90_losses[i] + 0.3, f"{p90_losses[i]:.2f}", ha='center', fontsize=9)
     save_figure(fig3, "fig_regression_model_comparison.png")
     
+    # ---------------- 5b. MODEL INTERPRETATION: Permutation Importance & Partial Dependence ----------------
+    logger.info("Computing permutation importance and partial dependence plots (validation subsample n=10k)...")
+    from sklearn.inspection import permutation_importance, partial_dependence
+
+    rng = np.random.RandomState(42)
+    sub_idx = rng.choice(len(X_val_clean), size=min(10000, len(X_val_clean)), replace=False)
+    X_val_sub = X_val_clean[sub_idx]
+    y_val_sub = y_val[sub_idx]
+
+    perm_result = permutation_importance(
+        hgb_model.model_p50, X_val_sub, y_val_sub,
+        n_repeats=5, random_state=42, scoring='neg_mean_absolute_error', n_jobs=-1
+    )
+    top_perm_idx = np.argsort(perm_result.importances_mean)[::-1][:8]
+    results["permutation_importance_top"] = [
+        {
+            "feature": feat_names_clean[i],
+            "importance_mean": float(perm_result.importances_mean[i]),
+            "importance_std": float(perm_result.importances_std[i]),
+        }
+        for i in top_perm_idx
+    ]
+
+    # Partial dependence for the 4 most important features (P50 quantile model)
+    pd_feature_idx = [int(i) for i in top_perm_idx[:4]]
+    fig_pd, ax_pd = plt.subplots(2, 2, figsize=(12, 8))
+    for ax_i, f_i in zip(ax_pd.ravel(), pd_feature_idx):
+        pd_res = partial_dependence(
+            hgb_model.model_p50, X_val_sub, features=[f_i],
+            kind="average", grid_resolution=30
+        )
+        ax_i.plot(pd_res["grid_values"][0], pd_res["average"][0], 'b-', linewidth=2)
+        ax_i.set_xlabel(feat_names_clean[f_i])
+        ax_i.set_ylabel("Partial dependence (P50, hours)")
+        ax_i.set_title(f"PDP: {feat_names_clean[f_i]}", fontweight='bold')
+    fig_pd.suptitle("Partial Dependence - Top-4 Features (P50 Quantile Model)", fontweight='bold', fontsize=13)
+    save_figure(fig_pd, "fig_regression_partial_dependence.png")
+    logger.info(f"Saved partial dependence figure for features: {[feat_names_clean[i] for i in pd_feature_idx]}")
+    
     # ---------------- 6. SERIALIZE METRICS ----------------
-    os.makedirs("/home/relyf/ML/ML-UTS/outputs/metrics", exist_ok=True)
-    metrics_path = "/home/relyf/ML/ML-UTS/outputs/metrics/regression_metrics.json"
+    results["conformal_adjustment"] = float(conformal_adj)
+    os.makedirs(METRICS_DIR, exist_ok=True)
+    metrics_path = METRICS_DIR / "regression_metrics.json"
     with open(metrics_path, "w") as f:
         json.dump(results, f, indent=2)
     logger.info(f"Saved regression metrics to {metrics_path}")
@@ -365,8 +406,8 @@ def run_regression_pipeline():
     assert df_sub['p50'].isnull().sum() == 0, "Missing values in P50!"
     assert df_sub['p90'].isnull().sum() == 0, "Missing values in P90!"
     
-    sub_path = "/home/relyf/ML/ML-UTS/prediksi_regresi.csv"
-    sub_path_out = "/home/relyf/ML/ML-UTS/outputs/predictions/prediksi_regresi.csv"
+    sub_path = BASE_DIR / "prediksi_regresi.csv"
+    sub_path_out = PREDICTIONS_DIR / "prediksi_regresi.csv"
     os.makedirs(os.path.dirname(sub_path_out), exist_ok=True)
     df_sub.to_csv(sub_path, index=False)
     df_sub.to_csv(sub_path_out, index=False)

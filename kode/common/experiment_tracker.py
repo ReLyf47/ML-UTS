@@ -4,7 +4,8 @@ import time
 import pandas as pd
 from datetime import datetime
 
-EXPERIMENTS_DIR = "/home/relyf/ML/ML-UTS/experiments"
+from kode.common.config import EXPERIMENTS_DIR
+
 CSV_PATH = os.path.join(EXPERIMENTS_DIR, "experiments.csv")
 JSONL_PATH = os.path.join(EXPERIMENTS_DIR, "experiments.jsonl")
 

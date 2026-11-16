@@ -10,13 +10,15 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.calibration import calibration_curve
-from sklearn.metrics import precision_recall_curve, roc_curve
+from sklearn.metrics import precision_recall_curve, roc_curve, average_precision_score
+from sklearn.utils import resample as sk_resample
 
 from kode.common.seeds import seed_everything
 from kode.common.logger import get_logger
 from kode.common.metrics import calculate_classification_metrics
 from kode.common.figure_saver import save_figure
 from kode.common.experiment_tracker import log_experiment
+from kode.common.config import METRICS_DIR, PREDICTIONS_DIR, BASE_DIR
 from kode.common.data_loader import get_classification_data
 from kode.classification.features import ClassificationFeaturePipeline
 from kode.classification.models import LogisticRegressionFraudBaseline, HistGradientBoostingFraudModel
@@ -166,6 +168,48 @@ def run_classification_pipeline():
     results["HistGBM_With_PolicyFlag"] = metrics_policy
     logger.info(f"HistGBM With Policy Flag: PR-AUC={metrics_policy['pr_auc']:.4f}, Total Cost=Rp {metrics_policy['total_cost']:,.0f}")
     
+    # ---------------- EXPERIMENT 5: Random Under-Sampling (Class Imbalance Strategy) ----------------
+    logger.info("Training HistGradientBoosting with Random Under-Sampling (majority:minority = 10:1)...")
+    t_start = time.time()
+    pos_mask = y_tr == 1
+    df_pos = df_tr_split[pos_mask]
+    df_neg = df_tr_split[~pos_mask]
+    n_neg_target = int(min(len(df_neg), 10 * len(df_pos)))
+    df_neg_sampled = sk_resample(df_neg, n_samples=n_neg_target, replace=False, random_state=42)
+    df_under = pd.concat([df_pos, df_neg_sampled], ignore_index=True)
+    df_under = df_under.sample(frac=1.0, random_state=42).reset_index(drop=True)
+    
+    pipe_under = ClassificationFeaturePipeline(include_policy_flag=False)
+    pipe_under.fit(df_under)
+    X_tr_under, feat_names_under = pipe_under.transform(df_under)
+    X_val_under, _ = pipe_under.transform(df_val_split)
+    cat_idx_under = pipe_under.categorical_indices
+    
+    hgb_under = HistGradientBoostingFraudModel(
+        class_weight=None,
+        categorical_features=cat_idx_under,
+        random_state=42
+    )
+    hgb_under.fit(X_tr_under, df_under['is_fraud'].values)
+    probs_under = hgb_under.predict_proba(X_val_under, calibration='none')
+    metrics_under = calculate_classification_metrics(y_val, probs_under, nominal_val)
+    dur_under = time.time() - t_start
+    results["HistGBM_RandomUnderSampler"] = metrics_under
+    logger.info(f"HistGBM (Random Under-Sampling 10:1): PR-AUC={metrics_under['pr_auc']:.4f}, "
+                f"Brier={metrics_under['brier_score']:.4f}, Total Cost=Rp {metrics_under['total_cost']:,.0f}")
+    
+    log_experiment(
+        experiment_id="CLF_EXP_05_RESAMPLE",
+        task="Classification",
+        model_name="HistGradientBoosting_RandomUnderSampler",
+        features_used=feat_names_under,
+        split_type="Temporal_JulAug2025",
+        hyperparameters={"resampling": "random_undersample_10_to_1", "class_weight": "none"},
+        metrics=metrics_under,
+        runtime_seconds=dur_under,
+        notes="Third imbalance strategy: random under-sampling of majority class"
+    )
+    
     # ---------------- 4. COST OPTIMIZATION ANALYSIS ----------------
     logger.info("Conducting empirical financial cost optimization and threshold sweep...")
     multipliers = [0.1, 0.2, 0.3, 0.5, 0.7, 0.8, 1.0, 1.2, 1.5, 2.0, 3.0, 5.0]
@@ -223,6 +267,61 @@ def run_classification_pipeline():
     results["breakdown_kanal"] = breakdown_kanal.to_dict(orient="records")
     results["breakdown_device"] = breakdown_device.to_dict(orient="records")
     
+    # Breakdown by Merchant Category (kategori_merchant)
+    breakdown_merchant = df_eval.groupby('kategori_merchant').agg(
+        n_trx=('is_fraud', 'count'),
+        n_fraud=('is_fraud', 'sum'),
+        fraud_rate=('is_fraud', 'mean'),
+        flagged_count=('tandai', 'sum'),
+        avg_nominal=('nominal', 'mean')
+    ).reset_index()
+    breakdown_merchant['fraud_caught'] = [
+        int(np.sum((df_eval['kategori_merchant'] == k) & (df_eval['tandai'] == 1) & (df_eval['is_fraud'] == 1)))
+        for k in breakdown_merchant['kategori_merchant']
+    ]
+    breakdown_merchant['recall'] = breakdown_merchant['fraud_caught'] / np.maximum(1, breakdown_merchant['n_fraud'])
+    breakdown_merchant = breakdown_merchant.sort_values('n_trx', ascending=False).reset_index(drop=True)
+    
+    results["breakdown_merchant"] = breakdown_merchant.to_dict(orient="records")
+    
+    # ---------------- 5b. PATTERN SHIFT ANALYSIS (fraud over time) ----------------
+    logger.info("Analyzing fraud pattern shift across months and validation-window drift...")
+    df_time = df_train.copy()
+    df_time['month'] = pd.to_datetime(df_time['waktu']).dt.strftime('%Y-%m')
+    monthly_stats = df_time.groupby('month').agg(
+        n_trx=('is_fraud', 'count'),
+        n_fraud=('is_fraud', 'sum'),
+        fraud_rate=('is_fraud', 'mean')
+    ).reset_index()
+    channel_share = pd.crosstab(df_time['month'], df_time['kanal'], normalize='index').round(4)
+    if 'kartu' in channel_share.columns:
+        monthly_stats['kartu_share'] = channel_share['kartu'].values
+    device_share = pd.crosstab(df_time['month'], df_time['tipe_perangkat'], normalize='index').round(4)
+    if 'android' in device_share.columns:
+        monthly_stats['android_share'] = device_share['android'].values
+    
+    # Model performance drift inside the validation window (July vs August 2025)
+    val_month = pd.to_datetime(df_val_split['waktu']).dt.month.values
+    monthly_pr_auc = {}
+    for mth in sorted(set(val_month)):
+        m_mask = val_month == mth
+        monthly_pr_auc[int(mth)] = {
+            "n_trx": int(m_mask.sum()),
+            "n_fraud": int(y_val[m_mask].sum()),
+            "pr_auc": float(average_precision_score(y_val[m_mask], probs_isotonic[m_mask])) if y_val[m_mask].sum() > 0 else None
+        }
+    logger.info(f"Monthly PR-AUC drift: {monthly_pr_auc}")
+    
+    results["pattern_shift"] = {
+        "monthly_fraud_stats": monthly_stats.to_dict(orient="records"),
+        "validation_window_monthly_pr_auc": monthly_pr_auc,
+        "adaptation": (
+            "Model dilatih dengan bobot kelas seimbang dan divalidasi secara temporal (Jan-Jun -> Jul-Agu); "
+            "probabilitas dikalibrasi ulang secara isotonic pada jendela validasi out-of-time sehingga "
+            "pergeseran pola fraud antar-bulan diserap oleh kalibrasi, bukan oleh overwrite fitur."
+        )
+    }
+    
     # ---------------- 6. GENERATE DIAGNOSTIC FIGURES ----------------
     logger.info("Generating publication-grade diagnostic figures for classification...")
     sns.set_theme(style="whitegrid", font_scale=1.1)
@@ -279,8 +378,8 @@ def run_classification_pipeline():
     save_figure(fig3, "fig_classification_cost_curve.png")
     
     # ---------------- 7. SERIALIZE METRICS ----------------
-    os.makedirs("/home/relyf/ML/ML-UTS/outputs/metrics", exist_ok=True)
-    metrics_path = "/home/relyf/ML/ML-UTS/outputs/metrics/classification_metrics.json"
+    os.makedirs(METRICS_DIR, exist_ok=True)
+    metrics_path = METRICS_DIR / "classification_metrics.json"
     with open(metrics_path, "w") as f:
         json.dump(results, f, indent=2)
     logger.info(f"Saved classification metrics to {metrics_path}")
@@ -323,8 +422,8 @@ def run_classification_pipeline():
     assert df_sub['prob'].isnull().sum() == 0, "Missing values in prob!"
     assert df_sub['tandai'].isnull().sum() == 0, "Missing values in tandai!"
     
-    sub_path = "/home/relyf/ML/ML-UTS/prediksi_klasifikasi.csv"
-    sub_path_out = "/home/relyf/ML/ML-UTS/outputs/predictions/prediksi_klasifikasi.csv"
+    sub_path = BASE_DIR / "prediksi_klasifikasi.csv"
+    sub_path_out = PREDICTIONS_DIR / "prediksi_klasifikasi.csv"
     os.makedirs(os.path.dirname(sub_path_out), exist_ok=True)
     df_sub.to_csv(sub_path, index=False)
     df_sub.to_csv(sub_path_out, index=False)

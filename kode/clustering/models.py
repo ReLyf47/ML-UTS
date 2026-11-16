@@ -1,6 +1,6 @@
 import numpy as np
 from typing import Dict, List, Tuple
-from sklearn.cluster import KMeans, HDBSCAN
+from sklearn.cluster import KMeans, HDBSCAN, AgglomerativeClustering
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score, adjusted_rand_score
 
@@ -60,6 +60,59 @@ class ClusterModelBenchmark:
         hdb = HDBSCAN(min_cluster_size=min_cluster_size, min_samples=min_samples, copy=False)
         labels = hdb.fit_predict(X)
         return labels
+
+    def evaluate_agglomerative_sweep(
+        self,
+        X: np.ndarray,
+        k_range: List[int],
+        sample_size: int = 5000
+    ) -> List[Dict]:
+        """Compare Ward hierarchical (agglomerative) clustering on a representative subsample.
+
+        Uses the same silhouette metric as K-Means so methods are comparable on equal footing.
+        """
+        results = []
+        np.random.seed(self.random_state)
+        idx = np.random.choice(len(X), size=min(sample_size, len(X)), replace=False)
+        X_sub = X[idx]
+
+        for k in k_range:
+            agg = AgglomerativeClustering(n_clusters=k, linkage='ward')
+            labels = agg.fit_predict(X_sub)
+            sil = float(silhouette_score(X_sub, labels))
+            results.append({"k": k, "silhouette": sil})
+
+        return results
+
+    def run_hdbscan_density_benchmark(
+        self,
+        X: np.ndarray,
+        sample_size: int = 5000,
+        min_cluster_size: int = 100,
+        min_samples: int = 30
+    ) -> Dict:
+        """Run HDBSCAN density-based clustering on a deterministic subsample.
+
+        HDBSCAN does not require choosing k: it discovers dense regions and marks
+        the remainder as noise (-1), which is exactly what an anomaly detector needs.
+        """
+        np.random.seed(self.random_state)
+        idx = np.random.choice(len(X), size=min(sample_size, len(X)), replace=False)
+        X_sub = X[idx]
+
+        hdb = HDBSCAN(min_cluster_size=min_cluster_size, min_samples=min_samples, copy=False)
+        labels = hdb.fit_predict(X_sub)
+
+        n_clusters = int(len(set(labels)) - (1 if -1 in labels else 0))
+        noise_points = int((labels == -1).sum())
+        return {
+            "sample_size": int(len(X_sub)),
+            "n_clusters_found": n_clusters,
+            "noise_points": noise_points,
+            "noise_ratio": float(noise_points / len(labels)),
+            "min_cluster_size": min_cluster_size,
+            "min_samples": min_samples,
+        }
 
     def evaluate_stability(self, X: np.ndarray, optimal_k: int, n_bootstraps: int = 5, subsample_ratio: float = 0.8) -> Dict:
         """Subsampling bootstrap stability analysis computing pairwise Adjusted Rand Index (ARI)."""

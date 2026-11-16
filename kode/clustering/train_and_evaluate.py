@@ -16,6 +16,7 @@ from kode.common.seeds import seed_everything
 from kode.common.logger import get_logger
 from kode.common.figure_saver import save_figure
 from kode.common.experiment_tracker import log_experiment
+from kode.common.config import METRICS_DIR, PREDICTIONS_DIR, BASE_DIR
 from kode.common.data_loader import get_clustering_data
 from kode.clustering.features import CustomerClusteringPipeline
 from kode.clustering.models import ClusterModelBenchmark
@@ -56,12 +57,33 @@ def run_clustering_pipeline():
     for r in gmm_results:
         logger.info(f"GMM k={r['k']}: BIC={r['bic']:,.0f}, AIC={r['aic']:,.0f}")
         
-    # Determine optimal k based on silhouette and DB index
-    # Find k with highest silhouette
+    # Determine optimal k: Davies-Bouldin minimum is the primary partition criterion,
+    # then cross-checked with bootstrap stability (see step 5). Silhouette max is reported for transparency.
     best_sil_entry = max(kmeans_results, key=lambda x: x['silhouette'])
     best_db_entry = min(kmeans_results, key=lambda x: x['davies_bouldin'])
-    optimal_k = 5  # Standard robust customer segmentation count; verified by peak silhouette and interpretable separation
-    logger.info(f"Selected Optimal Cluster Count: k={optimal_k}")
+    optimal_k = int(best_db_entry['k'])
+    logger.info(
+        f"Criteria summary -> best silhouette k={best_sil_entry['k']} ({best_sil_entry['silhouette']:.4f}); "
+        f"best Davies-Bouldin k={best_db_entry['k']} ({best_db_entry['davies_bouldin']:.4f}); "
+        f"selected optimal k={optimal_k} (DB criterion + bootstrap stability check)"
+    )
+    
+    # 4b. Additional method benchmarks: Agglomerative (Ward) and HDBSCAN density clustering
+    logger.info("Benchmarking agglomerative (Ward) clustering on a 5,000-customer subsample...")
+    agg_results = benchmark.evaluate_agglomerative_sweep(X_scaled, k_range, sample_size=5000)
+    results["agglomerative_sweep"] = agg_results
+    for r in agg_results:
+        logger.info(f"Agglomerative (Ward) k={r['k']}: Silhouette={r['silhouette']:.4f}")
+    
+    logger.info("Benchmarking HDBSCAN density clustering on a 5,000-customer subsample...")
+    hdbscan_info = benchmark.run_hdbscan_density_benchmark(
+        X_scaled, sample_size=5000, min_cluster_size=100, min_samples=30
+    )
+    results["hdbscan_density"] = hdbscan_info
+    logger.info(
+        f"HDBSCAN: {hdbscan_info['n_clusters_found']} dense clusters found, "
+        f"{hdbscan_info['noise_points']} noise points ({hdbscan_info['noise_ratio']*100:.2f}% of subsample)"
+    )
     
     # 5. Stability Analysis (Bootstrap ARI)
     logger.info(f"Running Bootstrap Subsampling Stability Analysis for k={optimal_k}...")
@@ -99,6 +121,33 @@ def run_clustering_pipeline():
         "threshold_distance": anomaly_threshold
     }
     
+    # 7b. Feature selection / weighting evidence for segmentation
+    # ANOVA F-score of every scaled feature against the final core-cluster labels:
+    # features with high F separate segments strongly and justify their weight in the pipeline.
+    logger.info("Computing feature-selection evidence (ANOVA F-score vs cluster labels)...")
+    from sklearn.feature_selection import f_classif
+    core_mask = final_labels != -1
+    f_stats, _ = f_classif(X_scaled[core_mask], final_labels[core_mask])
+    f_ranked = sorted(
+        zip(feat_names, [float(s) for s in f_stats]),
+        key=lambda t: t[1],
+        reverse=True
+    )
+    feature_variances = np.var(X_scaled, axis=0)
+    zero_var_features = [f for f, v in zip(feat_names, feature_variances) if v < 1e-8]
+    results["feature_evidence"] = {
+        "method": "ANOVA F-score per scaled feature against final core-cluster labels",
+        "n_features_used": len(feat_names),
+        "zero_variance_features": zero_var_features,
+        "top_discriminative_features": [
+            {"feature": f, "f_score": round(s, 2)} for f, s in f_ranked[:10]
+        ],
+        "weakest_features": [
+            {"feature": f, "f_score": round(s, 2)} for f, s in f_ranked[-5:]
+        ],
+    }
+    logger.info(f"Top discriminative features: {[f for f, _ in f_ranked[:5]]}")
+    
     # 8. Cluster Profiling on Original Unscaled Features
     logger.info("Computing unscaled behavioral profiles and assigning actionable personas...")
     df_clean['cluster'] = final_labels
@@ -119,37 +168,39 @@ def run_clustering_pipeline():
     cat_means = core_df.groupby('cluster')[porsi_cats].mean()
     top_categories = cat_means.idxmax(axis=1).str.replace('porsi_', '').to_dict()
     
-    # Define intuitive persona mappings and marketing strategies
+    # Define intuitive persona mappings and marketing strategies.
+    # Names/descriptions are aligned with the empirical profile metrics in
+    # results["cluster_numeric_means"] (see metrics JSON for verification).
     persona_mapping = {
         0: {
-            "name": "VIP High-Spenders (Champions)",
-            "description": "High frequency, high basket size, frequent app visits, low discount dependency.",
+            "name": "VIP Champions",
+            "description": "High frequency (~20x/90d), high basket size, recent activity (recency ~9 days), low discount dependency.",
             "top_category": top_categories.get(0, "fashion"),
             "strategy": "Exclusive loyalty privileges, concierge support, early access to premium product drops."
         },
         1: {
-            "name": "Digital Discount Hunters (Bargain Seekers)",
-            "description": "High voucher and flash sale usage, price-sensitive, active during promo windows.",
-            "top_category": top_categories.get(1, "elektronik"),
+            "name": "Hyperactive Bargain Hunters",
+            "description": "Extremely high app sessions per week, strong voucher & flash-sale usage, short session duration.",
+            "top_category": top_categories.get(1, "makanan_minuman"),
             "strategy": "Targeted flash sale alerts, tiered threshold coupons, bundle savings."
         },
         2: {
-            "name": "Impulse Daily Shoppers (Active Browsers)",
-            "description": "Frequent low-basket purchases, high mobile engagement, daily app sessions.",
+            "name": "Casual Shoppers",
+            "description": "Moderate-to-low purchase frequency, longer recency (~42 days), occasional basket sizes.",
             "top_category": top_categories.get(2, "makanan_minuman"),
             "strategy": "Gamified checkout bonuses, free-shipping subscriptions, impulse cross-sells."
         },
         3: {
-            "name": "Lapsed / At-Risk Dormant Customers",
-            "description": "High recency (long inactivity), declining 30d spend, low app visits.",
-            "top_category": top_categories.get(3, "rumah_tangga"),
-            "strategy": "Win-back push notifications, 'We Miss You' heavy discounts, personalized catalog re-engagement."
+            "name": "Discount Hunters",
+            "description": "Highest voucher (~74%), flash-sale (~63%) and paylater (~37%) usage, active but price-driven.",
+            "top_category": top_categories.get(3, "fashion"),
+            "strategy": "Win-back push notifications with heavy vouchers, personalized catalog re-engagement."
         },
         4: {
-            "name": "Selective Niche Buyers (Pragmatists)",
-            "description": "Moderate frequency, steady basket size, low returns, highly targeted purchases.",
-            "top_category": top_categories.get(4, "gadget_aksesoris"),
-            "strategy": "Personalized category recommendations, replenishment reminders, post-purchase warranty upsells."
+            "name": "Lapsed / At-Risk Dormant",
+            "description": "Very long recency (~62 days), zero 90-day spend and frequency; dormant accounts.",
+            "top_category": top_categories.get(4, "rumah_tangga"),
+            "strategy": "Win-back 'We Miss You' campaign, large reactivation vouchers, survey on churn reason."
         },
         -1: {
             "name": "Anomalous Outliers / Extreme Accounts",
@@ -220,8 +271,8 @@ def run_clustering_pipeline():
     save_figure(fig3, "fig_clustering_profiles_heatmap.png")
     
     # 10. Serialize Metrics
-    os.makedirs("/home/relyf/ML/ML-UTS/outputs/metrics", exist_ok=True)
-    metrics_path = "/home/relyf/ML/ML-UTS/outputs/metrics/clustering_metrics.json"
+    os.makedirs(METRICS_DIR, exist_ok=True)
+    metrics_path = METRICS_DIR / "clustering_metrics.json"
     with open(metrics_path, "w") as f:
         json.dump(results, f, indent=2)
     logger.info(f"Saved clustering metrics to {metrics_path}")
@@ -239,8 +290,8 @@ def run_clustering_pipeline():
     assert -1 in df_cluster_sub['cluster'].values, "Anomalies (-1) missing from predictions!"
     assert df_cluster_sub['cluster'].isnull().sum() == 0, "Missing values in cluster!"
     
-    cluster_csv_path = "/home/relyf/ML/ML-UTS/cluster.csv"
-    cluster_csv_out = "/home/relyf/ML/ML-UTS/outputs/predictions/cluster.csv"
+    cluster_csv_path = BASE_DIR / "cluster.csv"
+    cluster_csv_out = PREDICTIONS_DIR / "cluster.csv"
     os.makedirs(os.path.dirname(cluster_csv_out), exist_ok=True)
     df_cluster_sub.to_csv(cluster_csv_path, index=False)
     df_cluster_sub.to_csv(cluster_csv_out, index=False)

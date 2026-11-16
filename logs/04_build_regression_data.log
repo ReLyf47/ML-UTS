@@ -20,3 +20,14 @@
 [2026-11-10 13:57:41] [INFO] [04_build_regression_data]: ✓ Saved regression val: validation.parquet (34,168 rows, 86 cols)
 [2026-11-10 13:57:41] [INFO] [04_build_regression_data]: ✓ Saved regression test: test.parquet (60,000 rows, 85 cols)
 [2026-11-10 13:57:41] [INFO] [04_build_regression_data]: Phase 4: Regression Feature Engineering completed.
+[2026-11-16 11:22:03] [INFO] [04_build_regression_data]: Starting Phase 4: Regression Feature Engineering & Splitting...
+[2026-11-16 11:22:03] [INFO] [04_build_regression_data]: Loaded cleaned_regresi_train: 250,000 rows
+[2026-11-16 11:22:03] [INFO] [04_build_regression_data]: Loaded cleaned_regresi_test: 60,000 rows
+[2026-11-16 11:22:03] [INFO] [04_build_regression_data]: Chronological split sizes: Train=215,832 (Jan-Jul 2025), Val=34,168 (Aug 2025), Test=60,000 (Sep-Oct 2025)
+[2026-11-16 11:22:03] [INFO] [04_build_regression_data]: Fitting categorical mappings and target encodings on Train split...
+[2026-11-16 11:22:03] [INFO] [04_build_regression_data]: Transforming train, validation, and test partitions...
+[2026-11-16 11:22:05] [INFO] [04_build_regression_data]: ✓ Verified complete exclusion of fatal leakage feature 'jumlah_scan'.
+[2026-11-16 11:22:07] [INFO] [04_build_regression_data]: ✓ Saved regression train: train.parquet (215,832 rows, 86 cols)
+[2026-11-16 11:22:07] [INFO] [04_build_regression_data]: ✓ Saved regression val: validation.parquet (34,168 rows, 86 cols)
+[2026-11-16 11:22:07] [INFO] [04_build_regression_data]: ✓ Saved regression test: test.parquet (60,000 rows, 85 cols)
+[2026-11-16 11:22:07] [INFO] [04_build_regression_data]: Phase 4: Regression Feature Engineering completed.

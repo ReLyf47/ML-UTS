@@ -1,9 +1,9 @@
 {
-  "created_at": "2026-11-10T13:56:13.060358",
+  "created_at": "2026-11-16T11:21:32.775438",
   "files": {
     "regresi_train": {
       "original_filename": "regresi_train.csv",
-      "original_path": "/home/relyf/ML/ML-UTS/data/raw/regresi_train.csv",
+      "original_path": "C:\\Punya Alif\\ML-UTS\\data\\raw\\regresi_train.csv",
       "format": "csv",
       "file_size_bytes": 104187636,
       "file_size_mb": 99.36,
@@ -33,12 +33,12 @@
       },
       "extraction_destination": "data/interim/extracted/",
       "processing_status": "extracted_and_normalized",
-      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/regresi_train.csv",
-      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/regresi_train.parquet"
+      "extracted_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\extracted\\regresi_train.csv",
+      "normalized_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\normalized\\regresi_train.parquet"
     },
     "regresi_test": {
       "original_filename": "regresi_test.csv",
-      "original_path": "/home/relyf/ML/ML-UTS/data/raw/regresi_test.csv",
+      "original_path": "C:\\Punya Alif\\ML-UTS\\data\\raw\\regresi_test.csv",
       "format": "csv",
       "file_size_bytes": 24686690,
       "file_size_mb": 23.54,
@@ -58,12 +58,12 @@
       "target_summary": null,
       "extraction_destination": "data/interim/extracted/",
       "processing_status": "extracted_and_normalized",
-      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/regresi_test.csv",
-      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/regresi_test.parquet"
+      "extracted_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\extracted\\regresi_test.csv",
+      "normalized_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\normalized\\regresi_test.parquet"
     },
     "klasifikasi_train": {
       "original_filename": "klasifikasi_train.csv",
-      "original_path": "/home/relyf/ML/ML-UTS/data/raw/klasifikasi_train.csv",
+      "original_path": "C:\\Punya Alif\\ML-UTS\\data\\raw\\klasifikasi_train.csv",
       "format": "csv",
       "file_size_bytes": 194420663,
       "file_size_mb": 185.41,
@@ -89,12 +89,12 @@
       },
       "extraction_destination": "data/interim/extracted/",
       "processing_status": "extracted_and_normalized",
-      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/klasifikasi_train.csv",
-      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/klasifikasi_train.parquet"
+      "extracted_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\extracted\\klasifikasi_train.csv",
+      "normalized_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\normalized\\klasifikasi_train.parquet"
     },
     "klasifikasi_test": {
       "original_filename": "klasifikasi_test.csv",
-      "original_path": "/home/relyf/ML/ML-UTS/data/raw/klasifikasi_test.csv",
+      "original_path": "C:\\Punya Alif\\ML-UTS\\data\\raw\\klasifikasi_test.csv",
       "format": "csv",
       "file_size_bytes": 51429501,
       "file_size_mb": 49.05,
@@ -114,12 +114,12 @@
       "target_summary": null,
       "extraction_destination": "data/interim/extracted/",
       "processing_status": "extracted_and_normalized",
-      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/klasifikasi_test.csv",
-      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/klasifikasi_test.parquet"
+      "extracted_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\extracted\\klasifikasi_test.csv",
+      "normalized_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\normalized\\klasifikasi_test.parquet"
     },
     "clustering": {
       "original_filename": "clustering.csv",
-      "original_path": "/home/relyf/ML/ML-UTS/data/raw/clustering.csv",
+      "original_path": "C:\\Punya Alif\\ML-UTS\\data\\raw\\clustering.csv",
       "format": "csv",
       "file_size_bytes": 41182387,
       "file_size_mb": 39.27,
@@ -136,8 +136,8 @@
       "target_summary": null,
       "extraction_destination": "data/interim/extracted/",
       "processing_status": "extracted_and_normalized",
-      "extracted_path": "/home/relyf/ML/ML-UTS/data/interim/extracted/clustering.csv",
-      "normalized_path": "/home/relyf/ML/ML-UTS/data/interim/normalized/clustering.parquet"
+      "extracted_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\extracted\\clustering.csv",
+      "normalized_path": "C:\\Punya Alif\\ML-UTS\\data\\interim\\normalized\\clustering.parquet"
     }
   }
 }

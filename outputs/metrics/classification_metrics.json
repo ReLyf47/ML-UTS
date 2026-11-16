@@ -2,7 +2,7 @@
   "Baseline_Logistic_Regression": {
     "pr_auc": 0.4003877834095099,
     "roc_auc": 0.933200841560503,
-    "brier_score": 0.08366382858217582,
+    "brier_score": 0.08366382858678446,
     "flagged_count": 41622,
     "flagged_rate": 0.3955035253425569,
     "caught_fraud_count": 505,
@@ -16,20 +16,20 @@
     "savings_vs_flag_nothing": -446881900.0
   },
   "HistGBM_Unweighted": {
-    "pr_auc": 0.48465022705768795,
-    "roc_auc": 0.9299055954537574,
-    "brier_score": 0.003958991763792842,
-    "flagged_count": 987,
-    "flagged_rate": 0.009378741519223095,
+    "pr_auc": 0.4867693243619597,
+    "roc_auc": 0.930524337185659,
+    "brier_score": 0.00394585238135637,
+    "flagged_count": 966,
+    "flagged_rate": 0.00917919382732473,
     "caught_fraud_count": 338,
     "missed_fraud_count": 248,
     "fraud_recall": 0.5767918088737202,
-    "review_cost": 24675000.0,
-    "missed_fraud_cost": 158033400.0,
-    "total_cost": 182708400.0,
+    "review_cost": 24150000.0,
+    "missed_fraud_cost": 157273400.0,
+    "total_cost": 181423400.0,
     "cost_flag_nothing": 597604200.0,
     "cost_flag_everything": 2630950000.0,
-    "savings_vs_flag_nothing": 414895800.0
+    "savings_vs_flag_nothing": 416180800.0
   },
   "HistGBM_Balanced_Raw": {
     "pr_auc": 0.48878936705957365,
@@ -94,6 +94,22 @@
     "cost_flag_nothing": 597604200.0,
     "cost_flag_everything": 2630950000.0,
     "savings_vs_flag_nothing": 528657500.0
+  },
+  "HistGBM_RandomUnderSampler": {
+    "pr_auc": 0.4980693782406333,
+    "roc_auc": 0.9556443138898574,
+    "brier_score": 0.006245600553290912,
+    "flagged_count": 5453,
+    "flagged_rate": 0.05181588399627511,
+    "caught_fraud_count": 427,
+    "missed_fraud_count": 159,
+    "fraud_recall": 0.7286689419795221,
+    "review_cost": 136325000.0,
+    "missed_fraud_cost": 82125000.0,
+    "total_cost": 218450000.0,
+    "cost_flag_nothing": 597604200.0,
+    "cost_flag_everything": 2630950000.0,
+    "savings_vs_flag_nothing": 379154200.0
   },
   "cost_sweep": [
     {
@@ -292,5 +308,328 @@
       "fraud_rate": 0.0055832739368020905,
       "flagged_count": 107
     }
-  ]
+  ],
+  "breakdown_merchant": [
+    {
+      "kategori_merchant": "makanan_minuman",
+      "n_trx": 15488,
+      "n_fraud": 27,
+      "fraud_rate": 0.0017432851239669422,
+      "flagged_count": 25,
+      "avg_nominal": 71477.84736570247,
+      "fraud_caught": 20,
+      "recall": 0.7407407407407407
+    },
+    {
+      "kategori_merchant": "elektronik",
+      "n_trx": 11157,
+      "n_fraud": 74,
+      "fraud_rate": 0.0066326073317199965,
+      "flagged_count": 362,
+      "avg_nominal": 739123.1065698664,
+      "fraud_caught": 54,
+      "recall": 0.7297297297297297
+    },
+    {
+      "kategori_merchant": "pulsa_data",
+      "n_trx": 10139,
+      "n_fraud": 55,
+      "fraud_rate": 0.005424598086596311,
+      "flagged_count": 29,
+      "avg_nominal": 70154.12762599862,
+      "fraud_caught": 18,
+      "recall": 0.32727272727272727
+    },
+    {
+      "kategori_merchant": "toko_online",
+      "n_trx": 8433,
+      "n_fraud": 80,
+      "fraud_rate": 0.009486540969998814,
+      "flagged_count": 49,
+      "avg_nominal": 192179.7818095577,
+      "fraud_caught": 23,
+      "recall": 0.2875
+    },
+    {
+      "kategori_merchant": "fashion",
+      "n_trx": 7126,
+      "n_fraud": 28,
+      "fraud_rate": 0.003929273084479371,
+      "flagged_count": 192,
+      "avg_nominal": 223408.61633454953,
+      "fraud_caught": 13,
+      "recall": 0.4642857142857143
+    },
+    {
+      "kategori_merchant": "top_up_ewallet",
+      "n_trx": 5431,
+      "n_fraud": 54,
+      "fraud_rate": 0.009942920272509667,
+      "flagged_count": 92,
+      "avg_nominal": 191219.941078991,
+      "fraud_caught": 49,
+      "recall": 0.9074074074074074
+    },
+    {
+      "kategori_merchant": "voucher_game",
+      "n_trx": 4807,
+      "n_fraud": 78,
+      "fraud_rate": 0.016226336592469314,
+      "flagged_count": 91,
+      "avg_nominal": 115389.4528812149,
+      "fraud_caught": 57,
+      "recall": 0.7307692307692307
+    },
+    {
+      "kategori_merchant": "kecantikan",
+      "n_trx": 4496,
+      "n_fraud": 20,
+      "fraud_rate": 0.004448398576512456,
+      "flagged_count": 76,
+      "avg_nominal": 147566.61476868327,
+      "fraud_caught": 5,
+      "recall": 0.25
+    },
+    {
+      "kategori_merchant": "gadget",
+      "n_trx": 4356,
+      "n_fraud": 57,
+      "fraud_rate": 0.013085399449035813,
+      "flagged_count": 270,
+      "avg_nominal": 587356.5426997246,
+      "fraud_caught": 48,
+      "recall": 0.8421052631578947
+    },
+    {
+      "kategori_merchant": "rumah_tangga",
+      "n_trx": 4064,
+      "n_fraud": 9,
+      "fraud_rate": 0.0022145669291338582,
+      "flagged_count": 7,
+      "avg_nominal": 186086.46653543308,
+      "fraud_caught": 4,
+      "recall": 0.4444444444444444
+    },
+    {
+      "kategori_merchant": "tagihan_listrik",
+      "n_trx": 3820,
+      "n_fraud": 5,
+      "fraud_rate": 0.0013089005235602095,
+      "flagged_count": 5,
+      "avg_nominal": 271808.66492146597,
+      "fraud_caught": 4,
+      "recall": 0.8
+    },
+    {
+      "kategori_merchant": "hotel",
+      "n_trx": 3719,
+      "n_fraud": 8,
+      "fraud_rate": 0.0021511158913686476,
+      "flagged_count": 7,
+      "avg_nominal": 743736.1118580264,
+      "fraud_caught": 5,
+      "recall": 0.625
+    },
+    {
+      "kategori_merchant": "kesehatan",
+      "n_trx": 3489,
+      "n_fraud": 5,
+      "fraud_rate": 0.0014330753797649756,
+      "flagged_count": 6,
+      "avg_nominal": 152498.33763255947,
+      "fraud_caught": 5,
+      "recall": 1.0
+    },
+    {
+      "kategori_merchant": "tiket_perjalanan",
+      "n_trx": 2846,
+      "n_fraud": 5,
+      "fraud_rate": 0.0017568517217146872,
+      "flagged_count": 4,
+      "avg_nominal": 925009.6626844695,
+      "fraud_caught": 2,
+      "recall": 0.4
+    },
+    {
+      "kategori_merchant": "jasa_lainnya",
+      "n_trx": 2478,
+      "n_fraud": 41,
+      "fraud_rate": 0.016545601291364002,
+      "flagged_count": 10,
+      "avg_nominal": 315321.18644067796,
+      "fraud_caught": 8,
+      "recall": 0.1951219512195122
+    },
+    {
+      "kategori_merchant": "ibu_bayi",
+      "n_trx": 2394,
+      "n_fraud": 1,
+      "fraud_rate": 0.0004177109440267335,
+      "flagged_count": 0,
+      "avg_nominal": 187250.1670843776,
+      "fraud_caught": 0,
+      "recall": 0.0
+    },
+    {
+      "kategori_merchant": "otomotif",
+      "n_trx": 2319,
+      "n_fraud": 3,
+      "fraud_rate": 0.00129366106080207,
+      "flagged_count": 5,
+      "avg_nominal": 360110.6080206986,
+      "fraud_caught": 2,
+      "recall": 0.6666666666666666
+    },
+    {
+      "kategori_merchant": "emas",
+      "n_trx": 1645,
+      "n_fraud": 28,
+      "fraud_rate": 0.01702127659574468,
+      "flagged_count": 62,
+      "avg_nominal": 1225765.8358662615,
+      "fraud_caught": 25,
+      "recall": 0.8928571428571429
+    },
+    {
+      "kategori_merchant": "hobi",
+      "n_trx": 1444,
+      "n_fraud": 0,
+      "fraud_rate": 0.0,
+      "flagged_count": 1,
+      "avg_nominal": 226634.3490304709,
+      "fraud_caught": 0,
+      "recall": 0.0
+    },
+    {
+      "kategori_merchant": "olahraga",
+      "n_trx": 1399,
+      "n_fraud": 2,
+      "fraud_rate": 0.0014295925661186562,
+      "flagged_count": 2,
+      "avg_nominal": 288810.07862759114,
+      "fraud_caught": 1,
+      "recall": 0.5
+    },
+    {
+      "kategori_merchant": "donasi",
+      "n_trx": 1379,
+      "n_fraud": 0,
+      "fraud_rate": 0.0,
+      "flagged_count": 1,
+      "avg_nominal": 97255.18491660623,
+      "fraud_caught": 0,
+      "recall": 0.0
+    },
+    {
+      "kategori_merchant": "tagihan_air",
+      "n_trx": 1273,
+      "n_fraud": 2,
+      "fraud_rate": 0.0015710919088766694,
+      "flagged_count": 2,
+      "avg_nominal": 156849.01806755696,
+      "fraud_caught": 2,
+      "recall": 1.0
+    },
+    {
+      "kategori_merchant": "asuransi",
+      "n_trx": 817,
+      "n_fraud": 0,
+      "fraud_rate": 0.0,
+      "flagged_count": 0,
+      "avg_nominal": 387652.876376989,
+      "fraud_caught": 0,
+      "recall": 0.0
+    },
+    {
+      "kategori_merchant": "pendidikan",
+      "n_trx": 719,
+      "n_fraud": 4,
+      "fraud_rate": 0.005563282336578581,
+      "flagged_count": 2,
+      "avg_nominal": 531709.8748261475,
+      "fraud_caught": 1,
+      "recall": 0.25
+    }
+  ],
+  "pattern_shift": {
+    "monthly_fraud_stats": [
+      {
+        "month": "2025-01",
+        "n_trx": 50432,
+        "n_fraud": 327,
+        "fraud_rate": 0.006483978426395939,
+        "kartu_share": 0.1224,
+        "android_share": 0.7206
+      },
+      {
+        "month": "2025-02",
+        "n_trx": 46240,
+        "n_fraud": 301,
+        "fraud_rate": 0.006509515570934256,
+        "kartu_share": 0.1208,
+        "android_share": 0.7205
+      },
+      {
+        "month": "2025-03",
+        "n_trx": 51048,
+        "n_fraud": 387,
+        "fraud_rate": 0.007581100141043724,
+        "kartu_share": 0.1231,
+        "android_share": 0.7231
+      },
+      {
+        "month": "2025-04",
+        "n_trx": 47413,
+        "n_fraud": 355,
+        "fraud_rate": 0.007487397971020606,
+        "kartu_share": 0.1231,
+        "android_share": 0.7204
+      },
+      {
+        "month": "2025-05",
+        "n_trx": 52331,
+        "n_fraud": 367,
+        "fraud_rate": 0.00701305153732969,
+        "kartu_share": 0.1241,
+        "android_share": 0.7222
+      },
+      {
+        "month": "2025-06",
+        "n_trx": 50375,
+        "n_fraud": 299,
+        "fraud_rate": 0.005935483870967742,
+        "kartu_share": 0.1218,
+        "android_share": 0.7176
+      },
+      {
+        "month": "2025-07",
+        "n_trx": 52334,
+        "n_fraud": 341,
+        "fraud_rate": 0.0065158405625406045,
+        "kartu_share": 0.125,
+        "android_share": 0.7198
+      },
+      {
+        "month": "2025-08",
+        "n_trx": 52904,
+        "n_fraud": 245,
+        "fraud_rate": 0.004631029789807954,
+        "kartu_share": 0.1222,
+        "android_share": 0.7222
+      }
+    ],
+    "validation_window_monthly_pr_auc": {
+      "7": {
+        "n_trx": 52334,
+        "n_fraud": 341,
+        "pr_auc": 0.7335539251751484
+      },
+      "8": {
+        "n_trx": 52904,
+        "n_fraud": 245,
+        "pr_auc": 0.2672503090760595
+      }
+    },
+    "adaptation": "Model dilatih dengan bobot kelas seimbang dan divalidasi secara temporal (Jan-Jun -> Jul-Agu); probabilitas dikalibrasi ulang secara isotonic pada jendela validasi out-of-time sehingga pergeseran pola fraud antar-bulan diserap oleh kalibrasi, bukan oleh overwrite fitur."
+  }
 }

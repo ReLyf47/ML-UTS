@@ -14,3 +14,11 @@
 [2026-11-10 13:57:59] [INFO] [06_build_clustering_data]: ✓ Saved scaled features: customer_features_scaled.parquet (120,000 rows, 58 cols)
 [2026-11-10 13:57:59] [INFO] [06_build_clustering_data]: ✓ Saved customer IDs: customer_ids.parquet (120,000 rows)
 [2026-11-10 13:57:59] [INFO] [06_build_clustering_data]: Phase 6: Customer Clustering Feature Engineering completed.
+[2026-11-16 11:22:13] [INFO] [06_build_clustering_data]: Starting Phase 6: Customer Clustering Feature Engineering...
+[2026-11-16 11:22:13] [INFO] [06_build_clustering_data]: Loaded cleaned_clustering: 120,000 rows, 60 cols
+[2026-11-16 11:22:13] [INFO] [06_build_clustering_data]: ✓ Verified strict uniqueness for all 120,000 customer IDs.
+[2026-11-16 11:22:14] [INFO] [06_build_clustering_data]: Fitting StandardScaler on 120,000 customer profiles across 58 features...
+[2026-11-16 11:22:15] [INFO] [06_build_clustering_data]: ✓ Saved unscaled features: customer_features.parquet (120,000 rows, 58 cols)
+[2026-11-16 11:22:15] [INFO] [06_build_clustering_data]: ✓ Saved scaled features: customer_features_scaled.parquet (120,000 rows, 58 cols)
+[2026-11-16 11:22:15] [INFO] [06_build_clustering_data]: ✓ Saved customer IDs: customer_ids.parquet (120,000 rows)
+[2026-11-16 11:22:15] [INFO] [06_build_clustering_data]: Phase 6: Customer Clustering Feature Engineering completed.

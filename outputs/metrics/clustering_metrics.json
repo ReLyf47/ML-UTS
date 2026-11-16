@@ -2,79 +2,113 @@
   "kmeans_sweep": [
     {
       "k": 3,
-      "inertia": 6203559.035012529,
+      "inertia": 6203559.035012549,
       "silhouette": 0.06631009067016332,
       "davies_bouldin": 3.282080101782722,
       "calinski_harabasz": 7316.02130649699
     },
     {
       "k": 4,
-      "inertia": 6019357.794661899,
+      "inertia": 6019357.794661895,
       "silhouette": 0.05915164050027281,
       "davies_bouldin": 3.444881124925136,
       "calinski_harabasz": 6250.58959353907
     },
     {
       "k": 5,
-      "inertia": 5717107.032105001,
-      "silhouette": 0.06474353120036813,
+      "inertia": 5717107.032104978,
+      "silhouette": 0.06474353120036812,
       "davies_bouldin": 2.9176607381843267,
       "calinski_harabasz": 6521.7117273621425
     },
     {
       "k": 6,
-      "inertia": 5591302.777974185,
+      "inertia": 5591302.777974168,
       "silhouette": 0.06270093791141641,
       "davies_bouldin": 3.038817851286751,
       "calinski_harabasz": 5874.676473295419
     },
     {
       "k": 7,
-      "inertia": 5495940.5292420685,
-      "silhouette": 0.06424749432660372,
+      "inertia": 5495940.529242056,
+      "silhouette": 0.0642474943266037,
       "davies_bouldin": 2.987127576625066,
       "calinski_harabasz": 5327.475222939454
     },
     {
       "k": 8,
-      "inertia": 5422565.117832643,
+      "inertia": 5422565.117832642,
       "silhouette": 0.06008699986720786,
       "davies_bouldin": 3.0586703527439134,
-      "calinski_harabasz": 4860.113785224847
+      "calinski_harabasz": 4860.113785224848
     }
   ],
   "gmm_sweep": [
     {
       "k": 3,
-      "bic": 3441590.3459697934,
-      "aic": 3438746.025083446
+      "bic": 3441590.3459844184,
+      "aic": 3438746.025098071
     },
     {
       "k": 4,
-      "bic": 3080618.3351717754,
-      "aic": 3076823.1984462775
+      "bic": 3080618.335176258,
+      "aic": 3076823.19845076
     },
     {
       "k": 5,
-      "bic": 2984072.883081241,
-      "aic": 2979326.930516592
+      "bic": 2984072.8830977585,
+      "aic": 2979326.9305331097
     },
     {
       "k": 6,
-      "bic": 2448536.2034625947,
-      "aic": 2442839.4350587954
+      "bic": 2448536.2035017633,
+      "aic": 2442839.435097964
     },
     {
       "k": 7,
-      "bic": 2435726.166851049,
-      "aic": 2429078.582608099
+      "bic": 2435726.1668147203,
+      "aic": 2429078.5825717705
     },
     {
       "k": 8,
-      "bic": 2907328.7175690513,
-      "aic": 2899730.317486951
+      "bic": 2907328.7175806398,
+      "aic": 2899730.3174985396
     }
   ],
+  "agglomerative_sweep": [
+    {
+      "k": 3,
+      "silhouette": 0.21728413517257167
+    },
+    {
+      "k": 4,
+      "silhouette": 0.03850533067172494
+    },
+    {
+      "k": 5,
+      "silhouette": 0.03605094309253497
+    },
+    {
+      "k": 6,
+      "silhouette": 0.03549872871200481
+    },
+    {
+      "k": 7,
+      "silhouette": 0.036226018260856904
+    },
+    {
+      "k": 8,
+      "silhouette": 0.037539249033499714
+    }
+  ],
+  "hdbscan_density": {
+    "sample_size": 5000,
+    "n_clusters_found": 2,
+    "noise_points": 1133,
+    "noise_ratio": 0.2266,
+    "min_cluster_size": 100,
+    "min_samples": 30
+  },
   "stability": {
     "optimal_k": 5,
     "mean_ari": 0.8711062138148445,
@@ -95,38 +129,107 @@
   "anomaly_detection": {
     "n_anomalies": 1800,
     "anomaly_rate": 0.015,
-    "threshold_distance": 10.662722379639419
+    "threshold_distance": 10.662722379639417
+  },
+  "feature_evidence": {
+    "method": "ANOVA F-score per scaled feature against final core-cluster labels",
+    "n_features_used": 58,
+    "zero_variance_features": [],
+    "top_discriminative_features": [
+      {
+        "feature": "klik_iklan_30h",
+        "f_score": 496693.51
+      },
+      {
+        "feature": "log_rata2_keranjang",
+        "f_score": 384650.99
+      },
+      {
+        "feature": "log_belanja_90h",
+        "f_score": 257620.06
+      },
+      {
+        "feature": "log_belanja_30h",
+        "f_score": 204508.31
+      },
+      {
+        "feature": "sesi_per_minggu",
+        "f_score": 155118.96
+      },
+      {
+        "feature": "wishlist",
+        "f_score": 106625.33
+      },
+      {
+        "feature": "log_frekuensi_90h",
+        "f_score": 44106.17
+      },
+      {
+        "feature": "log_frekuensi_30h",
+        "f_score": 27098.89
+      },
+      {
+        "feature": "persen_flash_sale",
+        "f_score": 18776.55
+      },
+      {
+        "feature": "persen_voucher",
+        "f_score": 16174.8
+      }
+    ],
+    "weakest_features": [
+      {
+        "feature": "n02",
+        "f_score": 0.6
+      },
+      {
+        "feature": "kota_tier",
+        "f_score": 0.54
+      },
+      {
+        "feature": "n06",
+        "f_score": 0.49
+      },
+      {
+        "feature": "n01",
+        "f_score": 0.45
+      },
+      {
+        "feature": "rating_beri_rata2",
+        "f_score": 0.33
+      }
+    ]
   },
   "persona_profiles": {
     "0": {
-      "name": "VIP High-Spenders (Champions)",
-      "description": "High frequency, high basket size, frequent app visits, low discount dependency.",
+      "name": "VIP Champions",
+      "description": "High frequency (~20x/90d), high basket size, recent activity (recency ~9 days), low discount dependency.",
       "top_category": "makanan_minuman",
       "strategy": "Exclusive loyalty privileges, concierge support, early access to premium product drops."
     },
     "1": {
-      "name": "Digital Discount Hunters (Bargain Seekers)",
-      "description": "High voucher and flash sale usage, price-sensitive, active during promo windows.",
+      "name": "Hyperactive Bargain Hunters",
+      "description": "Extremely high app sessions per week, strong voucher & flash-sale usage, short session duration.",
       "top_category": "makanan_minuman",
       "strategy": "Targeted flash sale alerts, tiered threshold coupons, bundle savings."
     },
     "2": {
-      "name": "Impulse Daily Shoppers (Active Browsers)",
-      "description": "Frequent low-basket purchases, high mobile engagement, daily app sessions.",
+      "name": "Casual Shoppers",
+      "description": "Moderate-to-low purchase frequency, longer recency (~42 days), occasional basket sizes.",
       "top_category": "makanan_minuman",
       "strategy": "Gamified checkout bonuses, free-shipping subscriptions, impulse cross-sells."
     },
     "3": {
-      "name": "Lapsed / At-Risk Dormant Customers",
-      "description": "High recency (long inactivity), declining 30d spend, low app visits.",
+      "name": "Discount Hunters",
+      "description": "Highest voucher (~74%), flash-sale (~63%) and paylater (~37%) usage, active but price-driven.",
       "top_category": "fashion",
-      "strategy": "Win-back push notifications, 'We Miss You' heavy discounts, personalized catalog re-engagement."
+      "strategy": "Win-back push notifications with heavy vouchers, personalized catalog re-engagement."
     },
     "4": {
-      "name": "Selective Niche Buyers (Pragmatists)",
-      "description": "Moderate frequency, steady basket size, low returns, highly targeted purchases.",
+      "name": "Lapsed / At-Risk Dormant",
+      "description": "Very long recency (~62 days), zero 90-day spend and frequency; dormant accounts.",
       "top_category": "makanan_minuman",
-      "strategy": "Personalized category recommendations, replenishment reminders, post-purchase warranty upsells."
+      "strategy": "Win-back 'We Miss You' campaign, large reactivation vouchers, survey on churn reason."
     },
     "-1": {
       "name": "Anomalous Outliers / Extreme Accounts",

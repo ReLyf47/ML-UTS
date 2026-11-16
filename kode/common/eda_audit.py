@@ -1,10 +1,16 @@
 import os
+import sys
 import gzip
 import json
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
-DATA_DIR = "/home/relyf/ML/ML-UTS/data/raw"
+# Ensure project root is importable when run as a standalone script
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
+from kode.common.config import DATA_RAW_DIR
+
+DATA_DIR = str(DATA_RAW_DIR)
 
 def get_file_info(filepath):
     stat = os.stat(filepath)

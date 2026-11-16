@@ -1,8 +1,9 @@
 import os
 import matplotlib.pyplot as plt
 
-OUTPUT_FIGURES_DIR = "/home/relyf/ML/ML-UTS/outputs/figures"
-LAPORAN_FIGURES_DIR = "/home/relyf/ML/ML-UTS/laporan/figures"
+from kode.common.config import OUTPUTS_DIR, LAPORAN_FIGURES_DIR
+
+OUTPUT_FIGURES_DIR = OUTPUTS_DIR / "figures"
 
 def save_figure(fig, filename: str, dpi: int = 300, close_after: bool = True):
     """Save matplotlib figure to both outputs/figures/ and laporan/figures/."""
