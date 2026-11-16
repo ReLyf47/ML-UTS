@@ -116,7 +116,7 @@ ML-UTS/
 
 ```bash
 # Clone repositori
- git clone https://github.com/ReLyf47/ML-UTS.git
+git clone https://github.com/ReLyf47/ML-UTS.git
 cd ML-UTS
 
 # Buat dan aktifkan virtual environment Python
