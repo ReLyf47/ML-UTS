@@ -40,7 +40,7 @@ MANIFEST_DIR = BASE_DIR / "data" / "manifests"
 RAW_DIR = BASE_DIR / "data" / "raw"
 EXP_JSONL = BASE_DIR / "experiments" / "experiments.jsonl"
 FIGURES_DIR = BASE_DIR / "laporan" / "figures"
-PDF_PATH = BASE_DIR / "laporan" / "laporan.pdf"
+PDF_PATH = BASE_DIR / "laporan.pdf"
 
 for required in [
     METRICS_DIR / "regression_metrics.json",

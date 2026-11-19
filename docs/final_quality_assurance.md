@@ -22,7 +22,7 @@
 | **9** | **Every reported metric can be reproduced** | **PASSED** | All metrics logged deterministically into `outputs/metrics/` and `experiments/experiments.csv` using fixed random seed (`seed=42`).<br>Clustering: 5 core clusters, stability ARI 0.8711 ± 0.1414 (mean ± standard deviation of 10 pairwise ARIs from 5 subsampling runs without replacement). |
 | **10** | **README instructions work** | **PASSED** | Tested in virtual environment: `python kode/run_all.py` executes full end-to-end pipeline cleanly. |
 | **11** | **All required files exist** | **PASSED** | Verified existence of `prediksi_regresi.csv`, `prediksi_klasifikasi.csv`, `cluster.csv`, `kontribusi.md`, `requirements.txt`, `README.md`, and `laporan/`. |
-| **12** | **Report page constraint satisfied** | **PASSED** | Final academic report `laporan/laporan.pdf` adheres strictly to the $\le 18$ pages ceiling excluding appendices. |
+| **12** | **Report page constraint satisfied** | **PASSED** | Final academic report `laporan.pdf` adheres strictly to the $\le 18$ pages ceiling excluding appendices. |
 
 ---
 

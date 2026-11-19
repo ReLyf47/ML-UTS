@@ -103,9 +103,9 @@ ML-UTS/
 │
 ├── logs/                          # Log eksekusi untuk setiap langkah rekayasa data
 ├── laporan/
-│   ├── laporan.pdf                # Laporan teknis (dibangkitkan data-driven)
 │   ├── build_laporan_pdf.py       # Generator laporan dari metrics + prediksi
 │   └── figures/                   # Grafik yang dipakai laporan
+├── laporan.pdf                    # Laporan teknis (dibangkitkan data-driven)
 ├── requirements.txt               # Dependensi yang dibekukan
 └── README.md                      # Instruksi eksekusi pipeline
 ```
@@ -176,7 +176,7 @@ python kode/common/validate_submissions.py
 
 ### 5. Menghasilkan Ulang Laporan (data-driven)
 
-Seluruh angka pada `laporan/laporan.pdf` dibangkitkan dari artefak pipeline (`outputs/metrics/*.json`, `outputs/predictions/*.csv`, `data/manifests/*.json`, dan bukti audit pada `data/raw/`). Tidak ada angka yang ditulis keras di script laporan:
+Seluruh angka pada `laporan.pdf` dibangkitkan dari artefak pipeline (`outputs/metrics/*.json`, `outputs/predictions/*.csv`, `data/manifests/*.json`, dan bukti audit pada `data/raw/`). Tidak ada angka yang ditulis keras di script laporan:
 
 ```bash
 python laporan/build_laporan_pdf.py
