@@ -19,7 +19,7 @@
 | **6** | **Calibration uses valid data** | **PASSED** | Conformal quantile adjustment (Task 1) and Isotonic/Sigmoid probability calibrators (Task 2) fitted strictly on out-of-time chronological validation slices. |
 | **7** | **Prediction IDs match test IDs exactly** | **PASSED** | `id_paket`: Exactly 60,000 rows matching `regresi_test.csv.gz` order.<br>`id_transaksi`: Exactly 106,674 rows matching `klasifikasi_test.csv.gz` order.<br>`id_pelanggan`: Exactly 120,000 rows matching `clustering.csv.gz` order. |
 | **8** | **All prediction constraints are satisfied** | **PASSED** | Regression: $P_{90} \ge P_{50}$ across 100% of rows (0 violations), no NaNs.<br>Classification: $\text{prob} \in [0.0, 1.0]$, $\text{tandai} \in \{0, 1\}$, no NaNs.<br>Clustering: Integer labels, anomaly label `-1` present (1,800 anomalies / 1.50%). |
-| **9** | **Every reported metric can be reproduced** | **PASSED** | All metrics logged deterministically into `outputs/metrics/` and `experiments/experiments.csv` using fixed random seed (`seed=42`). |
+| **9** | **Every reported metric can be reproduced** | **PASSED** | All metrics logged deterministically into `outputs/metrics/` and `experiments/experiments.csv` using fixed random seed (`seed=42`).<br>Clustering: 5 core clusters, stability ARI 0.8711 ± 0.1414 (mean ± standard deviation of 10 pairwise ARIs from 5 subsampling runs without replacement). |
 | **10** | **README instructions work** | **PASSED** | Tested in virtual environment: `python kode/run_all.py` executes full end-to-end pipeline cleanly. |
 | **11** | **All required files exist** | **PASSED** | Verified existence of `prediksi_regresi.csv`, `prediksi_klasifikasi.csv`, `cluster.csv`, `kontribusi.md`, `requirements.txt`, `README.md`, and `laporan/`. |
 | **12** | **Report page constraint satisfied** | **PASSED** | Final academic report `laporan/laporan.pdf` adheres strictly to the $\le 18$ pages ceiling excluding appendices. |
@@ -54,6 +54,17 @@ Cluster value counts:
   Cluster 1:  1,732 ( 1.44%)
 Constraints: Integer dtype, -1 anomalies present.
 ```
+
+Persona labels and dominant categories from `outputs/metrics/clustering_metrics.json`:
+
+| Label | Persona | Dominant category |
+| ---: | :--- | :--- |
+| 0 | VIP Champions | `makanan_minuman` |
+| 1 | Hyperactive Bargain Hunters | `makanan_minuman` |
+| 2 | Casual Shoppers | `makanan_minuman` |
+| 3 | Discount Hunters | `fashion` |
+| 4 | Lapsed / At-Risk Dormant | `makanan_minuman` |
+| -1 | Anomalous Outliers / Extreme Accounts | `multivariate_extreme` |
 
 ---
 

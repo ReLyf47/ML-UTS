@@ -88,8 +88,11 @@ class CustomerClusteringPipeline:
             N_COLS
         )
         
-        self.feature_names = selected_cols
         X_scaled = self.scaler.fit_transform(df_clean[selected_cols].values)
+        if not np.isfinite(X_scaled).all():
+            raise ValueError("Scaled clustering features contain NaN or infinity.")
+
+        self.feature_names = selected_cols
         self.is_fitted = True
         
         return X_scaled, selected_cols, df_clean
