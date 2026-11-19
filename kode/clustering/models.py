@@ -129,16 +129,18 @@ class ClusterModelBenchmark:
             lbl = km.fit_predict(X[idx])
             
             runs_indices.append(idx)
-            runs_labels.append(dict(zip(idx, lbl)))
+            runs_labels.append(lbl)
             
         # Pairwise ARI on overlapping instances
         pairwise_ari = []
         for i in range(n_bootstraps):
             for j in range(i + 1, n_bootstraps):
-                common_ids = list(set(runs_indices[i]).intersection(set(runs_indices[j])))
+                common_ids, positions_i, positions_j = np.intersect1d(
+                    runs_indices[i], runs_indices[j], assume_unique=True, return_indices=True
+                )
                 if len(common_ids) > 100:
-                    lbls_i = [runs_labels[i][cid] for cid in common_ids]
-                    lbls_j = [runs_labels[j][cid] for cid in common_ids]
+                    lbls_i = runs_labels[i][positions_i]
+                    lbls_j = runs_labels[j][positions_j]
                     ari = float(adjusted_rand_score(lbls_i, lbls_j))
                     pairwise_ari.append(ari)
                     
