@@ -131,6 +131,16 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+**Windows (PowerShell atau CMD):**
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python kode/run_all.py
+```
+
+Di Windows, perintah dapat dijalankan langsung lewat `.venv\Scripts\python` tanpa mengaktifkan venv, sehingga tidak terkendala execution policy PowerShell. Langkah setup, pipeline clustering, validasi berkas, dan build laporan sudah dicoba di Windows dengan Python 3.13.
+
 ### 2. Menjalankan Pipeline End-to-End Lengkap
 
 Untuk menjalankan pipeline rekayasa data lengkap, memvalidasi semua dataset yang telah diproses, melatih semua model, membuat grafik diagnostik, dan menghasilkan berkas CSV submission yang tervalidasi:
