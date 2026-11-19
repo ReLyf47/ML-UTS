@@ -533,8 +533,11 @@ def build_pdf(facts):
         "Laporan Teknis Komprehensif Ujian Tengah Semester (UTS) - Pendekatan Machine Learning "
         "Klasik Tanpa Kebocoran Data", subtitle_style))
     story.append(Paragraph(
-        f"<b>Kelompok Mahasiswa ML-UTS</b> | Departemen Ilmu Komputer & Teknik Informatika | "
-        f"Tanggal Audit: {fmt_tanggal_id(facts['generated'])}", author_style))
+        "Ilma Julianti (101032330052) | Alif Akbar Ar Raiyan (101032330121) | "
+        "Pricilia Apriana (101032300056)<br/>"
+        "S1 Teknik Komputer, Fakultas Teknik Elektro, Telkom University<br/>"
+        f"Mata Kuliah Machine Learning | Tanggal Audit: {fmt_tanggal_id(facts['generated'])}",
+        author_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=primary, spaceAfter=12))
 
     # ---------------- ringkasan eksekutif ----------------
