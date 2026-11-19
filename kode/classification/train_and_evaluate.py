@@ -25,7 +25,54 @@ from kode.classification.models import LogisticRegressionFraudBaseline, HistGrad
 
 logger = get_logger("ClassificationPipeline")
 
-def run_classification_pipeline():
+# Format string per metric key, used to build the per-experiment summary log line.
+_METRIC_LOG_FORMATS = {
+    "pr_auc": "PR-AUC={:.4f}",
+    "roc_auc": "ROC-AUC={:.4f}",
+    "brier_score": "Brier={:.4f}",
+    "total_cost": "Total Cost=Rp {:,.0f}",
+}
+
+
+def _record_experiment(
+    results: dict,
+    result_key: str,
+    log_label: str,
+    log_metric_keys: tuple,
+    metrics: dict,
+    experiment_id: str | None = None,
+    task: str = "Classification",
+    model_name: str = "",
+    features_used: list | None = None,
+    split_type: str = "Temporal_JulAug2025",
+    hyperparameters: dict | None = None,
+    runtime_seconds: float = 0.0,
+    notes: str = "",
+) -> None:
+    """Store metrics in `results`, log a one-line summary, and (optionally) persist via log_experiment.
+
+    `log_experiment` is only called when `experiment_id` is given, so experiments that were
+    never tracked before stay untracked.
+    """
+    results[result_key] = metrics
+    summary = ", ".join(_METRIC_LOG_FORMATS[k].format(metrics[k]) for k in log_metric_keys)
+    logger.info(f"{log_label}: {summary}")
+
+    if experiment_id is not None:
+        log_experiment(
+            experiment_id=experiment_id,
+            task=task,
+            model_name=model_name,
+            features_used=features_used if features_used is not None else [],
+            split_type=split_type,
+            hyperparameters=hyperparameters if hyperparameters is not None else {},
+            metrics=metrics,
+            runtime_seconds=runtime_seconds,
+            notes=notes,
+        )
+
+
+def run_classification_pipeline() -> dict:
     seed_everything(42)
     logger.info("Starting Task 2: Fraud Detection Classification Pipeline...")
     
@@ -72,17 +119,13 @@ def run_classification_pipeline():
     probs_lr = lr_model.predict_proba(X_val_clean)
     metrics_lr = calculate_classification_metrics(y_val, probs_lr, nominal_val)
     dur_lr = time.time() - t_start
-    results["Baseline_Logistic_Regression"] = metrics_lr
-    logger.info(f"Logistic Regression: PR-AUC={metrics_lr['pr_auc']:.4f}, ROC-AUC={metrics_lr['roc_auc']:.4f}, Total Cost=Rp {metrics_lr['total_cost']:,.0f}")
-    
-    log_experiment(
+    _record_experiment(
+        results, "Baseline_Logistic_Regression", "Logistic Regression",
+        ("pr_auc", "roc_auc", "total_cost"), metrics_lr,
         experiment_id="CLF_EXP_01",
-        task="Classification",
         model_name="LogisticRegressionBaseline",
         features_used=feat_names_clean,
-        split_type="Temporal_JulAug2025",
         hyperparameters={"class_weight": "balanced"},
-        metrics=metrics_lr,
         runtime_seconds=dur_lr,
         notes="Class-weighted linear baseline"
     )
@@ -99,8 +142,10 @@ def run_classification_pipeline():
     probs_unweighted = hgb_unweighted.predict_proba(X_val_clean, calibration='none')
     metrics_unweighted = calculate_classification_metrics(y_val, probs_unweighted, nominal_val)
     dur_unweighted = time.time() - t_start
-    results["HistGBM_Unweighted"] = metrics_unweighted
-    logger.info(f"HistGBM Unweighted: PR-AUC={metrics_unweighted['pr_auc']:.4f}, Total Cost=Rp {metrics_unweighted['total_cost']:,.0f}")
+    _record_experiment(
+        results, "HistGBM_Unweighted", "HistGBM Unweighted",
+        ("pr_auc", "total_cost"), metrics_unweighted
+    )
     
     # ---------------- EXPERIMENT 3: HistGradientBoosting (Balanced) + Calibration ----------------
     logger.info("Training HistGradientBoosting (Balanced Class Weights) + Probability Calibration...")
@@ -117,8 +162,10 @@ def run_classification_pipeline():
     # Evaluate Raw Balanced
     probs_raw = hgb_balanced.predict_proba(X_val_clean, calibration='none')
     metrics_raw = calculate_classification_metrics(y_val, probs_raw, nominal_val)
-    results["HistGBM_Balanced_Raw"] = metrics_raw
-    logger.info(f"HistGBM Balanced (Raw): PR-AUC={metrics_raw['pr_auc']:.4f}, Brier={metrics_raw['brier_score']:.4f}, Total Cost=Rp {metrics_raw['total_cost']:,.0f}")
+    _record_experiment(
+        results, "HistGBM_Balanced_Raw", "HistGBM Balanced (Raw)",
+        ("pr_auc", "brier_score", "total_cost"), metrics_raw
+    )
     
     # Calibrate on validation split
     hgb_balanced.calibrate(X_val_clean, y_val)
@@ -126,24 +173,22 @@ def run_classification_pipeline():
     # Sigmoid Calibration
     probs_sigmoid = hgb_balanced.predict_proba(X_val_clean, calibration='sigmoid')
     metrics_sigmoid = calculate_classification_metrics(y_val, probs_sigmoid, nominal_val)
-    results["HistGBM_Balanced_Sigmoid"] = metrics_sigmoid
-    logger.info(f"HistGBM Balanced (Sigmoid Calibrated): PR-AUC={metrics_sigmoid['pr_auc']:.4f}, Brier={metrics_sigmoid['brier_score']:.4f}, Total Cost=Rp {metrics_sigmoid['total_cost']:,.0f}")
+    _record_experiment(
+        results, "HistGBM_Balanced_Sigmoid", "HistGBM Balanced (Sigmoid Calibrated)",
+        ("pr_auc", "brier_score", "total_cost"), metrics_sigmoid
+    )
     
     # Isotonic Calibration (Primary candidate)
     probs_isotonic = hgb_balanced.predict_proba(X_val_clean, calibration='isotonic')
     metrics_isotonic = calculate_classification_metrics(y_val, probs_isotonic, nominal_val)
     dur_hgb = time.time() - t_start
-    results["HistGBM_Balanced_Isotonic"] = metrics_isotonic
-    logger.info(f"HistGBM Balanced (Isotonic Calibrated): PR-AUC={metrics_isotonic['pr_auc']:.4f}, Brier={metrics_isotonic['brier_score']:.4f}, Total Cost=Rp {metrics_isotonic['total_cost']:,.0f}")
-    
-    log_experiment(
+    _record_experiment(
+        results, "HistGBM_Balanced_Isotonic", "HistGBM Balanced (Isotonic Calibrated)",
+        ("pr_auc", "brier_score", "total_cost"), metrics_isotonic,
         experiment_id="CLF_EXP_03_ISOTONIC",
-        task="Classification",
         model_name="HistGradientBoosting_Isotonic",
         features_used=feat_names_clean,
-        split_type="Temporal_JulAug2025",
         hyperparameters={"class_weight": "balanced", "calibration": "isotonic"},
-        metrics=metrics_isotonic,
         runtime_seconds=dur_hgb,
         notes="Primary recommended fraud model (Balanced + Isotonic calibration)"
     )
@@ -165,8 +210,10 @@ def run_classification_pipeline():
     hgb_policy.calibrate(X_val_pol, y_val)
     probs_policy = hgb_policy.predict_proba(X_val_pol, calibration='isotonic')
     metrics_policy = calculate_classification_metrics(y_val, probs_policy, nominal_val)
-    results["HistGBM_With_PolicyFlag"] = metrics_policy
-    logger.info(f"HistGBM With Policy Flag: PR-AUC={metrics_policy['pr_auc']:.4f}, Total Cost=Rp {metrics_policy['total_cost']:,.0f}")
+    _record_experiment(
+        results, "HistGBM_With_PolicyFlag", "HistGBM With Policy Flag",
+        ("pr_auc", "total_cost"), metrics_policy
+    )
     
     # ---------------- EXPERIMENT 5: Random Under-Sampling (Class Imbalance Strategy) ----------------
     logger.info("Training HistGradientBoosting with Random Under-Sampling (majority:minority = 10:1)...")
@@ -194,18 +241,13 @@ def run_classification_pipeline():
     probs_under = hgb_under.predict_proba(X_val_under, calibration='none')
     metrics_under = calculate_classification_metrics(y_val, probs_under, nominal_val)
     dur_under = time.time() - t_start
-    results["HistGBM_RandomUnderSampler"] = metrics_under
-    logger.info(f"HistGBM (Random Under-Sampling 10:1): PR-AUC={metrics_under['pr_auc']:.4f}, "
-                f"Brier={metrics_under['brier_score']:.4f}, Total Cost=Rp {metrics_under['total_cost']:,.0f}")
-    
-    log_experiment(
+    _record_experiment(
+        results, "HistGBM_RandomUnderSampler", "HistGBM (Random Under-Sampling 10:1)",
+        ("pr_auc", "brier_score", "total_cost"), metrics_under,
         experiment_id="CLF_EXP_05_RESAMPLE",
-        task="Classification",
         model_name="HistGradientBoosting_RandomUnderSampler",
         features_used=feat_names_under,
-        split_type="Temporal_JulAug2025",
         hyperparameters={"resampling": "random_undersample_10_to_1", "class_weight": "none"},
-        metrics=metrics_under,
         runtime_seconds=dur_under,
         notes="Third imbalance strategy: random under-sampling of majority class"
     )
