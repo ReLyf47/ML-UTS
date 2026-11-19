@@ -559,7 +559,8 @@ def build_pdf(facts):
         f"optimal menekan total kerugian finansial dari {fmt_juta(facts['clf_nothing'])} menjadi "
         f"{fmt_juta(iso['total_cost'])} (efisiensi {fmt_pct(facts['clf_savings_pct'])}). "
         f"Pada Tugas 3, klastering K-Means (k = {facts['clu_k']}) berbasis RFM dan data komposisi belanja "
-        f"menghasilkan stabilitas bootstrap tinggi (ARI = {fmt_dec(facts['clu_ari_mean'], 4)}) serta "
+        f"menghasilkan stabilitas antar-subsampling dengan rata-rata ARI = "
+        f"{fmt_dec(facts['clu_ari_mean'], 4)} serta "
         f"mengisolasi {fmt_int(facts['clu_anom'].get('n_anomalies', 0))} pelanggan anomali "
         f"({fmt_pct(facts['clu_anom'].get('anomaly_rate', 0))}) dengan label -1. Seluruh angka dalam laporan "
         f"ini dibangkitkan dari artefak pipeline dan dapat direproduksi dengan satu perintah."
@@ -571,7 +572,7 @@ def build_pdf(facts):
     story.append(Paragraph(
         "Dataset proyek terdiri atas 5 berkas tabular pada direktori <code>data/raw/</code>. Verifikasi "
         "struktural memastikan tidak ada duplikasi ID primer, tidak ada irisan ID antara partisi latih-uji, "
-        "serta rentang waktu yang sangat kronologis.", body))
+        "serta pembagian latih-uji yang kronologis.", body))
     inv_rows = [[
         "Berkas Dataset", "Tugas", "Peran", "Baris", "Kolom", "Ukuran", "Cakupan Temporal",
     ]]
@@ -584,7 +585,7 @@ def build_pdf(facts):
         "TOTAL", "-", "-", fmt_int(facts["total_rows"]), "-",
         f"{fmt_dec(sum(r['size_mb'] for r in facts['inventory']))} MB", "-",
     ])
-    story.append(_table(inv_rows, [105, 50, 70, 45, 35, 50, 140], font_size=7.5,
+    story.append(_table(inv_rows, [105, 50, 70, 45, 40, 50, 135], font_size=7.5,
                         bold_rows=(len(inv_rows) - 1,)))
     story.append(Paragraph(
         "Tabel 1: Inventaris lengkap berkas dataset mentah proyek UTS Machine Learning.", caption))
@@ -605,7 +606,7 @@ def build_pdf(facts):
         f"durasi runtuh (under-prediction drastis). <b>Keputusan: <code>jumlah_scan</code> dikeluarkan "
         f"secara permanen.</b> Dampak ablasi: Pinball P50 turun dari "
         f"{fmt_dec(reg_clean['pinball_loss_p50'])} menjadi {fmt_dec(leak['pinball_loss_p50'])} - sebuah "
-        f"illusi kemajuan yang hanya muncul karena kebocoran.<br/><br/>"
+        f"ilusi kemajuan yang hanya muncul karena kebocoran.<br/><br/>"
         f"<b>B. Dilema kebijakan <code>flag_review_manual</code> pada Tugas 2:</b><br/>"
         f"Fitur ini adalah output aturan heuristik lama (<i>legacy rules</i>). Pipeline utama dilatih "
         f"tanpa fitur tersebut agar model tidak sekadar menduplikasi aturan lama; ablasi komparatif "
@@ -623,7 +624,8 @@ def build_pdf(facts):
         f"<code>unseen</code> dengan prior penyusutan global (<i>shrinkage</i>).", body))
     tgt = facts["reg_target"]
     story.append(Paragraph(
-        f"• Target regresi <code>durasi_jam</code> sangat mencengangkan kanan: P50 = {fmt_dec(tgt['p50'])} jam, "
+        f"• Target regresi <code>durasi_jam</code> sangat miring ke kanan (right-skewed): "
+        f"P50 = {fmt_dec(tgt['p50'])} jam, "
         f"P90 = {fmt_dec(tgt['p90'])} jam, P99 = {fmt_dec(tgt['p99'])} jam, maksimum {fmt_int(tgt['max'])} jam. "
         f"Regresi kuantil kebal terhadap ekor ekstrem tersebut.", body))
 
@@ -729,7 +731,7 @@ def build_pdf(facts):
                          fmt_dec(r["brier"], 4), fmt_pct(r["flag_rate"]), fmt_idr(r["total_cost"])])
         if r["key"] == facts["clf_best_clean"]:
             best_clf_idx = len(clf_rows) - 1
-    story.append(_table(clf_rows, [120, 100, 45, 45, 45, 50, 90], font_size=7.2,
+    story.append(_table(clf_rows, [120, 100, 45, 50, 45, 50, 85], font_size=7.2,
                         highlight=(best_clf_idx,)))
     story.append(Paragraph(
         "Tabel 4: Kinerja klasifikasi deteksi fraud dan dampak total biaya finansial operasional "
@@ -787,7 +789,8 @@ def build_pdf(facts):
         f"Benchmark K-Means (k = 3 sampai 8), GMM, agglomerative, dan HDBSCAN menunjukkan "
         f"<b>k = {facts['clu_k']} sebagai partisi optimal</b>: indeks Davies-Bouldin terendah "
         f"({fmt_dec(k_row.get('davies_bouldin', 0), 4)}) dan Silhouette "
-        f"{fmt_dec(k_row.get('silhouette', 0), 4)}. Uji stabilitas 5-run bootstrap subsampling 80% "
+        f"{fmt_dec(k_row.get('silhouette', 0), 4)}. Uji stabilitas dengan 5 kali subsampling 80% "
+        f"tanpa pengembalian "
         f"menghasilkan <b>ARI = {fmt_dec(facts['clu_ari_mean'], 4)} +/- "
         f"{fmt_dec(facts['clu_ari_std'], 4)}</b>, menegaskan struktur klaster yang kokoh.", body))
     story.append(Paragraph(
