@@ -103,9 +103,9 @@ ML-UTS/
 │
 ├── logs/                          # Log eksekusi untuk setiap langkah rekayasa data
 ├── laporan/
-│   ├── laporan.pdf                # Laporan teknis (dibangkitkan data-driven)
 │   ├── build_laporan_pdf.py       # Generator laporan dari metrics + prediksi
 │   └── figures/                   # Grafik yang dipakai laporan
+├── laporan.pdf                    # Laporan teknis (dibangkitkan data-driven)
 ├── requirements.txt               # Dependensi yang dibekukan
 └── README.md                      # Instruksi eksekusi pipeline
 ```
@@ -130,6 +130,16 @@ source .venv/bin/activate
 # Instal dependensi yang diperlukan
 pip install -r requirements.txt
 ```
+
+**Windows (PowerShell atau CMD):**
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python kode/run_all.py
+```
+
+Di Windows, perintah dapat dijalankan langsung lewat `.venv\Scripts\python` tanpa mengaktifkan venv, sehingga tidak terkendala execution policy PowerShell. Langkah setup, pipeline clustering, validasi berkas, dan build laporan sudah dicoba di Windows dengan Python 3.13.
 
 ### 2. Menjalankan Pipeline End-to-End Lengkap
 
@@ -176,7 +186,7 @@ python kode/common/validate_submissions.py
 
 ### 5. Menghasilkan Ulang Laporan (data-driven)
 
-Seluruh angka pada `laporan/laporan.pdf` dibangkitkan dari artefak pipeline (`outputs/metrics/*.json`, `outputs/predictions/*.csv`, `data/manifests/*.json`, dan bukti audit pada `data/raw/`). Tidak ada angka yang ditulis keras di script laporan:
+Seluruh angka pada `laporan.pdf` dibangkitkan dari artefak pipeline (`outputs/metrics/*.json`, `outputs/predictions/*.csv`, `data/manifests/*.json`, dan bukti audit pada `data/raw/`). Tidak ada angka yang ditulis keras di script laporan:
 
 ```bash
 python laporan/build_laporan_pdf.py
