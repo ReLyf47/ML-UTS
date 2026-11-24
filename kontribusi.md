@@ -68,8 +68,8 @@ Persetujuan diberikan melalui komentar pada pull request yang memperbarui berkas
 
 | No | Nama | NIM | Persetujuan |
 | :-: | :--- | :--- | :---: |
-| 1 | ILMA JULIANTI | 101032330052 | ☐ |
-| 2 | ALIF AKBAR AR RAIYAN | 101032330121 | ☐ |
+| 1 | ILMA JULIANTI | 101032330052 | ☑ |
+| 2 | ALIF AKBAR AR RAIYAN | 101032330121 | ☑ |
 | 3 | PRICILIA APRIANA | 101032300056 | ☑ |
 
-*Tanggal persetujuan: (diisi setelah ketiga anggota menyetujui)*
+*Tanggal persetujuan: 24 November 2026 (melalui komentar pada PR #6)*
