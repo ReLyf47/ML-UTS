@@ -60,6 +60,12 @@ try:
 except Exception:  # pragma: no cover - fallback bila paket kode tidak tersedia
     RANDOM_SEED, REVIEW_COST_IDR = 42, 25000.0
 
+# Ukuran sampel ini mengikuti argumen di kode/clustering/train_and_evaluate.py
+# karena tidak disimpan di clustering_metrics.json.
+CLU_N_SIL_KMEANS = 10_000
+CLU_N_GMM = 25_000
+CLU_N_AGGLO = 5_000
+
 # --------------------------------------------------------------------------- #
 # Helper format (kaidah Indonesia: titik = ribuan, koma = desimal)
 # --------------------------------------------------------------------------- #
@@ -801,18 +807,51 @@ def build_pdf(facts):
         body))
 
     if facts["clu_kmeans"]:
-        km_rows = [["k", "Inertia", "Silhouette", "Davies-Bouldin", "Calinski-Harabasz"]]
-        for r in facts["clu_kmeans"]:
-            km_rows.append([str(r["k"]), fmt_dec(r["inertia"], 0), fmt_dec(r["silhouette"], 4),
-                            fmt_dec(r["davies_bouldin"], 4), fmt_dec(r["calinski_harabasz"], 0)])
-        gmm_best = min(facts["clu_gmm"], key=lambda r: r["bic"])["k"] if facts["clu_gmm"] else "-"
-        story.append(_table(km_rows, [40, 110, 80, 95, 110], font_size=7.5))
+        kmeans_by_k = {row["k"]: row for row in facts["clu_kmeans"]}
+        gmm_by_k = {row["k"]: row for row in facts["clu_gmm"]}
+        ward_by_k = {row["k"]: row for row in facts["clu_agglo"]}
+        columns = [
+            ("Inertia", kmeans_by_k, "inertia", 0, None),
+            ("Silhouette K-Means", kmeans_by_k, "silhouette", 4, max),
+            ("Davies-<br/>Bouldin", kmeans_by_k, "davies_bouldin", 4, min),
+            ("Calinski-<br/>Harabasz", kmeans_by_k, "calinski_harabasz", 0, max),
+            ("BIC GMM", gmm_by_k, "bic", 0, min),
+            ("Silhouette Ward", ward_by_k, "silhouette", 4, max),
+        ]
+        best_values = [
+            select_best((row[metric] for row in sweep.values()), default=None)
+            if select_best is not None else None
+            for _, sweep, metric, _, select_best in columns
+        ]
+        comparison_rows = [["k"] + [label for label, *_ in columns]]
+        for k in sorted(kmeans_by_k.keys() | gmm_by_k.keys() | ward_by_k.keys()):
+            row = [fmt_int(k)]
+            for (_, sweep, metric, decimals, _), best_value in zip(columns, best_values):
+                if k not in sweep:
+                    row.append("-")
+                    continue
+                value = sweep[k][metric]
+                cell = fmt_dec(value, decimals)
+                row.append(f"<b>{cell}</b>" if value == best_value else cell)
+            comparison_rows.append(row)
+        story.append(_table(comparison_rows, [26, 72, 70, 66, 76, 80, 70], font_size=7.5))
+
+        k_min, k_max = min(kmeans_by_k), max(kmeans_by_k)
+        clu_rows = facts["pred"]["clu_rows"]
+        hdbscan = facts["clu_hdbscan"]
         story.append(Paragraph(
-            f"Tabel 7: Sweep K-Means. Davies-Bouldin minimum tercapai pada k = {facts['clu_db_best_k']}; "
-            f"GMM mencapai BIC minimum pada k = {gmm_best}; HDBSCAN (sampel "
-            f"{fmt_int(facts['clu_hdbscan'].get('sample_size', 0))}) menemukan "
-            f"{fmt_int(facts['clu_hdbscan'].get('n_clusters_found', 0))} klaster dengan "
-            f"{fmt_pct(facts['clu_hdbscan'].get('noise_ratio', 0))} noise.", caption))
+            f"Tabel 7: Perbandingan metrik pemilihan k untuk k = {fmt_int(k_min)} sampai "
+            f"{fmt_int(k_max)}. Nilai terbaik tiap kolom dicetak tebal; inertia tidak ditandai "
+            f"karena selalu turun seiring bertambahnya k. Silhouette K-Means dihitung pada sampel "
+            f"{fmt_int(CLU_N_SIL_KMEANS)} pelanggan, sedangkan inertia, Davies-Bouldin, dan "
+            f"Calinski-Harabasz pada seluruh {fmt_int(clu_rows)} pelanggan; BIC GMM (kovarians "
+            f"diagonal) pada sampel {fmt_int(CLU_N_GMM)}; silhouette Agglomerative Ward pada "
+            f"sampel {fmt_int(CLU_N_AGGLO)}. HDBSCAN, yang tidak memerlukan k, dijalankan pada "
+            f"sampel {fmt_int(hdbscan.get('sample_size', 0))} "
+            f"(min_cluster_size {fmt_int(hdbscan.get('min_cluster_size', 0))}, "
+            f"min_samples {fmt_int(hdbscan.get('min_samples', 0))}) dan menemukan "
+            f"{fmt_int(hdbscan.get('n_clusters_found', 0))} klaster dengan "
+            f"{fmt_pct(hdbscan.get('noise_ratio', 0))} titik noise.", caption))
 
     top_feat = facts["clu_feature_evidence"].get("top_discriminative_features", [])[:5]
     if top_feat:
