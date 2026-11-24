@@ -322,6 +322,8 @@ def collect_facts():
     facts["reg_cv"] = cv
     facts["reg_conformal"] = reg.get("conformal_adjustment")
     facts["reg_service"] = reg.get("breakdown_layanan", [])
+    facts["reg_pulau"] = reg.get("breakdown_pulau", [])
+    facts["reg_kurir"] = reg.get("breakdown_kurir", [])
     facts["reg_importance"] = reg.get("permutation_importance_top", [])
     facts["reg_model_rows"] = []
     for key, label in REG_MODEL_LABEL.items():
@@ -517,11 +519,11 @@ def _figure_pair(names, caption_text, caption_style):
     return [tbl, Paragraph(caption_text, caption_style)]
 
 
-def _figure_single(name, caption_text, caption_style):
+def _figure_single(name, caption_text, caption_style, *, height=2.1 * inch):
     path = FIGURES_DIR / name
     if not path.exists():
         return []
-    return [Image(str(path), width=5.2 * inch, height=2.1 * inch),
+    return [Image(str(path), width=5.2 * inch, height=height),
             Paragraph(caption_text, caption_style)]
 
 
@@ -646,7 +648,7 @@ def build_pdf(facts):
         f"<b>B. Dilema kebijakan <code>flag_review_manual</code> pada Tugas 2:</b><br/>"
         f"Fitur ini adalah output aturan heuristik lama (<i>legacy rules</i>). Pipeline utama dilatih "
         f"tanpa fitur tersebut agar model tidak sekadar menduplikasi aturan lama; ablasi komparatif "
-        f"tetap disajikan pada Tabel 4 untuk transparansi.<br/><br/>"
+        f"tetap disajikan pada Tabel 6 untuk transparansi.<br/><br/>"
         f"<b>C. Nilai hilang, kategori tak terlihat, dan distribusi target:</b>"
     )
     story.append(Paragraph(leak_text, body))
@@ -707,15 +709,47 @@ def build_pdf(facts):
         "Tabel 2: Evaluasi komparatif model regresi kuantil pada holdout validasi temporal "
         "(Agustus 2025). Baris hijau = model bersih terbaik.", caption))
 
-    if facts["reg_service"]:
-        svc_rows = [["Layanan", "Sampel", "Median Aktual", "Median Prediksi", "MAE P50", "Cakupan P90"]]
-        for s in facts["reg_service"]:
-            svc_rows.append([s["layanan"], fmt_int(s["n_samples"]), fmt_dec(s["actual_median"], 1),
-                             fmt_dec(s["pred_median"], 1), fmt_dec(s["mae_p50"]),
-                             fmt_pct(s["coverage_p90"])])
-        story.append(_table(svc_rows, [90, 60, 80, 80, 70, 80], font_size=7.5))
+    pulau_breakdown = facts["reg_pulau"]
+    kurir_breakdown = facts["reg_kurir"]
+    kurir_caption = "Tabel 5: Rincian galat dan cakupan per mitra kurir pada holdout."
+    if raw.get("unseen_kurir"):
+        kurir_caption += (f" Mitra kurir {unseen} hanya ada di data uji sehingga tidak "
+                          "tercakup tabel ini.")
+    breakdowns = (
+        (facts["reg_service"], "layanan", "Layanan",
+         "Tabel 3: Rincian galat dan cakupan per kategori layanan logistik pada holdout."),
+        (pulau_breakdown, "pulau_tujuan", "Pulau Tujuan",
+         "Tabel 4: Rincian galat dan cakupan per pulau tujuan pada holdout."),
+        (kurir_breakdown, "mitra_kurir", "Mitra Kurir", kurir_caption),
+    )
+    for breakdown, group_key, group_label, table_caption in breakdowns:
+        if not breakdown:
+            continue
+        rows = [[group_label, "Sampel", "Median Aktual", "Median Prediksi", "MAE P50", "Cakupan P90"]]
+        for group in breakdown:
+            rows.append([group[group_key], fmt_int(group["n_samples"]), fmt_dec(group["actual_median"], 1),
+                         fmt_dec(group["pred_median"], 1), fmt_dec(group["mae_p50"]),
+                         fmt_pct(group["coverage_p90"])])
+        story.append(_table(rows, [90, 60, 80, 80, 70, 80], font_size=7.5))
+        story.append(Paragraph(table_caption, caption))
+
+    if pulau_breakdown and kurir_breakdown:
+        pulau_mae_min = min(pulau_breakdown, key=lambda group: group["mae_p50"])
+        pulau_mae_max = max(pulau_breakdown, key=lambda group: group["mae_p50"])
+        pulau_cov_min = min(group["coverage_p90"] for group in pulau_breakdown)
+        pulau_cov_max = max(group["coverage_p90"] for group in pulau_breakdown)
+        kurir_mae_min = min(kurir_breakdown, key=lambda group: group["mae_p50"])
+        kurir_mae_max = max(kurir_breakdown, key=lambda group: group["mae_p50"])
+        kurir_cov_min = min(kurir_breakdown, key=lambda group: group["coverage_p90"])
         story.append(Paragraph(
-            "Tabel 3: Rincian galat dan cakupan per kategori layanan logistik pada holdout.", caption))
+            f"Galat tidak merata antarwilayah: MAE P50 terendah di {pulau_mae_min['pulau_tujuan']} "
+            f"({fmt_dec(pulau_mae_min['mae_p50'])}) dan tertinggi di {pulau_mae_max['pulau_tujuan']} "
+            f"({fmt_dec(pulau_mae_max['mae_p50'])}), dengan cakupan P90 per pulau antara "
+            f"{fmt_pct(pulau_cov_min)} dan {fmt_pct(pulau_cov_max)}. Antarmitra kurir, MAE P50 berkisar "
+            f"dari {fmt_dec(kurir_mae_min['mae_p50'])} ({kurir_mae_min['mitra_kurir']}) sampai "
+            f"{fmt_dec(kurir_mae_max['mae_p50'])} ({kurir_mae_max['mitra_kurir']}), dan cakupan P90 "
+            f"terendah {fmt_pct(kurir_cov_min['coverage_p90'])} pada {kurir_cov_min['mitra_kurir']}. "
+            "Jadi cakupan 90% secara agregat tidak berarti setiap kelompok terlindungi sama baiknya.", body))
 
     if facts["reg_importance"]:
         imp = ", ".join(f"{r['feature']} ({fmt_dec(r['importance_mean'], 2)})"
@@ -732,6 +766,21 @@ def build_pdf(facts):
         "fig_regression_subgroup_service_performance.png",
         f"Gambar 2: Cakupan empiris P90 (stabil pada {fmt_pct(reg_clean['coverage_p90'])}) dan MAE P50 "
         f"di seluruh kategori layanan logistik.", caption))
+    pdp_features = [row["feature"] for row in facts["reg_importance"][:4]]
+    if len(pdp_features) == 4:
+        categorical_feature = next((feature for feature in pdp_features if feature.endswith("_cat")), None)
+        panel_note = ""
+        if categorical_feature is not None:
+            panel_note = (f"Panel {categorical_feature} datar padahal fitur ini teratas pada permutation "
+                          "importance; ini konsisten dengan keterbatasan metode recursion (default "
+                          "partial_dependence untuk HistGradientBoosting) pada fitur kategorikal, "
+                          "sehingga panel tersebut tidak ditafsirkan. ")
+        story.extend(_figure_single(
+            "fig_regression_partial_dependence.png",
+            f"Gambar 3: Partial dependence model P50 untuk empat fitur teratas permutation importance "
+            f"({', '.join(pdp_features)}). Sumbu y adalah kontribusi relatif yang bergeser oleh suatu "
+            f"konstanta, bukan durasi absolut. {panel_note}Perhitungan ulang dengan method='brute' "
+            "tidak dilakukan karena akan mengubah artefak pipeline.", caption, height=3.5 * inch))
 
     # ---------------- 4. klasifikasi ----------------
     story.append(Paragraph("4. Tugas 2: Deteksi Fraud Finansial & Optimasi Biaya Operasional", h1))
@@ -770,7 +819,7 @@ def build_pdf(facts):
     story.append(_table(clf_rows, [120, 100, 45, 50, 45, 50, 85], font_size=7.2,
                         highlight=(best_clf_idx,)))
     story.append(Paragraph(
-        "Tabel 4: Kinerja klasifikasi deteksi fraud dan dampak total biaya finansial operasional "
+        "Tabel 6: Kinerja klasifikasi deteksi fraud dan dampak total biaya finansial operasional "
         "(holdout Juli-Agustus 2025). Baris hijau = model bersih berbiaya terendah.", caption))
 
     if facts["clf_sweep_best"]:
@@ -790,7 +839,7 @@ def build_pdf(facts):
                              fmt_pct(k["recall"])])
         story.append(_table(kan_rows, [70, 75, 55, 70, 65, 80], font_size=7.5))
         story.append(Paragraph(
-            "Tabel 5: Rincian kinerja model per kanal pembayaran pada holdout.", caption))
+            "Tabel 7: Rincian kinerja model per kanal pembayaran pada holdout.", caption))
 
     if facts["clf_monthly"]:
         prauc = facts["clf_monthly_prauc"]
@@ -802,17 +851,17 @@ def build_pdf(facts):
                              fmt_int(m["n_fraud"]), fmt_pct(m["fraud_rate"]) + extra])
         story.append(_table(mon_rows, [70, 80, 60, 110], font_size=7.5))
         story.append(Paragraph(
-            "Tabel 6: Pergeseran pola fraud bulanan. PR-AUC dievaluasi per bulan pada jendela "
+            "Tabel 8: Pergeseran pola fraud bulanan. PR-AUC dievaluasi per bulan pada jendela "
             "validasi out-of-time; kalibrasi isotonic menyerap pergeseran tersebut.", caption))
 
     story.extend(_figure_pair(
         ["fig_classification_pr_roc_curves.png", "fig_classification_calibration_curves.png"],
-        "Gambar 3: (Kiri) Kurva Precision-Recall dan ROC; (Kanan) Diagram keandalan kalibrasi "
+        "Gambar 4: (Kiri) Kurva Precision-Recall dan ROC; (Kanan) Diagram keandalan kalibrasi "
         "probabilitas Isotonik vs Sigmoid.", caption))
     mult = fmt_dec(facts["clf_sweep_best"]["multiplier"], 1) if facts["clf_sweep_best"] else "-"
     story.extend(_figure_single(
         "fig_classification_cost_curve.png",
-        f"Gambar 4: Kurva optimasi biaya finansial nyata; ambang Bayes optimal ({mult}x "
+        f"Gambar 5: Kurva optimasi biaya finansial nyata; ambang Bayes optimal ({mult}x "
         f"{fmt_idr(facts['clf_review_cost'])}) menekan biaya ke titik minimum.", caption))
 
     # ---------------- 5. klastering ----------------
@@ -842,7 +891,7 @@ def build_pdf(facts):
         sil_kopt = facts["clu_k_opt_row"].get("silhouette")
         sil_kopt_text = fmt_dec(sil_kopt, 4) if sil_kopt is not None else "-"
         story.append(Paragraph(
-            f"Pemilihan k. Tabel 7 menunjukkan kriteria tidak sepakat: Davies-Bouldin minimum pada "
+            f"Pemilihan k. Tabel 9 menunjukkan kriteria tidak sepakat: Davies-Bouldin minimum pada "
             f"k = {fmt_int(db_best['k'])} ({fmt_dec(db_best['davies_bouldin'], 4)}), sedangkan "
             f"Silhouette K-Means tertinggi pada k = {fmt_int(sil_best['k'])} "
             f"({fmt_dec(sil_best['silhouette'], 4)}; k = {k_opt} hanya {sil_kopt_text}), "
@@ -933,7 +982,7 @@ def build_pdf(facts):
         clu_rows = facts["pred"]["clu_rows"]
         hdbscan = facts["clu_hdbscan"]
         story.append(Paragraph(
-            f"Tabel 7: Perbandingan metrik pemilihan k untuk k = {fmt_int(k_min)} sampai "
+            f"Tabel 9: Perbandingan metrik pemilihan k untuk k = {fmt_int(k_min)} sampai "
             f"{fmt_int(k_max)}. Nilai terbaik tiap kolom dicetak tebal; inertia tidak ditandai "
             f"karena selalu turun seiring bertambahnya k. Silhouette K-Means dihitung pada sampel "
             f"{fmt_int(CLU_N_SIL_KMEANS)} pelanggan, sedangkan inertia, Davies-Bouldin, dan "
@@ -975,7 +1024,7 @@ def build_pdf(facts):
         story.append(_table(per_rows, [22, 92, 68, 72, 50, 78, 113], font_size=6.6,
                             red_rows=(len(per_rows) - 1,)))
         story.append(Paragraph(
-            "Tabel 8: Profil persona pelanggan. Nama persona mengikuti label dari pipeline; "
+            "Tabel 10: Profil persona pelanggan. Nama persona mengikuti label dari pipeline; "
             "strategi ditulis ulang dalam bahasa Indonesia dan disesuaikan dengan profil numerik "
             "setiap klaster.",
             caption))
@@ -1008,11 +1057,11 @@ def build_pdf(facts):
 
     story.extend(_figure_pair(
         ["fig_clustering_elbow_silhouette.png", "fig_clustering_pca_segments.png"],
-        "Gambar 5: (Kiri) Kurva elbow inersia dan Silhouette K-Means; (Kanan) Proyeksi 2D PCA klaster "
+        "Gambar 6: (Kiri) Kurva elbow inersia dan Silhouette K-Means; (Kanan) Proyeksi 2D PCA klaster "
         "dan anomali (-1).", caption))
     story.extend(_figure_single(
         "fig_clustering_profiles_heatmap.png",
-        "Gambar 6: Heatmap profil fitur asli terstandarisasi untuk setiap persona pelanggan.", caption))
+        "Gambar 7: Heatmap profil fitur asli terstandarisasi untuk setiap persona pelanggan.", caption))
 
     story.append(Paragraph(
         "Keterbatasan. Tiga perbaikan model yang lebih dalam teridentifikasi tetapi tidak "
