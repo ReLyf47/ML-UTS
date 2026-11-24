@@ -18,6 +18,8 @@ Jalankan dari root repositori:
 import json
 import sys
 from importlib import metadata
+from itertools import combinations
+from math import isqrt
 from pathlib import Path
 
 import pandas as pd
@@ -65,6 +67,11 @@ except Exception:  # pragma: no cover - fallback bila paket kode tidak tersedia
 CLU_N_SIL_KMEANS = 10_000
 CLU_N_GMM = 25_000
 CLU_N_AGGLO = 5_000
+
+# Mengikuti np.percentile(distances, 98.5) di kode/clustering/train_and_evaluate.py.
+CLU_ANOMALY_PERCENTILE = 98.5
+# Mengikuti evaluate_stability(..., subsample_ratio=0.8) di kode/clustering/train_and_evaluate.py.
+CLU_STABILITY_SUBSAMPLE = 0.8
 
 # --------------------------------------------------------------------------- #
 # Helper format (kaidah Indonesia: titik = ribuan, koma = desimal)
@@ -341,17 +348,17 @@ def collect_facts():
 
     # ---- klastering ---------------------------------------------------------
     sweep_km = clu.get("kmeans_sweep", [])
-    k_opt = clu.get("stability", {}).get("optimal_k")
+    stability = clu.get("stability", {})
+    k_opt = stability.get("optimal_k")
     facts["clu_k"] = k_opt
     facts["clu_kmeans"] = sweep_km
     facts["clu_gmm"] = clu.get("gmm_sweep", [])
     facts["clu_agglo"] = clu.get("agglomerative_sweep", [])
     facts["clu_hdbscan"] = clu.get("hdbscan_density", {})
     facts["clu_k_opt_row"] = next((r for r in sweep_km if r["k"] == k_opt), {})
-    facts["clu_db_best_k"] = (min(sweep_km, key=lambda r: r["davies_bouldin"])["k"]
-                              if sweep_km else None)
-    facts["clu_ari_mean"] = clu.get("stability", {}).get("mean_ari")
-    facts["clu_ari_std"] = clu.get("stability", {}).get("std_ari")
+    facts["clu_ari_mean"] = stability.get("mean_ari")
+    facts["clu_ari_std"] = stability.get("std_ari")
+    facts["clu_pairwise_aris"] = stability.get("pairwise_aris", [])
     facts["clu_anom"] = clu.get("anomaly_detection", {})
     facts["clu_feature_evidence"] = clu.get("feature_evidence", {})
     facts["clu_persona"] = clu.get("persona_profiles", {})
@@ -564,12 +571,13 @@ def build_pdf(facts):
         f"Pada Tugas 2, model <i>HistGradientBoosting</i> dengan kalibrasi Isotonik dan aturan Bayes "
         f"optimal menekan total kerugian finansial dari {fmt_juta(facts['clf_nothing'])} menjadi "
         f"{fmt_juta(iso['total_cost'])} (efisiensi {fmt_pct(facts['clf_savings_pct'])}). "
-        f"Pada Tugas 3, klastering K-Means (k = {facts['clu_k']}) berbasis RFM dan data komposisi belanja "
-        f"menghasilkan stabilitas antar-subsampling dengan rata-rata ARI = "
-        f"{fmt_dec(facts['clu_ari_mean'], 4)} serta "
-        f"mengisolasi {fmt_int(facts['clu_anom'].get('n_anomalies', 0))} pelanggan anomali "
-        f"({fmt_pct(facts['clu_anom'].get('anomaly_rate', 0))}) dengan label -1. Seluruh angka dalam laporan "
-        f"ini dibangkitkan dari artefak pipeline dan dapat direproduksi dengan satu perintah."
+        f"Pada Tugas 3, K-Means dengan k = {fmt_int(facts['clu_k'])} (dipilih dengan kriteria Davies-Bouldin) "
+        f"menghasilkan rata-rata ARI antar-subsampel {fmt_dec(facts['clu_ari_mean'], 4)} tetapi Silhouette "
+        f"hanya {fmt_dec(facts['clu_k_opt_row']['silhouette'], 4)}, sehingga segmen lebih tepat dibaca "
+        f"sebagai partisi praktis yang saling tumpang tindih; {fmt_int(facts['clu_anom'].get('n_anomalies', 0))} "
+        f"pelanggan ({fmt_pct(facts['clu_anom'].get('anomaly_rate', 0))}) terjauh dari sentroid diberi label -1. "
+        f"Seluruh angka dalam laporan ini dibangkitkan dari artefak pipeline dan dapat direproduksi "
+        f"dengan satu perintah."
     )
     story.append(Paragraph(summary, body))
 
@@ -787,24 +795,87 @@ def build_pdf(facts):
 
     # ---------------- 5. klastering ----------------
     story.append(Paragraph("5. Tugas 3: Segmentasi Pelanggan (Unsupervised Clustering)", h1))
-    k_row = facts["clu_k_opt_row"]
+    feature_evidence = facts["clu_feature_evidence"]
+    n_features_used = fmt_int(feature_evidence.get("n_features_used", 0))
     story.append(Paragraph(
         f"Dataset mencakup {fmt_int(facts['pred']['clu_rows'])} pelanggan. Nilai keranjang rata-rata "
         f"yang hilang direkonstruksi via <code>belanja_90h / frekuensi_90h</code>, variabel keuangan "
-        f"miring ditransformasi ln(1 + x), dan proporsi komposisi belanja per kategori/jam dipertahankan. "
-        f"Benchmark K-Means (k = 3 sampai 8), GMM, agglomerative, dan HDBSCAN menunjukkan "
-        f"<b>k = {facts['clu_k']} sebagai partisi optimal</b>: indeks Davies-Bouldin terendah "
-        f"({fmt_dec(k_row.get('davies_bouldin', 0), 4)}) dan Silhouette "
-        f"{fmt_dec(k_row.get('silhouette', 0), 4)}. Uji stabilitas dengan 5 kali subsampling 80% "
-        f"tanpa pengembalian "
-        f"menghasilkan <b>ARI = {fmt_dec(facts['clu_ari_mean'], 4)} +/- "
-        f"{fmt_dec(facts['clu_ari_std'], 4)}</b>, menegaskan struktur klaster yang kokoh.", body))
+        f"miring ditransformasi ln(1 + x), lalu seluruh {n_features_used} fitur, termasuk porsi "
+        "belanja per kategori dan porsi aktivitas per jam, distandarisasi dengan StandardScaler. "
+        "Porsi-porsi tersebut adalah data komposisi (porsi dalam satu kelompok saling melengkapi) "
+        "dan hanya distandarisasi, belum ditransformasi log-ratio seperti CLR, sehingga "
+        "antar-fiturnya tidak independen.", body))
+
+    k_opt = fmt_int(facts["clu_k"])
+    kmeans_sweep = facts["clu_kmeans"]
+    if kmeans_sweep:
+        db_best = min(kmeans_sweep, key=lambda row: row["davies_bouldin"])
+        sil_best = max(kmeans_sweep, key=lambda row: row["silhouette"])
+        ch_best = max(kmeans_sweep, key=lambda row: row["calinski_harabasz"])
+        bic_best = min(facts["clu_gmm"], key=lambda row: row["bic"], default=None)
+        ward_best = max(facts["clu_agglo"], key=lambda row: row["silhouette"], default=None)
+        bic_k = fmt_int(bic_best["k"]) if bic_best is not None else "-"
+        ward_k = fmt_int(ward_best["k"]) if ward_best is not None else "-"
+        sil_min = min(row["silhouette"] for row in kmeans_sweep)
+        sil_kopt = facts["clu_k_opt_row"].get("silhouette")
+        sil_kopt_text = fmt_dec(sil_kopt, 4) if sil_kopt is not None else "-"
+        story.append(Paragraph(
+            f"Pemilihan k. Tabel 7 menunjukkan kriteria tidak sepakat: Davies-Bouldin minimum pada "
+            f"k = {fmt_int(db_best['k'])} ({fmt_dec(db_best['davies_bouldin'], 4)}), sedangkan "
+            f"Silhouette K-Means tertinggi pada k = {fmt_int(sil_best['k'])} "
+            f"({fmt_dec(sil_best['silhouette'], 4)}; k = {k_opt} hanya {sil_kopt_text}), "
+            f"Calinski-Harabasz tertinggi pada k = {fmt_int(ch_best['k'])}, BIC GMM terendah pada "
+            f"k = {bic_k}, dan Silhouette Ward tertinggi pada k = {ward_k}. Pipeline memilih "
+            f"k = {k_opt} dengan aturan Davies-Bouldin minimum yang ditetapkan di kode, sehingga "
+            f"k = {k_opt} adalah pilihan berdasarkan satu kriteria, bukan konsensus antarmetode. "
+            f"Silhouette K-Means pada semua k hanya antara {fmt_dec(sil_min, 4)} dan "
+            f"{fmt_dec(sil_best['silhouette'], 4)}, mendekati 0, yang berarti klaster saling tumpang "
+            "tindih dan tidak terpisah jelas. Segmentasi ini lebih tepat dibaca sebagai partisi "
+            "praktis untuk keperluan pemasaran, bukan struktur alami data.", body))
+
+    pairwise = facts["clu_pairwise_aris"]
+    n_pairs = len(pairwise)
+    if n_pairs:
+        n_runs = (1 + isqrt(1 + 8 * n_pairs)) // 2
+        complete_pairs = n_runs * (n_runs - 1) // 2 == n_pairs
+        n_runs_text = fmt_int(n_runs) if complete_pairs else "-"
+        high_aris = [ari for ari in pairwise if ari >= 0.9]
+        low_aris = [ari for ari in pairwise if ari < 0.9]
+        if high_aris and low_aris:
+            kalimat_run = ""
+            if complete_pairs:
+                low_pairs = [set(pair) for pair, ari in zip(combinations(range(n_runs), 2), pairwise)
+                             if ari < 0.9]
+                common_runs = set.intersection(*low_pairs)
+                if len(common_runs) == 1:
+                    run = next(iter(common_runs)) + 1
+                    kalimat_run = f", dan semuanya melibatkan run ke-{fmt_int(run)}"
+            distribution = (
+                f", tetapi sebarannya terbelah: {fmt_int(len(high_aris))} pasangan bernilai "
+                f"{fmt_dec(min(high_aris), 4)} sampai {fmt_dec(max(high_aris), 4)}, sedangkan "
+                f"{fmt_int(len(low_aris))} pasangan hanya {fmt_dec(min(low_aris), 4)} sampai "
+                f"{fmt_dec(max(low_aris), 4)}{kalimat_run}."
+            )
+        else:
+            distribution = (f". Semua pasangan bernilai {fmt_dec(min(pairwise), 4)} "
+                            f"sampai {fmt_dec(max(pairwise), 4)}.")
+        story.append(Paragraph(
+            f"Stabilitas. K-Means k = {k_opt} dijalankan {n_runs_text} kali pada subsampel "
+            f"{fmt_pct(CLU_STABILITY_SUBSAMPLE, 0)} tanpa pengembalian, lalu label tiap pasangan run "
+            f"dibandingkan pada pelanggan yang beririsan ({fmt_int(n_pairs)} pasangan). Rata-rata ARI "
+            f"{fmt_dec(facts['clu_ari_mean'], 4)} +/- {fmt_dec(facts['clu_ari_std'], 4)}{distribution} "
+            "Artinya partisi umumnya terulang, "
+            "tetapi pada sebagian subsampel K-Means menghasilkan pembagian yang berbeda, sehingga "
+            "hasil ini belum cukup untuk menyebut struktur klaster kokoh.", body))
+
+    anomaly = facts["clu_anom"]
     story.append(Paragraph(
-        f"Anomali: berdasarkan jarak multivariat Euclidean terhadap sentroid, "
-        f"{fmt_int(facts['clu_anom'].get('n_anomalies', 0))} akun paling ekstrem "
-        f"({fmt_pct(facts['clu_anom'].get('anomaly_rate', 0))}, jarak di atas "
-        f"{fmt_dec(facts['clu_anom'].get('threshold_distance', 0), 2)} sigma) diberi label -1.",
-        body))
+        "Anomali. Setelah K-Means final, jarak Euclidean setiap pelanggan ke sentroid klasternya "
+        "dihitung di ruang fitur terstandarisasi. Pelanggan dengan jarak di atas persentil "
+        f"ke-{fmt_dec(CLU_ANOMALY_PERCENTILE, 1)} (jarak {fmt_dec(anomaly.get('threshold_distance', 0), 2)}) "
+        f"diberi label -1, yaitu {fmt_int(anomaly.get('n_anomalies', 0))} akun "
+        f"({fmt_pct(anomaly.get('anomaly_rate', 0))}). Jumlah ini ditentukan oleh ambang persentil "
+        "tersebut, bukan ditemukan secara alami dari data.", body))
 
     if facts["clu_kmeans"]:
         kmeans_by_k = {row["k"]: row for row in facts["clu_kmeans"]}
@@ -853,13 +924,22 @@ def build_pdf(facts):
             f"{fmt_int(hdbscan.get('n_clusters_found', 0))} klaster dengan "
             f"{fmt_pct(hdbscan.get('noise_ratio', 0))} titik noise.", caption))
 
-    top_feat = facts["clu_feature_evidence"].get("top_discriminative_features", [])[:5]
+    top_feat = feature_evidence.get("top_discriminative_features", [])[:5]
     if top_feat:
+        top5 = ", ".join(f"{f['feature']} ({fmt_dec(f['f_score'], 0)})" for f in top_feat)
+        weak_lt1 = ", ".join(f"{f['feature']} ({fmt_dec(f['f_score'], 2)})"
+                             for f in feature_evidence.get("weakest_features", []) if f["f_score"] < 1)
+        weak_sentence = ""
+        if weak_lt1:
+            weak_sentence = (f" Fitur dengan F di bawah 1 ({weak_lt1}) praktis tidak membedakan "
+                             "klaster dan hanya menambah noise pada perhitungan jarak.")
         story.append(Paragraph(
-            "Bukti fitur (<i>ANOVA F-score</i> terhadap label klaster inti): " +
-            ", ".join(f"{f['feature']} ({fmt_dec(f['f_score'], 0)})" for f in top_feat) +
-            f" dari {fmt_int(facts['clu_feature_evidence'].get('n_features_used', 0))} fitur yang dipakai.",
-            body))
+            "Bukti fitur. ANOVA F-score dihitung terhadap label klaster yang dihasilkan model itu "
+            "sendiri. Karena klaster memang dibentuk dari fitur-fitur tersebut, F-score tinggi "
+            f"bersifat sirkular: ia menunjukkan fitur yang paling membedakan klaster yang sudah "
+            f"terbentuk, yaitu {top5}, tetapi bukan bukti independen bahwa fitur itu layak dipilih. "
+            f"Seluruh {n_features_used} fitur dipakai tanpa seleksi, termasuk atribut CRM anonim "
+            f"n01 sampai n10.{weak_sentence}", body))
 
     if facts["clu_persona_rows"]:
         per_rows = [["ID", "Nama Persona", "Ukuran Akun", "Belanja 90h", "Frekuensi", "Kategori", "Strategi"]]
@@ -883,6 +963,15 @@ def build_pdf(facts):
     story.extend(_figure_single(
         "fig_clustering_profiles_heatmap.png",
         "Gambar 6: Heatmap profil fitur asli terstandarisasi untuk setiap persona pelanggan.", caption))
+
+    story.append(Paragraph(
+        "Keterbatasan. Tiga perbaikan model yang lebih dalam teridentifikasi tetapi tidak "
+        "dikerjakan: (1) membuang fitur yang tidak informatif seperti n01, n02, dan n06; "
+        "(2) mentransformasi porsi kategori dan porsi jam dengan CLR sebelum standarisasi; "
+        "(3) memilih ulang k dengan kriteria yang disepakati beberapa metrik serta menelusuri "
+        "run yang tidak stabil. Ketiganya akan mengubah label pada cluster.csv sehingga tidak "
+        "dilakukan menjelang tenggat. Hasil segmentasi di laporan ini perlu dibaca dengan "
+        "mempertimbangkan keterbatasan tersebut.", body))
 
     # ---------------- 6. kepatuhan & reproduksibilitas ----------------
     story.append(Paragraph("6. Verifikasi Kepatuhan Berkas & Reproduksibilitas", h1))
@@ -919,8 +1008,9 @@ def build_pdf(facts):
         f"Implementasi proyek ini membuktikan bahwa rekayasa ML yang baik berakar pada pemahaman domain "
         f"dan proses pengumpulan data, bukan optimasi hiperparameter buta. Penghapusan fitur bocor "
         f"<code>jumlah_scan</code>, penegasan non-crossing konformal, kalibrasi probabilitas untuk "
-        f"optimasi kerugian finansial nyata, serta segmentasi stabil berbasis data komposisi merupakan "
-        f"pilar teknis utama yang siap dipertahankan oleh seluruh anggota kelompok dalam ujian lisan.",
+        f"optimasi kerugian finansial nyata, serta segmentasi pelanggan yang dilaporkan apa adanya "
+        f"beserta keterbatasannya merupakan pilar teknis utama yang siap dipertahankan oleh seluruh "
+        f"anggota kelompok dalam ujian lisan.",
         body))
 
     doc.build(story, canvasmaker=NumberedCanvas)
