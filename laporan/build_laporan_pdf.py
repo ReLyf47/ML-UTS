@@ -73,6 +73,28 @@ CLU_ANOMALY_PERCENTILE = 98.5
 # Mengikuti evaluate_stability(..., subsample_ratio=0.8) di kode/clustering/train_and_evaluate.py.
 CLU_STABILITY_SUBSAMPLE = 0.8
 
+# Terjemahan dan revisi strategi dari clustering_metrics.json, dikunci berdasarkan nama persona.
+PERSONA_STRATEGI_ID = {
+    "VIP Champions": "Program loyalitas eksklusif, layanan prioritas, akses awal produk premium.",
+    "Hyperactive Bargain Hunters": (
+        "Verifikasi dulu indikasi aktivitas otomatis (bot/skrip) sebelum diberi promo; "
+        "tahan kupon massal sampai terverifikasi."
+    ),
+    "Casual Shoppers": (
+        "Dorong pembelian ulang: bonus checkout, langganan gratis ongkir, rekomendasi produk terkait."
+    ),
+    "Discount Hunters": (
+        "Masih aktif, jadi fokus menjaga margin: voucher dengan minimum belanja bertingkat, "
+        "bundling untuk menaikkan nilai keranjang, dan pemantauan retur."
+    ),
+    "Lapsed / At-Risk Dormant": (
+        "Kampanye reaktivasi (win-back) dengan voucher reaktivasi dan survei alasan berhenti."
+    ),
+    "Anomalous Outliers / Extreme Accounts": (
+        "Audit keamanan dan pemeriksaan reseller; cek kepatuhan terhadap penyalahgunaan merchant."
+    ),
+}
+
 # --------------------------------------------------------------------------- #
 # Helper format (kaidah Indonesia: titik = ribuan, koma = desimal)
 # --------------------------------------------------------------------------- #
@@ -931,7 +953,7 @@ def build_pdf(facts):
                              for f in feature_evidence.get("weakest_features", []) if f["f_score"] < 1)
         weak_sentence = ""
         if weak_lt1:
-            weak_sentence = (f" Fitur dengan F di bawah 1 ({weak_lt1}) praktis tidak membedakan "
+            weak_sentence = (f" Fitur dengan F di bawah 1, yaitu {weak_lt1}, praktis tidak membedakan "
                              "klaster dan hanya menambah noise pada perhitungan jarak.")
         story.append(Paragraph(
             "Bukti fitur. ANOVA F-score dihitung terhadap label klaster yang dihasilkan model itu "
@@ -948,13 +970,41 @@ def build_pdf(facts):
                 p["id"], p["name"], f"{fmt_int(p['n'])} ({fmt_pct(p['pct'])})",
                 fmt_idr(p["spend"]) if p["spend"] is not None else "-",
                 f"{fmt_dec(p['freq'], 1)} kali" if p["freq"] is not None else "-",
-                p["category"], p["strategy"],
+                p["category"], PERSONA_STRATEGI_ID.get(p["name"], p["strategy"]),
             ])
         story.append(_table(per_rows, [22, 92, 68, 72, 50, 78, 113], font_size=6.6,
                             red_rows=(len(per_rows) - 1,)))
         story.append(Paragraph(
-            "Tabel 8: Profil persona pelanggan dan rekomendasi strategi pemasaran berbasis data.",
+            "Tabel 8: Profil persona pelanggan. Nama persona mengikuti label dari pipeline; "
+            "strategi ditulis ulang dalam bahasa Indonesia dan disesuaikan dengan profil numerik "
+            "setiap klaster.",
             caption))
+
+        persona_ids = {profile.get("name"): cid for cid, profile in facts["clu_persona"].items()}
+        nama_bot = "Hyperactive Bargain Hunters"
+        nama_disc = "Discount Hunters"
+        nama_dorm = "Lapsed / At-Risk Dormant"
+        if all(name in persona_ids for name in (nama_bot, nama_disc, nama_dorm)):
+            id_bot = persona_ids[nama_bot]
+            id_disc = persona_ids[nama_disc]
+            id_dorm = persona_ids[nama_dorm]
+            means = facts["clu_means"]
+            bot_means = means.get(id_bot, {})
+            sesi = bot_means.get("sesi_per_minggu")
+            durasi = bot_means.get("durasi_sesi_menit")
+            konversi = bot_means.get("rasio_konversi")
+            rec_disc = means.get(id_disc, {}).get("recency_hari")
+            rec_dorm = means.get(id_dorm, {}).get("recency_hari")
+            if all(value is not None for value in (sesi, durasi, konversi, rec_disc, rec_dorm)):
+                story.append(Paragraph(
+                    f"Catatan persona. Persona {id_bot} ({nama_bot}) rata-rata membuka "
+                    f"{fmt_dec(sesi, 1)} sesi per minggu dengan durasi {fmt_dec(durasi, 1)} menit "
+                    f"per sesi dan rasio konversi {fmt_pct(konversi, 0)}. Pola ini lebih mirip aktivitas "
+                    "otomatis (bot atau skrip) daripada perilaku belanja manusia, sehingga perlu "
+                    "diverifikasi sebelum diperlakukan sebagai segmen pemasaran. "
+                    f"Persona {id_disc} ({nama_disc}) masih aktif dengan recency {fmt_dec(rec_disc, 0)} "
+                    f"hari, sehingga strateginya bukan win-back; win-back hanya relevan untuk persona "
+                    f"{id_dorm} ({nama_dorm}) dengan recency {fmt_dec(rec_dorm, 0)} hari.", body))
 
     story.extend(_figure_pair(
         ["fig_clustering_elbow_silhouette.png", "fig_clustering_pca_segments.png"],
