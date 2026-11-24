@@ -594,7 +594,8 @@ def build_pdf(facts):
         f"bocor tersebut dan menerapkan <i>HistGradientBoosting Quantile Regression</i> terkalibrasi "
         f"konformal, model mencapai Pinball Loss P50 = {fmt_dec(reg_clean['pinball_loss_p50'])}, "
         f"P90 = {fmt_dec(reg_clean['pinball_loss_p90'])}, cakupan empiris P90 = "
-        f"{fmt_pct(reg_clean['coverage_p90'])}, dan jaminan <i>non-crossing</i> 100%. "
+        f"{fmt_pct(reg_clean['coverage_p90'])} (terpenuhi secara konstruksi karena margin konformal "
+        f"dihitung pada holdout yang sama), dan jaminan <i>non-crossing</i> 100%. "
         f"Pada Tugas 2, model <i>HistGradientBoosting</i> dengan kalibrasi Isotonik dan aturan Bayes "
         f"optimal menekan total kerugian finansial dari {fmt_juta(facts['clf_nothing'])} menjadi "
         f"{fmt_juta(iso['total_cost'])} (efisiensi {fmt_pct(facts['clf_savings_pct'])}, diukur pada "
@@ -713,6 +714,14 @@ def build_pdf(facts):
     story.append(Paragraph(
         "Tabel 2: Evaluasi komparatif model regresi kuantil pada holdout validasi temporal "
         "(Agustus 2025). Baris hijau = model bersih terbaik.", caption))
+    story.append(Paragraph(
+        f"Catatan cakupan. Margin konformal (delta = {fmt_dec(facts['reg_conformal'], 3)} jam) "
+        "dihitung sebagai persentil ke-90 residual P90 pada holdout Agustus 2025, lalu cakupan "
+        f"dievaluasi pada holdout yang sama. Karena itu cakupan {fmt_pct(reg_clean['coverage_p90'])} "
+        "pada Tabel 2 terpenuhi secara konstruksi dan bukan bukti bahwa cakupan 90% akan tercapai "
+        "pada data uji. Cakupan per kelompok pada Tabel 3 sampai 5 juga dihitung pada data yang sama. "
+        "Estimasi yang bersih memerlukan data kalibrasi dan evaluasi yang terpisah, misalnya membagi "
+        "holdout menjadi dua; ini tidak dikerjakan karena akan mengubah prediksi_regresi.csv.", body))
 
     pulau_breakdown = facts["reg_pulau"]
     kurir_breakdown = facts["reg_kurir"]
@@ -769,8 +778,8 @@ def build_pdf(facts):
         "prediksi P50-P90 pada data aktual.", caption))
     story.extend(_figure_single(
         "fig_regression_subgroup_service_performance.png",
-        f"Gambar 2: Cakupan empiris P90 (stabil pada {fmt_pct(reg_clean['coverage_p90'])}) dan MAE P50 "
-        f"di seluruh kategori layanan logistik.", caption))
+        f"Gambar 2: Cakupan empiris P90 (agregat {fmt_pct(reg_clean['coverage_p90'])}, terpenuhi secara "
+        "konstruksi) dan MAE P50 di seluruh kategori layanan logistik.", caption))
     pdp_features = [row["feature"] for row in facts["reg_importance"][:4]]
     if len(pdp_features) == 4:
         categorical_feature = next((feature for feature in pdp_features if feature.endswith("_cat")), None)
